@@ -52,6 +52,8 @@
       	exec Hyprland 2>/dev/null
       fi
 
+      unsetopt BEEP # disables the cursed beep sound
+
       export XDG_PICTURES_DIR="$HOME/media/pictures"
       export LESSHISTFILE="-"
       export ZDOTDIR="$HOME/.config/zsh"

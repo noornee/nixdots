@@ -8,9 +8,10 @@
   programs.lf = {
     enable = true;
     settings = {
+      ifs = "\\n";
       icons = true;
       preview = true;
-      hidden = false;
+      hidden = true;
     };
 
     commands = {
@@ -140,13 +141,15 @@
           			'';
       in
       ''
-        set previewer ${previewer}
-        set cleaner ${cleaner}
+                set previewer ${previewer}
+                set cleaner ${cleaner}
 
-        # view command history
-        cmap <up>   cmd-history-prev
-        cmap <down> cmd-history-next
-                        		'';
+        		setlocal ~ hidden false # hide hidden files in the home directory
+
+                # view command history
+                cmap <up>   cmd-history-prev
+                cmap <down> cmd-history-next
+                                		'';
   };
 
 

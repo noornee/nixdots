@@ -3,7 +3,8 @@
 {
   # Import the modules
   imports = [
-    ./modules/lf/lf.nix
+    ./modules/lf
+    ./modules/kitty
     ./modules/git.nix
     ./modules/gtk.nix
     ./modules/zsh.nix
@@ -47,14 +48,16 @@
     nixpkgs-fmt
     rnix-lsp
     bat
-    tmux
+    # tmux
     libnotify # notify-send
     unzip
     zip
     yt-dlp
-	grim
-	slurp
-	lazygit
+    grim
+    slurp
+    lazygit
+    sxiv
+    imv
   ];
 
   fonts.fontconfig.enable = true;
