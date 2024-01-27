@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+swaybg -i "<picture.png>" -m fill

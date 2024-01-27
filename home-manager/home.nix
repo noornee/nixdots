@@ -3,8 +3,10 @@
 {
   # Import the modules
   imports = [
-    ./modules/lf
     ./modules/kitty
+    ./modules/lf
+    ./modules/mpv
+    ./modules/misc.nix
     ./modules/git.nix
     ./modules/gtk.nix
     ./modules/zsh.nix
@@ -24,9 +26,9 @@
     iosevka
     (nerdfonts.override { fonts = [ "Iosevka" "JetBrainsMono" ]; })
 
-    pistol
     ffmpegthumbnailer
     neofetch
+    htop
     dunst
     brillo
     pulseaudio
@@ -34,21 +36,26 @@
     waybar
     swaybg
     bemenu
+    zathura
 
     lua
     lua-language-server
     stylua
+
     go
     gopls
+    gofumpt
+
+    python3
+    nodejs
 
     brave
-    mpv
     ffmpeg
     jmtpfs
     nixpkgs-fmt
     rnix-lsp
     bat
-    # tmux
+    tmux
     libnotify # notify-send
     unzip
     zip
@@ -58,7 +65,19 @@
     lazygit
     sxiv
     imv
+    ripgrep
+
+    bruno
+    insomnia
+
+    # unfree softwares
+    mongodb-compass
+    ngrok
+
   ];
+
+
+
 
   fonts.fontconfig.enable = true;
 

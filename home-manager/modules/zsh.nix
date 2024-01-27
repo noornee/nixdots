@@ -42,17 +42,14 @@
       # 	 file = "plugins/colored-man-pages/colored-man-pages.zsh";
       # }
     ];
-    envExtra = ''
-      # https://github.com/Cloudef/bemenu
-      export BEMENU_OPTS="--tb "#005577" --tf "#CACACA" --hb "#005577" --hf "#CACACA" --hp 10"
-
-                  	'';
-    initExtra = ''
+    profileExtra = ''
       if [[ -z "$DISPLAY" ]] && [[ $(tty) = /dev/tty1 ]]; then
       	exec Hyprland 2>/dev/null
       fi
-
-      unsetopt BEEP # disables the cursed beep sound
+            	'';
+    envExtra = /*.zshenv*/''
+      # https://github.com/Cloudef/bemenu
+      export BEMENU_OPTS="--tb "#005577" --tf "#CACACA" --hb "#005577" --hf "#CACACA" --hp 10"
 
       export XDG_PICTURES_DIR="$HOME/media/pictures"
       export LESSHISTFILE="-"
@@ -82,9 +79,14 @@
       # Phone
       export istore="~/storage/shared/rsync/download" # mobile phone internal storage path
       export estore="/storage/2731-1C20/Android/data/com.termux/files" # mobile phone sdcard path
+                  	'';
+    initExtra = /*.zshrc*/''
+      unsetopt BEEP # disables the cursed beep sound
 
+      bindkey -s '^t' 'tmux\n'
       # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
       [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
+
       	'';
   };
 

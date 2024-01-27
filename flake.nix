@@ -10,8 +10,8 @@
   outputs = { self, nixpkgs, home-manager }:
     let
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-
+      # pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = import nixpkgs { system = "x86_64-linux"; config.allowUnfree = true; };
     in
     {
       # formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;

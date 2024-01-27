@@ -13,22 +13,20 @@
 
   # Enable Flakes and the new command-line tool
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   boot.supportedFilesystems = [ "ntfs" ];
+  boot.tmp.cleanOnBoot = true;
   boot.loader.grub = {
     enable = true;
     devices = [ "nodev" ];
     efiSupport = true;
-    configurationLimit = 5;
-    useOSProber = true;
+    configurationLimit = 20;
+    # useOSProber = true;
   };
 
   networking.hostName = "nixos"; # Define your hostname.
-
-  # Pick only one of the below networking options.
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
-
-  # Set your time zone.
-  time.timeZone = "Africa/Lagos";
+  time.timeZone = "Africa/Lagos"; # Set your time zone.
 
 
   # rtkit is optional but recommended
@@ -40,18 +38,20 @@
   programs.zsh.enable = true;
   users.users.noornee = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "networkmanager" "video" "docker" ];
     shell = pkgs.zsh;
   };
 
 
+  services.tumbler.enable = true; # Thumbnail support for images
   programs.thunar = {
     enable = true;
     plugins = with pkgs.xfce; [
       thunar-volman
     ];
   };
-  services.tumbler.enable = true; # Thumbnail support for images
+
+  virtualisation.docker.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -61,7 +61,6 @@
     git
     gcc
     file
-    # ntfs-3g
   ];
 
   environment.variables = {
@@ -80,12 +79,17 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
   };
+
   services.gvfs.enable = true;
-  # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+
+  # Garbage collection
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 7d";
+  };
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.

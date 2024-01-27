@@ -5,6 +5,12 @@
   xdg.configFile."lf/colors".source = ./colors;
 
 
+  home.packages = with pkgs; [
+    poppler_utils # for pdftoppm
+    pistol
+  ];
+
+
   programs.lf = {
     enable = true;
     settings = {
@@ -65,7 +71,8 @@
         	'';
       spawn_terminal = ''
         	''${{
-        	setsid -f kitty --directory $(pwd) 2>/dev/null
+        	# setsid -f kitty --directory $(pwd) 2>/dev/null
+        	setsid -f wezterm start --cwd $(pwd) 2>/dev/null
         	}}
         	'';
       remove_exec = ''
@@ -80,17 +87,18 @@
         	}}
         	'';
       set_wallpaper = ''
-                	''${{
-         # set wallpaper with swaybg
-        	case $(file --mime-type $f | cut -d ':' -f2 | xargs) in
-        		image/*)
-        			image_path=$(printf "%s" $f)
-        			sed -i "2s|.*|swaybg -i \"$image_path\"|" "$HOME/.swaybg" && setsid -f swaybg -i "$f" 2>/dev/null
-        			;;
-        		*) notify-send --urgency=critical --expire-time=5000 "ERROR: invalid file type/format" "\n<b>hint:</b> remove semi-colon \":\" from filename if its a valid image" ;;
-        	esac
-                	}}
-                	'';
+                        	''${{
+                 # set wallpaper with swaybg
+                	case $(file --mime-type $f | cut -d ':' -f2 | xargs) in
+                		image/*)
+                			image_path=$(printf "%s" $f)
+                			# sed -i "2s|.*|swaybg -i \"$image_path\" -m fill|" "$HOME/.swaybg" && setsid -f swaybg -i "$f" -m fill 2>/dev/null
+        					sed -i "2s|\".*\"|\"$image_path\"|g" "$HOME/.swaybg" && setsid -f swaybg -i "$f" -m fill 2>/dev/null
+                			;;
+                		*) notify-send --urgency=critical --expire-time=5000 "ERROR: invalid file type/format" "\n<b>hint:</b> remove semi-colon \":\" from filename if its a valid image" ;;
+                	esac
+                        	}}
+                        	'';
     };
 
     keybindings = {
@@ -121,19 +129,42 @@
 
 		filetype="$( ${pkgs.file}/bin/file -Lb --mime-type "$file")"
 
-		if [[ "$filetype" =~ ^image ]]; then
-			kitty +kitten icat --silent --stdin no --transfer-mode file --place "''${w}x''${h}@''${x}x''${y}" "$file" < /dev/null > /dev/tty
+		image() {
+			if [[ "$filetype" =~ ^video ]]; then
+				# vidthumb is from here:
+				# https://raw.githubusercontent.com/duganchen/kitty-pistol-previewer/main/vidthumb
+				kitty +kitten icat --silent --stdin no --transfer-mode file --place "''${w}x''${h}@''${x}x''${y}" "$(vidthumb "$1")" < /dev/null > /dev/tty
+			else
+				kitty +kitten icat --silent --stdin no --transfer-mode file --place "''${w}x''${h}@''${x}x''${y}" "$1" < /dev/null > /dev/tty
+			fi
 			exit 1
-		fi
+		}
 
-		if [[ "$filetype" =~ ^video ]]; then
-			# vidthumb is from here:
-			# https://raw.githubusercontent.com/duganchen/kitty-pistol-previewer/main/vidthumb
-			kitty +kitten icat --silent --stdin no --transfer-mode file --place "''${w}x''${h}@''${x}x''${y}" "$(vidthumb "$file")" < /dev/null > /dev/tty
-			exit 1
-		fi
+		get_cache_path() {
+			echo "''${XDG_CACHE_HOME:-$HOME/.cache}/lf/thumb.$(stat --printf '%n\0%i\0%F\0%s\0%W\0%Y' -- "$(readlink -f "$1")" | sha256sum | cut -d' ' -f1)"
+		}
 
-		pistol "$file"
+		CACHE=$(get_cache_path "$1")
+
+		case "$(file --dereference --brief --mime-type -- "$1")" in
+			image/*) 
+				image "$1"
+				;;
+			video/* )
+				[ ! -f "$CACHE" ] && ffmpegthumbnailer -i "$1" -o "$CACHE" -s 0
+					image "$CACHE";;
+			*/pdf)
+		filetype="$( ${pkgs.file}/bin/file -Lb --mime-type "$file")"
+				[ ! -f "$CACHE.jpg" ] && pdftoppm -jpeg -f 1 -singlefile "$1" "$CACHE"
+					image "$CACHE.jpg"
+				;;
+			*/epub+zip|*/mobi*)
+				[ ! -f "$CACHE.jpg" ] && gnome-epub-thumbnailer "$1" "$CACHE.jpg"
+					image "$CACHE.jpg" 
+				;;
+			*)
+				pistol "$1"
+esac
 		'';
 
         cleaner = pkgs.writeShellScript "cleaner.sh" ''
@@ -141,15 +172,16 @@
           			'';
       in
       ''
-                set previewer ${previewer}
-                set cleaner ${cleaner}
+        	set previewer ${previewer}
+        	set cleaner ${cleaner}
 
-        		setlocal ~ hidden false # hide hidden files in the home directory
+        	setlocal ~ hidden false # hide hidden files in the home directory
+        	map zh setlocal ~ hidden!
 
-                # view command history
-                cmap <up>   cmd-history-prev
-                cmap <down> cmd-history-next
-                                		'';
+        	# view command history
+        	cmap <up>   cmd-history-prev
+        	cmap <down> cmd-history-next
+                                        		'';
   };
 
 
