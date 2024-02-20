@@ -10,10 +10,16 @@
     settings = {
       confirm_os_window_close = 0;
       cursor_blink_interval = 0;
+      cursor_shape = "block";
       shell_integration = "no-cursor"; # https://github.com/kovidgoyal/kitty/issues/4458
     };
     extraConfig = ''
       include colors/gruvbox.conf
     '';
   };
+
+  home.packages = with pkgs; [
+    kitty
+  ];
+
 }

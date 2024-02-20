@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, userSettings, ... }:
 
 {
   imports =
@@ -36,7 +36,7 @@
   # services.xserver.libinput.enable = true;
 
   programs.zsh.enable = true;
-  users.users.noornee = {
+  users.users.${userSettings.username} = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "video" "docker" ];
     shell = pkgs.zsh;

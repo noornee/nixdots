@@ -1,41 +1,35 @@
-{ config, pkgs, ... }:
+{ config, pkgs, userSettings, ... }:
 
 {
   # Import the modules
   imports = [
-    ./modules/kitty
-    ./modules/lf
-    ./modules/mpv
-    ./modules/misc.nix
-    ./modules/git.nix
-    ./modules/gtk.nix
-    ./modules/zsh.nix
-    ./modules/misc.nix
+    ./wm/hyprland
+    ./terminal/kitty
+    ./shell/zsh.nix
+    ./programs/lf
+    ./programs/mpv
+    ./programs/git.nix
+    ./programs/gtk.nix
+    ./programs/xdg.nix
+    ./programs/i18n.nix
+    ./programs/font.nix
+    ./programs/photos.nix #image viewer
   ];
 
-  home.username = "noornee";
-  home.homeDirectory = "/home/noornee";
+  home.username = userSettings.username;
+  home.homeDirectory = "/home/" + userSettings.username;
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
-    kitty
     jq
-    wl-clipboard
-
-    # font
-    iosevka
-    (nerdfonts.override { fonts = [ "Iosevka" "JetBrainsMono" ]; })
+    tree
 
     ffmpegthumbnailer
     neofetch
     htop
-    dunst
     brillo
     pulseaudio
     pavucontrol
-    waybar
-    swaybg
-    bemenu
     zathura
 
     lua
@@ -49,6 +43,8 @@
     python3
     nodejs
 
+    rustup
+
     brave
     ffmpeg
     jmtpfs
@@ -56,19 +52,23 @@
     rnix-lsp
     bat
     tmux
-    libnotify # notify-send
     unzip
     zip
     yt-dlp
-    grim
-    slurp
     lazygit
-    sxiv
-    imv
+
     ripgrep
 
     bruno
-    insomnia
+
+    ncmpcpp
+    mpd
+    mpc-cli
+
+    brightnessctl
+
+    libreoffice
+    # syncthing
 
     # unfree softwares
     mongodb-compass
@@ -77,10 +77,7 @@
   ];
 
 
-
-
-  fonts.fontconfig.enable = true;
-
+  services.syncthing.enable = true;
 
   home.stateVersion = "23.11";
   programs.home-manager.enable = true;

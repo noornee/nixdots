@@ -71,8 +71,7 @@
         	'';
       spawn_terminal = ''
         	''${{
-        	# setsid -f kitty --directory $(pwd) 2>/dev/null
-        	setsid -f wezterm start --cwd $(pwd) 2>/dev/null
+        	setsid -f kitty --directory $(pwd) 2>/dev/null
         	}}
         	'';
       remove_exec = ''
