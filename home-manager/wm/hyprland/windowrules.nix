@@ -3,7 +3,7 @@
   wayland.windowManager.hyprland = {
     settings = {
       windowrule = [
-        "opacity 1.0 override 1.0 override,^(mpv)$" # set opacity to 1.0 active and 0.5 inactive for mpv
+        "opacity 1.0 override 1.0 override,^(mpv)$"
       ];
 
       windowrulev2 = [

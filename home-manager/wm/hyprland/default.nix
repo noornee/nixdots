@@ -61,8 +61,8 @@
         gaps_in = 10;
         gaps_out = 15;
         border_size = 1;
-        # active_border_color = "rgba(33ccffee) rgba(00ff99ee) 45deg";
-        # inactive_border_color = "rgba(595959aa)";
+        "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
+        "col.inactive_border" = "rgba(595959aa)";
         layout = "dwindle";
       };
 
@@ -72,7 +72,7 @@
         drop_shadow = true;
         shadow_range = 4;
         shadow_render_power = 3;
-        # col.shadow = "rgba(1a1a1aee)";
+        "col.shadow" = "rgba(1a1a1aee)";
         inactive_opacity = 0.8;
         active_opacity = 0.9;
 
@@ -86,14 +86,12 @@
 
       };
 
-      # new
       dwindle = {
         pseudotile = true;
         preserve_split = true;
       };
 
       gestures = {
-        # See https://wiki.hyprland.org/Configuring/Variables/ for more
         workspace_swipe = false;
       };
 
@@ -102,12 +100,5 @@
         disable_hyprland_logo = true;
       };
     };
-
-    extraConfig = ''
-      general {
-      	col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
-      	col.inactive_border = rgba(595959aa)
-      }
-    '';
   };
 }

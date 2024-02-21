@@ -70,6 +70,11 @@ in
         "${mainMod}, mouse_up, workspace, e-1"
       ];
 
+      bindm = [
+        "${mainMod}, mouse:272, movewindow"
+        "${mainMod}, mouse:273, resizewindow"
+      ];
+
       binde = [
         # media controls
         ", XF86AudioMute, exec, pactl set-sink-mute 0 toggle"
