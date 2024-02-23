@@ -1,9 +1,7 @@
-{ config, pkgs, ... }:
-
+{ pkgs, ... }:
+let mpv-cut = pkgs.mpvScripts.callPackage ./scripts/mpv-cut { };
+in
 {
-
-  xdg.configFile."mpv/scripts/mpv-cut/main.lua".source = ./scripts/mpv-cut/main.lua;
-
   programs.mpv = {
     enable = true;
     bindings = {
@@ -12,13 +10,13 @@
       k = "add volume 2";
       j = "add volume -2";
     };
-
     config = {
       save-position-on-quit = true;
       screenshot-directory = "~/media/pictures/mpv/";
       screenshot-template = "%F_%03n";
     };
-
+    scripts = [
+      mpv-cut
+    ];
   };
-
 }
