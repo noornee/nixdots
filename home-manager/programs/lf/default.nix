@@ -158,7 +158,7 @@
 					image "$CACHE.jpg"
 				;;
 			*/epub+zip|*/mobi*)
-				[ ! -f "$CACHE.jpg" ] && gnome-epub-thumbnailer "$1" "$CACHE.jpg"
+				[ ! -f "$CACHE.jpg" ] && ${pkgs.gnome-epub-thumbnailer}/bin/gnome-epub-thumbnailer "$1" "$CACHE.jpg"
 					image "$CACHE.jpg" 
 				;;
 			*)
