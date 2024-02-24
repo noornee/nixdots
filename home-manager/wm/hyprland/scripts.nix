@@ -85,7 +85,10 @@ let
     		xdg-open $1 2>/dev/null
     		;;
     	"option_2")
-    		echo "hi"
+    		mkdir -p $SCREENSHOT_DIR/annotated
+    		${pkgs.satty}/bin/satty \
+    		--filename $1 \
+    		--output-filename "$SCREENSHOT_DIR/annotated/$NEW_SCREENSHOT_FILENAME"
     		;;
     	esac
     }
@@ -99,8 +102,6 @@ let
     	mv "$TMP_DIR/$SCREENSHOT_FILENAME" "$DESTINATION_PATH"
     	send_notification "$DESTINATION_PATH"
     fi
-
-
   '';
 in
 {
@@ -108,5 +109,7 @@ in
     volume
     brightness
     grimshot
+    pkgs.brightnessctl
+    pkgs.pulseaudio # for pactl...
   ];
 }

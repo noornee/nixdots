@@ -27,7 +27,7 @@
         		text/*|application/json|inode/x-empty) $EDITOR $fx ;;
         		image/svg+xml) display -- $f ;;
         		image/*) rotdir $f | grep -i "\.\(png\|jpg\|jpeg\|gif\|webp\|tif\|ico\)\(_large\)*$" |
-        			setsid -f sxiv -aio 2>/dev/null | while read -r file; do
+        			setsid -f ${pkgs.imv}/bin/imv 2>/dev/null | while read -r file; do
         				[ -z "$file" ] && continue
         				lf -remote "send select \"$file\""
         				lf -remote "send toggle"
@@ -150,7 +150,7 @@
 				image "$1"
 				;;
 			video/* )
-				[ ! -f "$CACHE" ] && ffmpegthumbnailer -i "$1" -o "$CACHE" -s 0
+				[ ! -f "$CACHE" ] && ${pkgs.ffmpegthumbnailer}/bin/ffmpegthumbnailer -i "$1" -o "$CACHE" -s 0
 					image "$CACHE";;
 			*/pdf)
 		filetype="$( ${pkgs.file}/bin/file -Lb --mime-type "$file")"

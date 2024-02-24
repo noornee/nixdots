@@ -12,6 +12,9 @@
       defaultApplications = {
         "image/jpeg" = [ "imv.desktop" ];
         "image/png" = [ "imv.desktop" ];
+        "video/mp4" = [ "mpv.desktop" ];
+        "video/webm" = [ "mpv.desktop" ];
+        "video/mkv" = [ "mpv.desktop" ];
       };
     };
   };

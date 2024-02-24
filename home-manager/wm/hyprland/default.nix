@@ -12,6 +12,7 @@
     waybar
     swaybg
     wl-clipboard
+    wf-recorder
     bemenu
     grim
     slurp
