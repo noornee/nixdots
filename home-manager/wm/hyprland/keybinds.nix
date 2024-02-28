@@ -3,6 +3,10 @@ let
   mainMod = "SUPER";
 in
 {
+  imports = [
+    ./scripts.nix # shell scripts for the keybinds
+  ];
+
   wayland.windowManager.hyprland = {
     settings = {
       bind = [
@@ -16,6 +20,7 @@ in
         "${mainMod},P, pseudo,"
         "${mainMod},grave, togglesplit,"
         "${mainMod},Space, exec, bemenu-run"
+        "${mainMod},N, exec, swaync-client -t -sw"
         "${mainMod},Return, exec, kitty"
 
         #https://www.reddit.com/r/hyprland/comments/zyrrtp/how_do_i_switch_back_and_forth_between_two/

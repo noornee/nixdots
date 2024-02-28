@@ -24,6 +24,8 @@
       zshrc = "$EDITOR $ZDOTDIR/.zshrc";
       nvc = "cd $HOME/.config/nvim && nvim init.lua"; # neovim config
       lg = "lazygit";
+      hms = "home-manager switch --flake ~/.config/nixdots";
+      le = "eza --long --group --group-directories-first";
     };
     plugins = [
       {

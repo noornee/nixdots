@@ -17,17 +17,13 @@
     pulseaudio
     pavucontrol
 
-    #archives
-    zip
-    unzip
-    unrar
-
     #doc viewer
     zathura
     libreoffice
 
     #utils
     jq
+    eza
     tree
     bat
     tmux

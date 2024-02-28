@@ -53,14 +53,20 @@
 
   virtualisation.docker.enable = true;
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
+  # System programs
   environment.systemPackages = with pkgs; [
     wget
     neovim
     git
     gcc
     file
+    zip
+    unzip
+    unrar
+    networkmanagerapplet
   ];
 
   environment.variables = {
@@ -111,4 +117,3 @@
 
 
 }
-

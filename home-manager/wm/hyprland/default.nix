@@ -1,7 +1,8 @@
 { config, pkgs, ... }:
 {
   imports = [
-    ./scripts.nix # shell scripts for the keybinds
+    ./swaync
+    ./waybar
     ./keybinds.nix
     ./animations.nix
     ./windowrules.nix
@@ -21,7 +22,6 @@
     #notification
     dunst
     libnotify
-    swaynotificationcenter
 
     kooha # screen recorder
   ];
@@ -40,6 +40,7 @@
         "$HOME/.swaybg"
         "waybar"
         "fcitx5 -d"
+        "nm-applet --indicator"
       ];
 
       env = [
