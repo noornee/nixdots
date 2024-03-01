@@ -129,7 +129,7 @@ in
 }
 
 .widget-dnd {
-	background: @noti-bg-darker;
+	background: #${palette.base00}; 
 	padding: 5px 10px;
 	margin: 5px 10px 10px 10px;
 	border-radius: 5px;
@@ -143,17 +143,16 @@ in
 }
 
 .widget-dnd>switch:checked {
-	background: #${palette.base0A};
-	border: 1px solid #${palette.base0A};
+	border: 1px solid #${palette.base0B};
 }
 
 .widget-dnd>switch slider {
-	background: #${palette.base00} ;
+	background: #${palette.base08} ;
 	border-radius: 5px
 }
 
 .widget-dnd>switch:checked slider {
-	background: #${palette.base00} ;
+	background: #${palette.base0B} ;
 	border-radius: 5px
 }
 
@@ -164,6 +163,11 @@ in
 .widget-label>label {
 	font-size: 1rem;
 	color: #${palette.base07};
+}
+
+
+.widget-volume {
+	background: #${palette.base00}; 
 }
 
 .widget-mpris {
