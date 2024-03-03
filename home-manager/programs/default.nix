@@ -11,6 +11,7 @@
     ./xdg.nix
     ./photos.nix
     ./ncmpcpp.nix
+    ./neofetch.nix
   ];
 
   home.packages = with pkgs; [
@@ -29,7 +30,6 @@
     tmux
     yt-dlp
     lazygit
-    neofetch
     htop
     ripgrep
     ffmpeg
