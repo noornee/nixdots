@@ -1,4 +1,4 @@
-{ config, pkgs, userSettings, ... }:
+{ ... }:
 {
   wayland.windowManager.hyprland = {
     settings = {

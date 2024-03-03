@@ -1,4 +1,4 @@
-{ config, pkgs, userSettings, ... }:
+{ ... }:
 let
   mainMod = "SUPER";
 in

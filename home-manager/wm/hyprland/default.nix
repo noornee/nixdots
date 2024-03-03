@@ -9,6 +9,9 @@
   ];
 
 
+  # xdg.dataFile is ~/.local/share/
+  xdg.dataFile."icons".source = ./assets;
+
   home.packages = with pkgs; [
     waybar
     swaybg

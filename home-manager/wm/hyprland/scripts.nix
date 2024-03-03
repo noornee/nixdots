@@ -6,7 +6,7 @@ let
     function send_notification()
     {
     	vol_level=$(pactl get-sink-volume 0 | awk '{print $5}')
-    	dunstify --icon /home/noornee/.local/share/icons/volume-high.png \
+    	dunstify --icon /home/noornee/.local/share/icons/volume.png \
     		--urgency=low \
     		--replace=2 \
     		--timeout=1000 \
@@ -38,7 +38,7 @@ let
     # send notification
     function send_notification()
     {
-    	dunstify --icon /home/noornee/.local/share/icons/brightness-100.png \
+    	dunstify --icon /home/noornee/.local/share/icons/brightness.png \
     		--urgency=low \
     		--replace=1 \
     		--timeout=1000 \
