@@ -49,10 +49,10 @@ let
 
     case $1 in
     	"up")
-    		brightnessctl --quiet set 2%+
+    		brightnessctl --quiet set 1%+
     		send_notification $1;;
     	"down")
-    		brightnessctl --quiet set 2%-
+    		brightnessctl --quiet set 1%-
     		send_notification $1;;
     esac
 

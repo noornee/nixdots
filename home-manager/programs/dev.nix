@@ -18,6 +18,7 @@
 
     #python
     python3
+    python3.pkgs.pip
     pipx
 
     nodejs

@@ -9,6 +9,12 @@ in
 
   wayland.windowManager.hyprland = {
     settings = {
+      # https://wiki.hyprland.org/Configuring/Variables/#binds
+      binds = {
+        workspace_back_and_forth = true;
+        allow_workspace_cycles = true;
+      };
+
       bind = [
         "${mainMod},W, killactive"
         "${mainMod},W, killactive,"
@@ -41,6 +47,8 @@ in
         "${mainMod} SHIFT, l, swapwindow, r"
         "${mainMod} SHIFT, k, swapwindow, u"
         "${mainMod} SHIFT, j, swapwindow, d"
+
+        # resizeactive window
         "${mainMod}_ALT SHIFT, l, resizeactive, 10 -10"
         "${mainMod}_ALT SHIFT, h, resizeactive, -10 10"
         "${mainMod}_ALT SHIFT, k, resizeactive, 10 -10"

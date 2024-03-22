@@ -21,10 +21,15 @@
       sdn = "shutdown now";
       hist = "history 0";
       dl = "cd $HOME/downloads";
+      pix = "cd $HOME/media/pictures/";
+      vid = "cd $HOME/media/video/";
+      dots = "cd $HOME/.config/dotfiles/ && nvim flake.nix";
+      goenv = "cd $HOME/workspace/codenv/go";
       zshrc = "$EDITOR $ZDOTDIR/.zshrc";
       nvc = "cd $HOME/.config/nvim && nvim init.lua"; # neovim config
       lg = "lazygit";
-      hms = "home-manager switch --flake ~/.config/nixdots";
+      hms = "home-manager switch --flake ~/.config/dotfiles";
+      hmso = "home-manager switch --flake ~/.config/dotfiles --no-substitute";
       le = "eza --long --group --group-directories-first";
     };
     plugins = [
@@ -83,13 +88,16 @@
       export estore="/storage/2731-1C20/Android/data/com.termux/files" # mobile phone sdcard path
                   	'';
     initExtra = /*.zshrc*/''
-      unsetopt BEEP # disables the cursed beep sound
-
-      bindkey -s '^t' 'tmux\n'
       # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
       [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
 
-      	'';
+      # lfcd
+      [[ ! -f ~/.local/bin/lfcd.sh ]] || source ~/.local/bin/lfcd.sh
+
+      bindkey -s '^o' 'lfcd\n'
+      bindkey -s '^t' 'tmux\n'
+
+    '';
   };
 
 }

@@ -78,6 +78,15 @@
     xwayland.enable = true;
   };
 
+
+  # added this to be able to run pip binaries
+  programs.nix-ld.enable = true;
+  # Sets up all the libraries to load
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc
+    # ...
+  ];
+
   # List services that you want to enable:
   security.rtkit.enable = true;
   services.pipewire = {
@@ -96,6 +105,7 @@
     dates = "weekly";
     options = "--delete-older-than 7d";
   };
+
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
