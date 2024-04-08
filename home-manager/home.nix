@@ -12,6 +12,7 @@
     ./programs
   ];
 
+
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-hard;
 
   home.username = userSettings.username;

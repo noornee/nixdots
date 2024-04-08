@@ -5,7 +5,7 @@
   programs.zsh = {
     enable = true;
     dotDir = ".config/zsh";
-    enableAutosuggestions = true;
+    autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     shellAliases = {
       ls = "ls --color=auto";
@@ -96,6 +96,7 @@
 
       bindkey -s '^o' 'lfcd\n'
       bindkey -s '^t' 'tmux\n'
+      eval "$(direnv hook zsh)"
 
     '';
   };

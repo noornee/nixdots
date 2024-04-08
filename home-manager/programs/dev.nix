@@ -13,15 +13,21 @@
 
     #nix
     nixpkgs-fmt
-    rnix-lsp
     nix-init
+    nixd
 
     #python
     python3
     python3.pkgs.pip
-    pipx
 
     nodejs
     rustup
   ];
+
+
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+    nix-direnv.enable = true;
+  };
 }

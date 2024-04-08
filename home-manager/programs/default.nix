@@ -34,6 +34,7 @@
     ripgrep
     ffmpeg
     jmtpfs
+    p7zip
 
     # other
     bruno # best postman alt
