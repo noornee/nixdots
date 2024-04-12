@@ -1,5 +1,4 @@
 { config, pkgs, ... }:
-
 {
   xdg.configFile."kitty/colors/gruvbox.conf".source = ./colors/gruvbox.conf;
 
@@ -12,6 +11,8 @@
       cursor_blink_interval = 0;
       cursor_shape = "block";
       shell_integration = "no-cursor"; # https://github.com/kovidgoyal/kitty/issues/4458
+      copy_on_select = "clipboard";
+      scrollback_lines = 10000;
     };
     extraConfig = ''
       include colors/gruvbox.conf
