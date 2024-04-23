@@ -11,6 +11,7 @@
   home.packages = with pkgs; [
     poppler_utils # for pdftoppm
     pistol
+    bat
   ];
 
 
@@ -40,6 +41,7 @@
         		video/*) setsid -f mpv $fx -quiet >/dev/null 2>&1 ;;
         		application/pdf|application/epub*) setsid -f zathura $fx >/dev/null 2>&1 ;;
         		application/vnd*) setsid -f libreoffice $fx >/dev/null 2>&1 ;;
+        		application/javascript) $EDITOR $fx ;;
         		*) for f in $fx; do setsid $OPENER $f > /dev/null 2> /dev/null & done ;;
             esac
         }}
@@ -158,6 +160,9 @@
           	*/epub+zip|*/mobi*)
           		[ ! -f "$CACHE.jpg" ] && ${pkgs.gnome-epub-thumbnailer}/bin/gnome-epub-thumbnailer "$1" "$CACHE.jpg"
           			image "$CACHE.jpg" 
+          		;;
+          	application/javascript) #fixes issue of `init.lua` not being previewed for some reason idk
+          		bat --color=always "$1"
           		;;
           	*)
           		pistol "$1"

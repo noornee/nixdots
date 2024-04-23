@@ -13,6 +13,7 @@
       shell_integration = "no-cursor"; # https://github.com/kovidgoyal/kitty/issues/4458
       copy_on_select = "clipboard";
       scrollback_lines = 10000;
+      enable_audio_bell = "no";
     };
     extraConfig = ''
       include colors/gruvbox.conf

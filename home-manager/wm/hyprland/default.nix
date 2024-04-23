@@ -44,6 +44,8 @@
         "waybar"
         "fcitx5 -d"
         "nm-applet --indicator"
+        "[workspace 1 silent] setsid kitty -e tmux"
+        "[workspace 3 silent] brave --profile-directory=Default"
       ];
 
       env = [

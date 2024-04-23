@@ -21,10 +21,11 @@ in
         "${mainMod}_ALT, Q, exit,"
         "${mainMod},V, togglefloating"
         "${mainMod},V, centerwindow, 1"
-        "${mainMod},F, fullscreen, "
-        "${mainMod},M, fullscreen, 1"
-        "${mainMod},P, pseudo,"
-        "${mainMod},grave, togglesplit,"
+        "${mainMod},F, fullscreen, 0" # fullscreen
+        "${mainMod},M, fullscreen, 1" # monocle
+        "${mainMod},P, pseudo"
+        "${mainMod}_SHIFT, P, pin"
+        "${mainMod},grave, togglesplit"
         "${mainMod},Space, exec, bemenu-run"
         "${mainMod},N, exec, swaync-client -t -sw"
         "${mainMod},Return, exec, kitty"

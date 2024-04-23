@@ -12,8 +12,13 @@
     ./programs
   ];
 
-
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-hard;
+
+  nixpkgs.overlays = [
+    inputs.neovim-nightly-overlay.overlay
+  ];
+
+  home.packages = [ pkgs.neovim-nightly ];
 
   home.username = userSettings.username;
   home.homeDirectory = "/home/" + userSettings.username;

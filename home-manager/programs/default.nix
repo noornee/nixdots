@@ -39,6 +39,7 @@
     # other
     bruno # best postman alt
     redis
+    nh
 
     # unfree softwares
     mongodb-compass
