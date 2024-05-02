@@ -29,6 +29,12 @@
     kooha # screen recorder
   ];
 
+  custom.shell.profileExtra = ''
+    if [[ -z "$DISPLAY" ]] && [[ $(tty) = /dev/tty1 ]]; then
+    	exec Hyprland 2>/dev/null
+    fi
+  '';
+
   wayland.windowManager.hyprland = {
     enable = true;
     package = pkgs.hyprland;
@@ -44,8 +50,8 @@
         "waybar"
         "fcitx5 -d"
         "nm-applet --indicator"
-        "[workspace 1 silent] setsid kitty -e tmux"
-        "[workspace 3 silent] brave --profile-directory=Default"
+        "[workspace 2 silent] setsid kitty -e tmux"
+        # "[workspace 3 silent] brave --profile-directory=Default"
       ];
 
       env = [

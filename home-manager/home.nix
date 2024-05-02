@@ -5,6 +5,7 @@
   imports = [
     inputs.nix-colors.homeManagerModule
 
+    ./options.nix
     ./wm/hyprland
     ./terminal/kitty
     ./shell/zsh.nix

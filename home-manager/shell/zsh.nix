@@ -1,7 +1,8 @@
 { config, pkgs, ... }:
-
+let
+  cfg = config.custom.shell;
+in
 {
-
   programs.zsh = {
     enable = true;
     dotDir = ".config/zsh";
@@ -38,22 +39,8 @@
         src = pkgs.zsh-powerlevel10k;
         file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
       }
-      # {
-      #          name = "zsh-colored-man-pages";
-      #          src = pkgs.fetchFromGitHub {
-      #            owner = "ohmyzsh";
-      #            repo = "ohmyzsh";
-      # 		rev = "6bc4c80c7db072a0d2d265eb3589bbe52e0d2737";
-      # 		sha256 = "sha256-VJ1DM35d2fSs6CDyNFpq8fJ9gPHHG9kjgSnkX0m+3yc=";
-      #          };
-      # 	 file = "plugins/colored-man-pages/colored-man-pages.zsh";
-      # }
     ];
-    profileExtra = ''
-      if [[ -z "$DISPLAY" ]] && [[ $(tty) = /dev/tty1 ]]; then
-      	exec Hyprland 2>/dev/null
-      fi
-            	'';
+    inherit (cfg) profileExtra;
     envExtra = /*.zshenv*/''
       # https://github.com/Cloudef/bemenu
       export BEMENU_OPTS="--tb "#005577" --tf "#CACACA" --hb "#005577" --hf "#CACACA" --hp 10"
@@ -83,19 +70,12 @@
       	mkdir -p "$HOME/.cache/zsh"
       fi
 
-      # Phone
-      export istore="~/storage/shared/rsync/download" # mobile phone internal storage path
-      export estore="/storage/2731-1C20/Android/data/com.termux/files" # mobile phone sdcard path
                   	'';
     initExtra = /*.zshrc*/''
       # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
       [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
 
-      # lfcd
-      [[ ! -f ~/.local/bin/lfcd.sh ]] || source ~/.local/bin/lfcd.sh
-
       bindkey -s '^o' 'lfcd\n'
-      bindkey -s '^t' 'tmux\n'
       eval "$(direnv hook zsh)"
 
     '';

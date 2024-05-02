@@ -27,7 +27,7 @@
   };
 
   boot.supportedFilesystems = [ "ntfs" ];
-  boot.tmp.cleanOnBoot = true;
+  # boot.tmp.cleanOnBoot = true;
   boot.loader.grub = {
     enable = true;
     devices = [ "nodev" ];

@@ -12,6 +12,7 @@
     ./photos.nix
     ./ncmpcpp.nix
     ./neofetch.nix
+    ./tmux.nix
   ];
 
   home.packages = with pkgs; [

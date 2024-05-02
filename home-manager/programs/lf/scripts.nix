@@ -55,10 +55,17 @@ let
     base="$(basename "$1")"
     ls "$PWD" | awk -v BASE="$base" 'BEGIN { lines = ""; m = 0; } { if ($0 == BASE) { m = 1; } } { if (!m) { if (lines) { lines = lines"\n"; } lines = lines""$0; } else { print $0; } } END { print lines; }'
   '';
+  lfcd = pkgs.writeShellScriptBin "lfcd.sh" ''
+    function lfcd () {
+    	# `command` is needed in case `lfcd` is aliased to `lf`
+    	cd "$(command lf -print-last-dir "$@")"
+    }
+  '';
 in
 {
   home.packages = [
     vidthumb
     rotdir
+    lfcd
   ];
 }
