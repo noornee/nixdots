@@ -15,6 +15,7 @@
     nixpkgs-fmt
     nix-init
     nixd
+    nil
 
     #python
     python3
