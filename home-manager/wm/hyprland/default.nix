@@ -1,4 +1,7 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
+let
+  cfg = config.custom;
+in
 {
   imports = [
     ./swaync
@@ -6,6 +9,7 @@
     ./keybinds.nix
     ./animations.nix
     ./windowrules.nix
+    ./wallpaper.nix
   ];
 
 
@@ -45,10 +49,16 @@
         "LVDS-1,1920x1080@60,0x0,1"
       ];
 
+      # setsid -f swaybg -i "$f" -m fill
       exec-once = [
-        "$HOME/.swaybg"
+        ''${
+          if cfg.wallpaper.swaybg.enable then ''
+		  "$XDG_CONFIG_HOME/swaybg/swaybg"
+		  ''
+		  else ''''
+		}''
         "waybar"
-        "fcitx5 -d"
+        # "fcitx5 -d"
         "nm-applet --indicator"
         "[workspace 2 silent] setsid kitty -e tmux"
         # "[workspace 3 silent] brave --profile-directory=Default"
@@ -110,7 +120,8 @@
 
       misc = {
         focus_on_activate = true;
-        disable_hyprland_logo = true;
+        # if swaybg is enabled, disable hyprland logo
+        disable_hyprland_logo = lib.mkIf (cfg.wallpaper.swaybg.enable) true;
       };
     };
   };
