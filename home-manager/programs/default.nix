@@ -7,7 +7,7 @@
     ./font.nix
     ./gtk.nix
     ./git.nix
-    ./i18n.nix
+    # ./i18n.nix
     ./xdg.nix
     ./photos.nix
     ./ncmpcpp.nix
@@ -45,5 +45,6 @@
     # unfree softwares
     mongodb-compass
     ngrok
+    slack
   ];
 }

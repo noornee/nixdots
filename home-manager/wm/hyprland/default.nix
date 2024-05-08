@@ -49,7 +49,6 @@ in
         "LVDS-1,1920x1080@60,0x0,1"
       ];
 
-      # setsid -f swaybg -i "$f" -m fill
       exec-once = [
         ''${
           if cfg.wallpaper.swaybg.enable then ''
@@ -61,6 +60,7 @@ in
         # "fcitx5 -d"
         "nm-applet --indicator"
         "[workspace 2 silent] setsid kitty -e tmux"
+        "sleep 1 && hyprctl dispatch workspace 2" # focus workspace 2 on startup
         # "[workspace 3 silent] brave --profile-directory=Default"
       ];
 

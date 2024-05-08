@@ -7,16 +7,19 @@
     keyMode = "vi";
     historyLimit = 5000;
     escapeTime = 0;
+    baseIndex = 1; # index panes and windows starts from 1
     extraConfig = ''
 
 	  # reload source-file
 	  bind r source-file ~/.config/tmux/tmux.conf
 
+	  # switch between panes
       bind -n M-k select-pane -U
       bind -n M-j select-pane -D
       bind -n M-l select-pane -L
       bind -n M-h select-pane -R
 
+	  # switch between windows <Alt-H> || <Alt-L>
       bind -n M-H select-window -p
       bind -n M-L select-window -n
 
@@ -25,7 +28,8 @@
       bind h split-window -h -c "#{pane_current_path}"
 
       # panes
-      set -g pane-active-border-style 'bg=colour0 fg=colour9'
+      set -g pane-border-style bg=default,fg=colour8
+      set -g pane-active-border-style bg=default,fg=colour7
 
       # statusbar
       set -g status-position bottom

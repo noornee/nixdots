@@ -24,6 +24,9 @@
     trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
+    # re-evaluate on every rebuild instead of "cached failure of attribute" error
+    eval-cache = false;
+    # warn-dirty = false;
   };
 
   boot.supportedFilesystems = [ "ntfs" ];
