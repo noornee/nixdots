@@ -59,11 +59,15 @@ let
   '';
 
   grimshot = pkgs.writeShellScriptBin "grimshot" ''
+
     #!/usr/bin/env bash
 
     SCREENSHOT_DIR="$HOME/media/pictures/screenshots"
     TMP_DIR="/tmp"
     SCREENSHOT_FILENAME=$(date '+%Y%m%d_%Hh-%Mm-%Ss')_grim.png
+
+	if [[ ! -d "$SCREENSHOT_DIR" ]]; then mkdir -p "$SCREENSHOT_DIR"; fi
+	if [[ ! -d "$SCREENSHOT_DIR/annotated" ]]; then mkdir -p "$SCREENSHOT_DIR/annotated"; fi
 
     grim -g "$(slurp)" "$TMP_DIR/$SCREENSHOT_FILENAME"
 
@@ -85,13 +89,13 @@ let
     		xdg-open $1 2>/dev/null
     		;;
     	"option_2")
-    		mkdir -p $SCREENSHOT_DIR/annotated
     		${pkgs.satty}/bin/satty \
     		--filename $1 \
     		--output-filename "$SCREENSHOT_DIR/annotated/$NEW_SCREENSHOT_FILENAME"
     		;;
     	esac
     }
+
 
     if [[ "$NEW_SCREENSHOT_FILENAME" == "$SCREENSHOT_FILENAME" ]]; then
     	mv "$TMP_DIR/$SCREENSHOT_FILENAME" "$SCREENSHOT_DIR"

@@ -40,7 +40,7 @@
     # other
     bruno # best postman alt
     redis
-    nh
+    # vnstat
 
     # unfree softwares
     mongodb-compass

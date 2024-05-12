@@ -119,6 +119,7 @@
 
   services.gvfs.enable = true;
   services.openssh.enable = true;
+  services.vnstat.enable = true;
 
   # Garbage collection
   nix.gc = {

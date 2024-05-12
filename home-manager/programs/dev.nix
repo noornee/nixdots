@@ -16,6 +16,7 @@
     nix-init
     nixd
     nil
+    nh
 
     #python
     python3

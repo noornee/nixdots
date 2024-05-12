@@ -31,7 +31,7 @@ in
       lg = "lazygit";
       hms = "home-manager switch --flake ~/.config/dotfiles";
       hmso = "home-manager switch --flake ~/.config/dotfiles --no-substitute";
-      le = "eza --long --group --group-directories-first";
+      le = "eza --long --group --group-directories-first --icons";
     };
     plugins = [
       {

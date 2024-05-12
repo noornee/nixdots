@@ -139,7 +139,7 @@ in
             phone = "";
             portable = "";
             car = "";
-            default = [ "" "" "" ];
+            default = [ "" "" " " ];
           };
         };
 
