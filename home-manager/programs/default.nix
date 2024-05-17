@@ -21,7 +21,7 @@
 
     #doc viewer
     zathura
-    libreoffice
+    # libreoffice
 
     #utils
     jq

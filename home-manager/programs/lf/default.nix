@@ -12,6 +12,7 @@
     poppler_utils # for pdftoppm
     pistol
     bat
+    ffmpegthumbnailer
   ];
 
   programs.zsh = {
@@ -127,12 +128,13 @@
     extraConfig =
       let
         previewer = pkgs.writeShellScript "previewer.sh" ''
+
           file=$1
           w=$2
           h=$3
           x=$4
           y=$5
-          filetype="$( ${pkgs.file}/bin/file -Lb --mime-type "$file")"
+          filetype="$(file -Lb --mime-type "$file")"
 
           image() {
           	if [[ "$filetype" =~ ^video ]]; then
@@ -156,7 +158,7 @@
           		image "$1"
           		;;
           	video/* )
-          		[ ! -f "$CACHE" ] && ${pkgs.ffmpegthumbnailer}/bin/ffmpegthumbnailer -i "$1" -o "$CACHE" -s 0
+          		[ ! -f "$CACHE" ] && ffmpegthumbnailer -i "$1" -o "$CACHE" -s 0
           			image "$CACHE";;
           	*/pdf)
           		filetype="$( ${pkgs.file}/bin/file -Lb --mime-type "$file")"
