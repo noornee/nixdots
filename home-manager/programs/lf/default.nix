@@ -140,9 +140,9 @@
           	if [[ "$filetype" =~ ^video ]]; then
           		# vidthumb is from here:
           		# https://raw.githubusercontent.com/duganchen/kitty-pistol-previewer/main/vidthumb
-          		kitty +kitten icat --silent --stdin no --transfer-mode file --place "''${w}x''${h}@''${x}x''${y}" "$(vidthumb "$1")" < /dev/null > /dev/tty
+          		kitty +kitten icat --silent --stdin no --transfer-mode file --place "''${w}x''${h}@''${x}x''${y}" "$(vidthumb "$file")" < /dev/null > /dev/tty
           	else
-          		kitty +kitten icat --silent --stdin no --transfer-mode file --place "''${w}x''${h}@''${x}x''${y}" "$1" < /dev/null > /dev/tty
+          		kitty +kitten icat --silent --stdin no --transfer-mode file --place "''${w}x''${h}@''${x}x''${y}" "$file" < /dev/null > /dev/tty
           	fi
           	exit 1
           }
