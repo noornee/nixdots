@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, userSettings, ... }:
+{ config, lib, pkgs, userSettings, inputs, ... }:
 
 {
   imports =
@@ -30,7 +30,7 @@
   };
 
   boot.supportedFilesystems = [ "ntfs" ];
-  # boot.tmp.cleanOnBoot = true;
+  boot.tmp.cleanOnBoot = true;
   boot.loader.grub = {
     enable = true;
     devices = [ "nodev" ];
@@ -74,7 +74,8 @@
   # System programs
   environment.systemPackages = with pkgs; [
     wget
-    neovim
+    # neovim
+    inputs.neovim-nightly-overlay.packages.${pkgs.system}.default
     git
     gcc
     file

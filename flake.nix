@@ -34,6 +34,7 @@
           specialArgs = {
             # pass config variables from above
             inherit userSettings;
+            inherit inputs;
           };
         };
       };

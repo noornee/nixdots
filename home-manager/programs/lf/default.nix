@@ -92,7 +92,7 @@
         chmod -x $fx
         }}
       '';
-      make_exec = ''
+      add_exec = ''
         ''${{
         chmod +x $fx
         }}

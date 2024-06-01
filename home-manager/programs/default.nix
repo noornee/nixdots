@@ -21,7 +21,7 @@
 
     #doc viewer
     zathura
-    # libreoffice
+    libreoffice
 
     #utils
     jq
@@ -39,6 +39,7 @@
 
     # other
     bruno # best postman alt
+    insomnia
     redis
     # vnstat
 
@@ -46,5 +47,7 @@
     mongodb-compass
     ngrok
     slack
+    gparted
+    alacritty
   ];
 }

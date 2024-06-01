@@ -18,11 +18,11 @@
   # check ./modules/options.nix for details on this
   custom.wallpaper.swaybg.enable = true;
 
-  nixpkgs.overlays = [
-    inputs.neovim-nightly-overlay.overlay
-  ];
+  # nixpkgs.overlays = [
+  #   inputs.neovim-nightly-overlay.overlay
+  # ];
 
-  home.packages = [ pkgs.neovim-nightly ];
+  # home.packages = [ pkgs.neovim-nightly ];
 
   home.username = userSettings.username;
   home.homeDirectory = "/home/" + userSettings.username;

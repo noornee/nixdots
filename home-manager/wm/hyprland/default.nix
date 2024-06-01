@@ -59,7 +59,7 @@ in
         "waybar"
         # "fcitx5 -d"
         "nm-applet --indicator"
-        "[workspace 2 silent] setsid kitty -e tmux"
+        "[workspace 2 silent] setsid kitty -e tmux new -s 'workspace 󱔡 '"
         "sleep 1 && hyprctl dispatch workspace 2" # focus workspace 2 on startup
         # "[workspace 3 silent] brave --profile-directory=Default"
       ];

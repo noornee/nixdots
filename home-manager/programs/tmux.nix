@@ -47,6 +47,12 @@
       # messages
       set -g message-style 'fg=colour232 bg=colour3 bold'
     '';
+    plugins = with pkgs;[
+      {
+        plugin = tmuxPlugins.resurrect;
+        extraConfig = "set -g @resurrect-strategy-nvim 'session'";
+      }
+    ];
   };
 
 

@@ -17,7 +17,6 @@ in
 
       bind = [
         "${mainMod},W, killactive"
-        "${mainMod},W, killactive,"
         "${mainMod}_ALT, Q, exit,"
         "${mainMod},V, togglefloating"
         "${mainMod},V, centerwindow, 1"
