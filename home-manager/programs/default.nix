@@ -41,6 +41,7 @@
     bruno # best postman alt
     insomnia
     redis
+    zellij
     # vnstat
 
     # unfree softwares

@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, userSettings, inputs, ... }:
+{ config, lib, pkgs, userSettings, ... }:
 
 {
   imports =
@@ -74,8 +74,7 @@
   # System programs
   environment.systemPackages = with pkgs; [
     wget
-    # neovim
-    inputs.neovim-nightly-overlay.packages.${pkgs.system}.default
+    neovim
     git
     gcc
     file
