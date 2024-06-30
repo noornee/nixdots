@@ -24,6 +24,16 @@
 
     nodejs
     rustup
+
+    #other
+    bruno
+    insomnia
+    postman
+    redis
+
+    # unfree
+    mongodb-compass
+    ngrok
   ];
 
 

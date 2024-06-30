@@ -75,7 +75,7 @@ in
       # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
       [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
 
-      bindkey -s '^o' 'lfcd\n'
+      bindkey -s '^t' 'tmux\n'
       eval "$(direnv hook zsh)"
 
     '';

@@ -59,8 +59,7 @@ in
         "waybar"
         # "fcitx5 -d"
         "nm-applet --indicator"
-        "[workspace 1 silent] setsid kitty -e tmux new -s 'workspace 󱔡 '"
-        # "sleep 1 && hyprctl dispatch workspace 2" # focus workspace 2 on startup
+        # "[workspace 1 silent] setsid kitty -e tmux new -s 'workspace 󱔡 '"
         # "[workspace 3 silent] brave --profile-directory=Default"
       ];
 
@@ -81,8 +80,8 @@ in
 
 
       general = {
-        gaps_in = 10;
-        gaps_out = 15;
+        gaps_in = 5;
+        gaps_out = 10;
         border_size = 1;
         "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
         "col.inactive_border" = "rgba(595959aa)";

@@ -161,7 +161,6 @@
           		[ ! -f "$CACHE" ] && ffmpegthumbnailer -i "$1" -o "$CACHE" -s 0
           			image "$CACHE";;
           	*/pdf)
-          		filetype="$( ${pkgs.file}/bin/file -Lb --mime-type "$file")"
           		[ ! -f "$CACHE.jpg" ] && pdftoppm -jpeg -f 1 -singlefile "$1" "$CACHE"
           			image "$CACHE.jpg"
           		;;

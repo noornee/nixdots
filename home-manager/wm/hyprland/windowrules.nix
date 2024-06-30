@@ -5,6 +5,7 @@
       windowrule = [
         # opacity rules
         "opacity 1.0 override 1.0 override,^(mpv)$"
+        "opacity 1.0 override 1.0 override,^(psppire)$"
         "opacity 0.95 override 0.9 override,^(org.pwmt.zathura)$"
         "opacity 0.95 override 0.9 override,^(Brave-browser)$"
         "opacity 0.95 override 0.9 override,^(Slack)$"

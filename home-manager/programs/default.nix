@@ -38,17 +38,10 @@
     p7zip
 
     # other
-    bruno # best postman alt
-    insomnia
-    redis
+    vnstat
+    pspp # spss 
     zellij
-    # vnstat
 
-    # unfree softwares
-    mongodb-compass
-    ngrok
     slack
-    gparted
-    alacritty
   ];
 }
