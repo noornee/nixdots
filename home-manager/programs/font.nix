@@ -4,6 +4,7 @@
   home.packages = with pkgs; [
     noto-fonts-cjk-sans
     (nerdfonts.override { fonts = [ "Iosevka" "JetBrainsMono" ]; })
+    corefonts # Times New Roman is amongst this
   ];
 
   fonts.fontconfig.enable = true;
