@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   home.packages = with pkgs; [
     # lua
     lua
@@ -12,7 +11,8 @@
     gofumpt
 
     #nix
-    nixpkgs-fmt
+    nixpkgs-fmt # repo is archived
+    nixfmt-classic # official nix formatter
     nix-init
     nixd
     nil
@@ -35,7 +35,6 @@
     mongodb-compass
     ngrok
   ];
-
 
   programs.direnv = {
     enable = true;
