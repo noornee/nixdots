@@ -2,7 +2,6 @@
   imports = [
     ./lf
     ./mpv
-    ./dev.nix
     ./font.nix
     ./gtk.nix
     ./git.nix
