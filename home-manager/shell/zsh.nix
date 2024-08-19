@@ -1,8 +1,6 @@
 { config, pkgs, ... }:
-let
-  cfg = config.custom.shell;
-in
-{
+let cfg = config.custom.shell;
+in {
   programs.zsh = {
     enable = true;
     dotDir = ".config/zsh";
@@ -10,14 +8,15 @@ in
     syntaxHighlighting.enable = true;
     shellAliases = {
       ls = "ls --color=auto";
-      l = "ls -lFh"; #size,show type,human readable
-      la = "ls -lAFh"; #long list,show almost all,show type,human readable
-      ll = "ls -l"; #long list
-      lsd = "ls -d .*"; #list dots
-      lsdl = "ls -ld .*"; #long list dots
+      l = "ls -lFh"; # size,show type,human readable
+      la = "ls -lAFh"; # long list,show almost all,show type,human readable
+      ll = "ls -l"; # long list
+      lsd = "ls -d .*"; # list dots
+      lsdl = "ls -ld .*"; # long list dots
       grep = "grep --color=auto --exclude-dir=.git";
       diff = "diff --color -u";
-      clh = "cat /dev/null > $HISTFILE && history -p && echo 'history file cleared'";
+      clh =
+        "cat /dev/null > $HISTFILE && history -p && echo 'history file cleared'";
       cls = "clear";
       sdn = "shutdown now";
       hist = "history 0";
@@ -33,15 +32,13 @@ in
       hmso = "home-manager switch --flake ~/.config/dotfiles --no-substitute";
       le = "eza --long --group --group-directories-first --icons";
     };
-    plugins = [
-      {
-        name = "powerlevel10k";
-        src = pkgs.zsh-powerlevel10k;
-        file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-      }
-    ];
+    plugins = [{
+      name = "powerlevel10k";
+      src = pkgs.zsh-powerlevel10k;
+      file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+    }];
     inherit (cfg) profileExtra;
-    envExtra = /*.zshenv*/''
+    envExtra = ''
       # https://github.com/Cloudef/bemenu
       export BEMENU_OPTS="--tb "#005577" --tf "#CACACA" --hb "#005577" --hf "#CACACA" --hp 10"
 
@@ -71,14 +68,15 @@ in
       fi
 
                   	'';
-    initExtra = /*.zshrc*/''
-      # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
-      [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
+    initExtra = # .zshrc
+      ''
+        # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
+        [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
 
-      bindkey -s '^t' 'tmux\n'
-      eval "$(direnv hook zsh)"
+        bindkey -s '^t' 'tmux\n'
+        #eval "$(direnv hook zsh)"
 
-    '';
+      '';
   };
 
 }

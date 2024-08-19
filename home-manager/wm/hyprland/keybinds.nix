@@ -1,8 +1,6 @@
 { ... }:
-let
-  mainMod = "SUPER";
-in
-{
+let mainMod = "SUPER";
+in {
   imports = [
     ./scripts.nix # shell scripts for the keybinds
   ];
@@ -22,8 +20,9 @@ in
         "${mainMod},V, centerwindow, 1"
         "${mainMod},F, fullscreen, 0" # fullscreen
         "${mainMod},M, fullscreen, 1" # monocle
-        "${mainMod},P, pseudo"
-        "${mainMod}_SHIFT, P, pin"
+        # "${mainMod},P, pseudo"
+        # "${mainMod}_SHIFT, P, pin"
+        "${mainMod}, P, pin"
         "${mainMod},grave, togglesplit"
         "${mainMod},Space, exec, bemenu-run"
         "${mainMod},N, exec, swaync-client -t -sw"

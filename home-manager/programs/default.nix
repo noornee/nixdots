@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   imports = [
     ./lf
     ./mpv
@@ -36,12 +35,42 @@
     ffmpeg
     jmtpfs
     p7zip
-
-    # other
-    vnstat
-    pspp # spss 
     zellij
 
+    # lua
+    lua
+    lua-language-server
+    stylua
+
+    #go
+    go
+    gopls
+    gofumpt
+    golangci-lint
+
+    #nix
+    nixpkgs-fmt # repo is archived
+    nixfmt-classic # official nix formatter
+    # nix-init
+    nixd
+    nil
+    nh
+
+    #python
+    python3
+    python3.pkgs.pip
+
+    nodejs
+    rustup
+
+    #other
+    bruno
+    postman
+    redis
     slack
+
+    # unfree
+    mongodb-compass
+    ngrok
   ];
 }
