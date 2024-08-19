@@ -1,25 +1,15 @@
-# Edit this configuration file to define what should be installed on
-# your system. Help is available in the configuration.nix(5) man page, on
-# https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
-{ config, lib, pkgs, userSettings, ... }:
+{ config, lib, pkgs, userSettings, inputs, ... }:
 
 {
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   nix.settings = {
     # Enable Flakes and the new command-line tool
-    experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
-    substituters = [
-      "https://nix-community.cachix.org"
-    ];
+    experimental-features = [ "nix-command" "flakes" ];
+    substituters = [ "https://nix-community.cachix.org" ];
     trusted-users = [ userSettings.username ];
     trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
@@ -40,9 +30,9 @@
   };
 
   networking.hostName = "nixos"; # Define your hostname.
-  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable =
+    true; # Easiest to use and most distros use this by default.
   time.timeZone = "Africa/Lagos"; # Set your time zone.
-
 
   # rtkit is optional but recommended
   # sound.enable = true;
@@ -57,13 +47,10 @@
     shell = pkgs.zsh;
   };
 
-
   services.tumbler.enable = true; # Thumbnail support for images
   programs.thunar = {
     enable = true;
-    plugins = with pkgs.xfce; [
-      thunar-volman
-    ];
+    plugins = with pkgs.xfce; [ thunar-volman ];
   };
 
   virtualisation.docker.enable = true;
@@ -82,11 +69,10 @@
     unzip
     unrar
     networkmanagerapplet
+    inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
   ];
 
-  environment.variables = {
-    EDITOR = "nvim";
-  };
+  environment.variables = { EDITOR = "nvim"; };
 
   programs.hyprland = {
     enable = true;
@@ -99,14 +85,14 @@
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
-
   # added this to be able to run pip binaries
   programs.nix-ld.enable = true;
   # Sets up all the libraries to load
-  programs.nix-ld.libraries = with pkgs; [
-    stdenv.cc.cc
-    # ...
-  ];
+  programs.nix-ld.libraries = with pkgs;
+    [
+      stdenv.cc.cc
+      # ...
+    ];
 
   # List services that you want to enable:
   security.rtkit.enable = true;
@@ -128,24 +114,7 @@
     options = "--delete-older-than 7d";
   };
 
-
-  # This option defines the first version of NixOS you have installed on this particular machine,
-  # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
-  #
-  # Most users should NEVER change this value after the initial install, for any reason,
-  # even if you've upgraded your system to a new NixOS release.
-  #
-  # This value does NOT affect the Nixpkgs version your packages and OS are pulled from,
-  # so changing it will NOT upgrade your system.
-  #
-  # This value being lower than the current NixOS release does NOT mean your system is
-  # out of date, out of support, or vulnerable.
-  #
-  # Do NOT change this value unless you have manually inspected all the changes it would make to your configuration,
-  # and migrated your data accordingly.
-  #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
-  system.stateVersion = "23.11"; # Did you read the comment?
-
+  system.stateVersion = "23.11";
 
 }
