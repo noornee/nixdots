@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, userSettings, ... }: {
   imports = [
     ./lf
     ./mpv
@@ -35,6 +35,7 @@
     jmtpfs
     p7zip
     zellij
+    fzf
 
     # lua
     lua
@@ -67,9 +68,12 @@
     postman
     redis
     slack
+    gnumake
 
     # unfree
     mongodb-compass
     ngrok
+    zrok
   ];
+
 }

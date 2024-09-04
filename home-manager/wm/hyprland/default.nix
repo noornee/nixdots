@@ -53,12 +53,7 @@ in {
         "nm-applet --indicator"
       ];
 
-      env = [
-        # "XCURSOR_SIZE,12"
-        "WLR_NO_HARDWARE_CURSORS,1"
-        # "HYPRCURSOR_THEME,rose-pine-hyprcursor"
-        "HYPRCURSOR_SIZE,24"
-      ];
+      env = [ "HYPRCURSOR_THEME,rose-pine-hyprcursor" "HYPRCURSOR_SIZE,24" ];
 
       input = {
         kb_layout = "us";

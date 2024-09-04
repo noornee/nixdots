@@ -1,13 +1,9 @@
 { config, lib, pkgs, userSettings, inputs, ... }:
 
 {
-  imports = [
-    # Include the results of the hardware scan.
-    ./hardware-configuration.nix
-  ];
+  imports = [ ./hardware-configuration.nix ./virt.nix ];
 
   nix.settings = {
-    # Enable Flakes and the new command-line tool
     experimental-features = [ "nix-command" "flakes" ];
     substituters = [ "https://nix-community.cachix.org" ];
     trusted-users = [ userSettings.username ];
@@ -16,8 +12,9 @@
     ];
     # re-evaluate on every rebuild instead of "cached failure of attribute" error
     eval-cache = false;
-    # warn-dirty = false;
   };
+
+  nixpkgs.config.allowUnfree = true; # Allow unfree packages
 
   boot.supportedFilesystems = [ "ntfs" ];
   boot.tmp.cleanOnBoot = true;
@@ -29,10 +26,9 @@
     # useOSProber = true;
   };
 
-  networking.hostName = "nixos"; # Define your hostname.
-  networking.networkmanager.enable =
-    true; # Easiest to use and most distros use this by default.
-  time.timeZone = "Africa/Lagos"; # Set your time zone.
+  networking.hostName = "nixos";
+  networking.networkmanager.enable = true;
+  time.timeZone = "Africa/Lagos";
 
   # rtkit is optional but recommended
   # sound.enable = true;
@@ -43,7 +39,7 @@
   programs.zsh.enable = true;
   users.users.${userSettings.username} = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "video" "docker" ];
+    extraGroups = [ "wheel" "networkmanager" "video" "docker" "libvirtd" ];
     shell = pkgs.zsh;
   };
 
@@ -53,12 +49,21 @@
     plugins = with pkgs.xfce; [ thunar-volman ];
   };
 
-  virtualisation.docker.enable = true;
+  # virtualisation.docker.enable = true;
+  #
+  # virtualisation = {
+  #   libvirtd = {
+  #     enable = true;
+  #     qemu = {
+  #       package = pkgs.qemu_kvm;
+  #       swtpm.enable = true;
+  #       ovmf.enable = true;
+  #       ovmf.packages = [ pkgs.OVMFFull.fd ];
+  #     };
+  #   };
+  #   spiceUSBRedirection.enable = true;
+  # };
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
-  # System programs
   environment.systemPackages = with pkgs; [
     wget
     neovim
@@ -87,7 +92,6 @@
 
   # added this to be able to run pip binaries
   programs.nix-ld.enable = true;
-  # Sets up all the libraries to load
   programs.nix-ld.libraries = with pkgs;
     [
       stdenv.cc.cc

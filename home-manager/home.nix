@@ -18,6 +18,13 @@
   # check ./modules/options.nix for details on this
   custom.wallpaper.swaybg.enable = true;
 
+  dconf.settings = {
+    "org/virt-manager/virt-manager/connections" = {
+      autoconnect = [ "qemu:///system" ];
+      uris = [ "qemu:///system" ];
+    };
+  };
+
   home.username = userSettings.username;
   home.homeDirectory = "/home/" + userSettings.username;
 
