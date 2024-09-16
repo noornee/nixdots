@@ -19,7 +19,7 @@
 
     #doc viewer
     zathura
-    libreoffice
+    # libreoffice
 
     #utils
     jq
@@ -57,23 +57,23 @@
     nh
 
     #python
-    python3
-    python3.pkgs.pip
+    # python3
+    # python3.pkgs.pip
 
     nodejs
     rustup
 
     #other
-    bruno
+    # bruno
     postman
     redis
     slack
     gnumake
+    zrok
 
     # unfree
     mongodb-compass
     ngrok
-    zrok
   ];
 
 }

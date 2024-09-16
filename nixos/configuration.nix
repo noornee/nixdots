@@ -10,11 +10,10 @@
     trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
-    # re-evaluate on every rebuild instead of "cached failure of attribute" error
     eval-cache = false;
   };
 
-  nixpkgs.config.allowUnfree = true; # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
 
   boot.supportedFilesystems = [ "ntfs" ];
   boot.tmp.cleanOnBoot = true;
@@ -23,57 +22,49 @@
     devices = [ "nodev" ];
     efiSupport = true;
     configurationLimit = 20;
-    # useOSProber = true;
   };
 
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
+
+  # Set your time zone.
   time.timeZone = "Africa/Lagos";
 
-  # rtkit is optional but recommended
-  # sound.enable = true;
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
-  programs.zsh.enable = true;
-  users.users.${userSettings.username} = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "video" "docker" "libvirtd" ];
-    shell = pkgs.zsh;
+  services.pipewire = {
+    enable = true;
+    pulse.enable = true;
+    alsa.support32Bit = true;
+    alsa.enable = true;
   };
 
-  services.tumbler.enable = true; # Thumbnail support for images
   programs.thunar = {
     enable = true;
     plugins = with pkgs.xfce; [ thunar-volman ];
   };
 
-  # virtualisation.docker.enable = true;
-  #
-  # virtualisation = {
-  #   libvirtd = {
-  #     enable = true;
-  #     qemu = {
-  #       package = pkgs.qemu_kvm;
-  #       swtpm.enable = true;
-  #       ovmf.enable = true;
-  #       ovmf.packages = [ pkgs.OVMFFull.fd ];
-  #     };
-  #   };
-  #   spiceUSBRedirection.enable = true;
-  # };
+  services.tumbler.enable = true; # Thumbnail support for images
+  services.gvfs.enable = true;
+  services.openssh.enable = true;
+  services.vnstat.enable = true;
+
+  programs.zsh.enable = true;
+  users.users.${userSettings.username} = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" "networkmanager" "video" ];
+    shell = pkgs.zsh;
+  };
 
   environment.systemPackages = with pkgs; [
-    wget
-    neovim
     git
+    neovim
+    wget
     gcc
-    file
-    zip
+    networkmanagerapplet
     unzip
     unrar
-    networkmanagerapplet
+    zip
+    file
+    home-manager
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
   ];
 
@@ -90,35 +81,6 @@
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
-  # added this to be able to run pip binaries
-  programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs;
-    [
-      stdenv.cc.cc
-      # ...
-    ];
-
-  # List services that you want to enable:
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-
-  services.gvfs.enable = true;
-  services.openssh.enable = true;
-  services.vnstat.enable = true;
-
-  # Garbage collection
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 7d";
-  };
-
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
-  system.stateVersion = "23.11";
-
+  system.stateVersion = "24.05";
 }
