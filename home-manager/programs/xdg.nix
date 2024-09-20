@@ -1,8 +1,5 @@
-{ config, pkgs, ... }:
-{
-  home.packages = with pkgs; [
-    xdg-utils
-  ];
+{ config, pkgs, ... }: {
+  home.packages = with pkgs; [ xdg-utils ];
 
   xdg = {
     enable = true;

@@ -57,7 +57,7 @@
         	read ans
         	[ $ans = "y" ] && rm -rf -- $fx
         }}'';
-      mkdir = ''%mkdir "$@"'';
+      mkdir = ''%mkdir -p "$@"'';
       touch = ''$touch "$(echo $* | tr ' ' '\ '| tr ' ' '_')"'';
       trash = ''
         %trash-put $fx && notify-send "Trash-Put" "moved <p>$fx</p> <br>to trash"'';
