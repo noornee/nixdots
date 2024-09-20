@@ -2,6 +2,7 @@
   imports = [
     ./lf
     ./mpv
+    ./zellij
     ./font.nix
     ./gtk.nix
     ./git.nix
@@ -34,7 +35,6 @@
     ffmpeg
     jmtpfs
     p7zip
-    zellij
     fzf
 
     # lua
