@@ -11,6 +11,7 @@
     ./shell/zsh.nix
     ./browser/brave.nix
     ./programs
+    ../overlays
   ];
 
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-hard;

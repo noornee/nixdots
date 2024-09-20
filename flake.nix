@@ -9,7 +9,7 @@
     };
     nix-colors.url = "github:misterio77/nix-colors";
     rose-pine-hyprcursor.url = "github:ndom91/rose-pine-hyprcursor";
-    # zjstatus.url = "github:dj95/zjstatus";
+    zjstatus.url = "github:dj95/zjstatus";
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
