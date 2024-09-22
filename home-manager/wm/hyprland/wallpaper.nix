@@ -15,7 +15,8 @@ in {
   };
 
   programs.zsh.envExtra =
-    lib.mkIf (config.programs.zsh.enable && cfg.wallpaper.swaybg.enable) ''
+    lib.mkIf (config.programs.zsh.enable && cfg.wallpaper.swaybg.enable) # sh
+    ''
       if [[ ! -d "$HOME/.config/swaybg" ]]; then
       	SWAYBG_DIR="$HOME/.config/swaybg"
       	mkdir -p "$SWAYBG_DIR"

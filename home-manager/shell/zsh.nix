@@ -38,37 +38,38 @@ in {
       file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
     }];
     inherit (cfg) profileExtra;
-    envExtra = ''
-      # https://github.com/Cloudef/bemenu
-      export BEMENU_OPTS="--tb "#005577" --tf "#CACACA" --hb "#005577" --hf "#CACACA" --hp 10"
+    envExtra = # sh
+      ''
+        # https://github.com/Cloudef/bemenu
+        export BEMENU_OPTS="--tb "#005577" --tf "#CACACA" --hb "#005577" --hf "#CACACA" --hp 10"
 
-      export XDG_PICTURES_DIR="$HOME/media/pictures"
-      export LESSHISTFILE="-"
-      export ZDOTDIR="$HOME/.config/zsh"
-      export GOPATH="$HOME/.local/share/go"
+        export XDG_PICTURES_DIR="$HOME/media/pictures"
+        export LESSHISTFILE="-"
+        export ZDOTDIR="$HOME/.config/zsh"
+        export GOPATH="$HOME/.local/share/go"
 
-      export CARGO_HOME="$HOME/.local/share/cargo"
-      export RUSTUP_HOME="$HOME/.local/share/rustup"
+        export CARGO_HOME="$HOME/.local/share/cargo"
+        export RUSTUP_HOME="$HOME/.local/share/rustup"
 
-      export NPM_CONFIG_CACHE="$HOME/.cache/npm/"
-      if [[ -d "$HOME/.local/share/npm/" ]]; then
-      	export NPM_CONFIG_PREFIX="$HOME/.local/share/npm/"
-      else
-      	mkdir -p "$HOME/.local/share/npm/"
-      fi
+        export NPM_CONFIG_CACHE="$HOME/.cache/npm/"
+        if [[ -d "$HOME/.local/share/npm/" ]]; then
+        	export NPM_CONFIG_PREFIX="$HOME/.local/share/npm/"
+        else
+        	mkdir -p "$HOME/.local/share/npm/"
+        fi
 
-      export PATH="$PATH:$HOME/.local/bin"
-      export PATH="$PATH:$GOPATH/bin" # go path
-      export PATH="$PATH:$CARGO_HOME/bin" # cargo path
-      export PATH="$PATH:$NPM_CONFIG_PREFIX/bin" # npm path
+        export PATH="$PATH:$HOME/.local/bin"
+        export PATH="$PATH:$GOPATH/bin" # go path
+        export PATH="$PATH:$CARGO_HOME/bin" # cargo path
+        export PATH="$PATH:$NPM_CONFIG_PREFIX/bin" # npm path
 
-      # create zsh directory in the cache dir
-      if [[ ! -d "$HOME/.cache/zsh" ]];then
-      	mkdir -p "$HOME/.cache/zsh"
-      fi
+        # create zsh directory in the cache dir
+        if [[ ! -d "$HOME/.cache/zsh" ]];then
+        	mkdir -p "$HOME/.cache/zsh"
+        fi
 
-                  	'';
-    initExtra = # .zshrc
+                    	'';
+    initExtra = # sh
       ''
         # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
         [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
