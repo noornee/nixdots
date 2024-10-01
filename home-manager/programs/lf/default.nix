@@ -96,6 +96,12 @@
         esac
         }}
       '';
+      fzf_find_file = ''
+        ''${{
+        selected="$(rg --files * | fzf)"
+        lf -remote "send $id select \"$selected\""
+        }}
+      '';
     };
 
     keybindings = {
@@ -104,12 +110,20 @@
       "<f-2>" = "spawn_terminal";
       "<a-x>" = "add_exec";
       "<a-X>" = "remove_exec";
+      "<a-f>f" = "fzf_find_file";
       W = "set_wallpaper";
       R = "bulkrename";
       a = "push :touch<space>";
       T = "trash";
       Y = "$printf %s $fx | wl-copy"; # copies absolute path to clipboard
 
+    };
+
+    cmdKeybindings = {
+      "<c-left>" = "cmd-word-back";
+      "<c-right>" = "cmd-word";
+      "<up>" = "cmd-history-prev";
+      "<down>" = "cmd-history-next";
     };
 
     extraConfig = let
@@ -170,10 +184,6 @@
 
       setlocal ~ hidden false # hide hidden files in the home directory
       map zh setlocal ~ hidden!
-
-      # view command history
-      cmap <up>   cmd-history-prev
-      cmap <down> cmd-history-next
     '';
   };
 
