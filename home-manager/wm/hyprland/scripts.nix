@@ -59,15 +59,14 @@ let
   '';
 
   grimshot = pkgs.writeShellScriptBin "grimshot" ''
-
     #!/usr/bin/env bash
 
     SCREENSHOT_DIR="$HOME/media/pictures/screenshots"
     TMP_DIR="/tmp"
     SCREENSHOT_FILENAME=$(date '+%Y%m%d_%Hh-%Mm-%Ss')_grim.png
 
-	if [[ ! -d "$SCREENSHOT_DIR" ]]; then mkdir -p "$SCREENSHOT_DIR"; fi
-	if [[ ! -d "$SCREENSHOT_DIR/annotated" ]]; then mkdir -p "$SCREENSHOT_DIR/annotated"; fi
+    if [[ ! -d "$SCREENSHOT_DIR" ]]; then mkdir -p "$SCREENSHOT_DIR"; fi
+    if [[ ! -d "$SCREENSHOT_DIR/annotated" ]]; then mkdir -p "$SCREENSHOT_DIR/annotated"; fi
 
     grim -g "$(slurp)" "$TMP_DIR/$SCREENSHOT_FILENAME"
 
@@ -80,6 +79,7 @@ let
     		--icon=$1 \
     		--action="option_1, view" \
     		--action="option_2, annotate" \
+    		--action="option_3, copy" \
     		"screenshot" \
     		$1
     	)"
@@ -93,6 +93,9 @@ let
     		--filename $1 \
     		--output-filename "$SCREENSHOT_DIR/annotated/$NEW_SCREENSHOT_FILENAME"
     		;;
+    	"option_3")
+    	   # copy to clipboard
+    	   cat $1 | wl-copy
     	esac
     }
 
@@ -107,8 +110,7 @@ let
     	send_notification "$DESTINATION_PATH"
     fi
   '';
-in
-{
+in {
   home.packages = [
     volume
     brightness
