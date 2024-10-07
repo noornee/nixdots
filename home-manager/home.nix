@@ -5,7 +5,7 @@
   imports = [
     inputs.nix-colors.homeManagerModule
 
-    ./modules/options.nix
+    ./options.nix
     ./wm/hyprland
     ./terminal/kitty
     ./shell/zsh.nix
@@ -16,7 +16,7 @@
 
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-hard;
 
-  # check ./modules/options.nix for details on this
+  # check ./options.nix for details on this
   custom.wallpaper.swaybg.enable = true;
 
   dconf.settings = {
