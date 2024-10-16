@@ -47,6 +47,16 @@
               bind "h" "Left" "Up" "k" { GoToPreviousTab; }
               bind "l" "Right" "Down" "j" { GoToNextTab; }
               bind "c" { NewTab; SwitchToMode "Normal"; }
+              bind "1" { GoToTab 1; SwitchToMode "Normal"; }
+              bind "2" { GoToTab 2; SwitchToMode "Normal"; }
+              bind "3" { GoToTab 3; SwitchToMode "Normal"; }
+              bind "4" { GoToTab 4; SwitchToMode "Normal"; }
+              bind "5" { GoToTab 5; SwitchToMode "Normal"; }
+              bind "6" { GoToTab 6; SwitchToMode "Normal"; }
+              bind "7" { GoToTab 7; SwitchToMode "Normal"; }
+              bind "8" { GoToTab 8; SwitchToMode "Normal"; }
+              bind "9" { GoToTab 9; SwitchToMode "Normal"; }
+              bind "Tab" { ToggleTab; }
           }
           session {
               bind "Alt o" { SwitchToMode "Normal"; }
@@ -70,8 +80,21 @@
               bind "Ctrl b" "PageUp" "Left" "h" { PageScrollUp; }
               bind "d" { HalfPageScrollDown; }
               bind "u" { HalfPageScrollUp; }
-              // uncomment this and adjust key if using copy_on_select=false
-              // bind "Alt c" { Copy; }
+          }
+          search {
+              bind "Ctrl s" { SwitchToMode "Normal"; }
+              bind "Ctrl c" { ScrollToBottom; SwitchToMode "Normal"; }
+              bind "j" "Down" { ScrollDown; }
+              bind "k" "Up" { ScrollUp; }
+              bind "Ctrl d" "PageDown" "Right" "l" { PageScrollDown; }
+              bind "Ctrl u" "PageUp" "Left" "h" { PageScrollUp; }
+              bind "n" { Search "down"; }
+              bind "N" { Search "up"; }
+              bind "i" { SearchToggleOption "CaseSensitivity"; }
+          }
+          entersearch {
+              bind "Esc" { SwitchToMode "Scroll"; }
+              bind "Enter" { SwitchToMode "Search"; }
           }
       	shared {
               bind "Alt j" "Alt Down" { MoveFocus "Down"; }
