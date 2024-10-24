@@ -14,6 +14,8 @@
       copy_on_select = "clipboard";
       scrollback_lines = 10000;
       enable_audio_bell = "no";
+      selection_foreground = "#E7EBF1";
+      selection_background = "#333A4C";
     };
     extraConfig = ''
       include colors/gruvbox.conf
