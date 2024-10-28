@@ -201,7 +201,7 @@ sg      g       # SETGID
 *.tsx           
 *.jl            
 *.pp            
-*.vue           ﵂
+*.vue           
 *.elm           
 *.swift         
 *.xcplayground  
@@ -209,7 +209,7 @@ sg      g       # SETGID
 *.r             ﳒ
 *.rproj         鉶
 *.sol           ﲹ
-*.pem           
+*.pem           
 
 # file names (vim-devicons) (case-insensitive not supported in lf)
 *gruntfile.coffee       
