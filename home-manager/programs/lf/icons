@@ -135,6 +135,7 @@ sg      g       # SETGID
 *.rproj         󰗆   00;38;2;53;138;91
 *.sol           󰡪    00;38;2;81;154;186
 *.pem               00;38;2;205;155;62
+*.lock              00;38;2;149;157;165
 
 # file names (vim-devicons) (case-insensitive not supported in lf)
 *gruntfile.coffee           00;38;2;227;121;51
