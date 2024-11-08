@@ -104,10 +104,21 @@ in {
 
       gestures = { workspace_swipe = false; };
 
+      group = {
+        groupbar = {
+          font_size = 8;
+          height = 20;
+          font_family = "JetBrainsMonoNL NF ExtraBold";
+          "col.active" = "rgba(1d2021ff)";
+          "col.locked_active" = "rgba(1d2111ff)";
+        };
+      };
+
       misc = {
         focus_on_activate = true;
         # if swaybg is enabled, disable hyprland logo
         disable_hyprland_logo = lib.mkIf (cfg.wallpaper.swaybg.enable) true;
+        new_window_takes_over_fullscreen = 2;
       };
     };
   };

@@ -80,13 +80,25 @@ in {
         # Scroll through existing workspaces with mainMod + scroll
         "${mainMod}, mouse_down, workspace, e+1"
         "${mainMod}, mouse_up, workspace, e-1"
+
+        # tab groups
+        "${mainMod}, g, togglegroup"
+        "${mainMod} SHIFT, G, lockactivegroup, toggle"
+        "${mainMod} Control_L, n, changegroupactive, f"
+        "${mainMod} Control_L, p, changegroupactive, b"
+        "${mainMod} Control_L, h, moveintogroup, l"
+        "${mainMod} Control_L, l, moveintogroup, r"
+        "${mainMod} Control_L, k, moveintogroup, u"
+        "${mainMod} Control_L, j, moveintogroup, d"
+        "${mainMod} Control_L, r, moveoutofgroup"
+
       ];
 
       bindm = [
         "${mainMod}, mouse:272, movewindow"
         "${mainMod}, mouse:273, resizewindow"
         "${mainMod}, ALT_L, resizewindow"
-        "${mainMod}, Control_L, movewindow"
+        "${mainMod}, Escape, movewindow"
       ];
 
       binde = [
