@@ -10,6 +10,7 @@
     pistol
     bat
     ffmpegthumbnailer
+    trash-cli
   ];
 
   programs.zsh = {
@@ -49,18 +50,28 @@
         }}'';
       delete = ''
         ''${{
-        	clear; tput bold setaf 1
-        	set -f
+        	clear;
+
+        	OTP=$(echo $RANDOM)
+
+        	tput sgr0; tput bold setaf 1
         	printf "$fx\n"
-        	tput sgr0; tput bold
-        	printf "delete? [y/n]: "
+
+        	tput sgr0; tput bold setaf 3
+        	printf "Enter OTP"
+        	tput sgr0; tput bold setaf 4
+        	printf " [$OTP] "
+        	tput sgr0; tput bold setaf 3
+        	printf "to Permanently delete file(s): "
+        	tput sgr0; tput bold setaf 4
+
         	read ans
-        	[ $ans = "y" ] && rm -rf -- $fx
+        	[[ "$ans" == "$OTP" ]] && rm -rf -- $fx
         }}'';
       mkdir = ''%mkdir -p "$@"'';
       touch = ''$touch "$(echo $* | tr ' ' '\ '| tr ' ' '_')"'';
       trash = ''
-        %trash-put $fx && notify-send "Trash-Put" "moved <p>$fx</p> <br>to trash"'';
+        %trash-put $fx && notify-send "Trash-Put" "File(s) moved to trash \n$fx\n"'';
       bulkrename = ''
         ''${{
         	${pkgs.vimv}/bin/vimv -- $(basename -a -- $fx)
