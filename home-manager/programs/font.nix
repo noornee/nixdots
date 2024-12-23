@@ -1,11 +1,12 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   home.packages = with pkgs; [
+    corefonts
     noto-fonts
     noto-fonts-cjk-sans
-    (nerdfonts.override { fonts = [ "Iosevka" "JetBrainsMono" ]; })
-    corefonts # Times New Roman is amongst this
+    nerd-fonts.iosevka
+    nerd-fonts.jetbrains-mono
   ];
 
   fonts.fontconfig.enable = true;
