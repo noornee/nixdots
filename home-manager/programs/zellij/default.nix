@@ -39,5 +39,5 @@ in {
       pane_frames false
     '';
 
-  programs.zellij = { enable = true; };
+  programs.zellij = { enable = false; };
 }
