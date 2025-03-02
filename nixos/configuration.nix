@@ -22,6 +22,7 @@
     devices = [ "nodev" ];
     efiSupport = true;
     configurationLimit = 20;
+    useOSProber = true;
   };
 
   networking.hostName = "nixos";
