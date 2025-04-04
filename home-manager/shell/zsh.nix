@@ -62,6 +62,7 @@ in {
         export PATH="$PATH:$GOPATH/bin" # go path
         export PATH="$PATH:$CARGO_HOME/bin" # cargo path
         export PATH="$PATH:$NPM_CONFIG_PREFIX/bin" # npm path
+        export PATH="$PATH:$XDG_DATA_HOME/nvim/mason/bin" # nvim mason bin path
 
         # create zsh directory in the cache dir
         if [[ ! -d "$HOME/.cache/zsh" ]];then
