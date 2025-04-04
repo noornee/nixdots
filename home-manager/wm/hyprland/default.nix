@@ -123,6 +123,8 @@ in {
         disable_hyprland_logo = lib.mkIf (cfg.wallpaper.swaybg.enable) true;
         new_window_takes_over_fullscreen = 2;
       };
+
+      debug = { disable_logs = false; };
     };
   };
 }
