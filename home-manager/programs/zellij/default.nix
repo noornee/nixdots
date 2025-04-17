@@ -37,7 +37,8 @@ in {
       mouse_mode false
       simplified_ui true
       pane_frames false
+      show_startup_tips false
     '';
 
-  programs.zellij = { enable = false; };
+  programs.zellij = { enable = true; };
 }
