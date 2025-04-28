@@ -181,7 +181,7 @@
         	[ ! -f "$CACHE.jpg" ] && ${pkgs.gnome-epub-thumbnailer}/bin/gnome-epub-thumbnailer "$1" "$CACHE.jpg"
         		image "$CACHE.jpg" 
         	;;
-        application/javascript) #fixes issue of `init.lua` not being previewed for some reason idk
+        application/javascript|application/json)
         	bat --color=always "$1"
         	;;
         *)
