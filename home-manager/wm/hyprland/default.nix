@@ -32,8 +32,10 @@ in {
   ];
 
   custom.shell.profileExtra = ''
-    if [[ -z "$DISPLAY" ]] && [[ $(tty) = /dev/tty1 ]]; then
-    	exec Hyprland 2>/dev/null
+    if [[ $(tty) = /dev/tty1 ]]; then
+    	if uwsm check may-start; then
+    		exec uwsm start hyprland-uwsm.desktop
+    	fi
     fi
   '';
 
@@ -41,6 +43,10 @@ in {
     enable = true;
     package = pkgs.hyprland;
     xwayland.enable = true;
+
+    # https://wiki.hyprland.org/Useful-Utilities/Systemd-start/#installation
+    # conflicts with programs.hyprland.withUWSM in nixos
+    systemd.enable = false;
     settings = {
 
       monitor = [ "LVDS-1,1920x1080@60,0x0,1" ];
@@ -50,8 +56,9 @@ in {
           "$XDG_CONFIG_HOME/swaybg/swaybg"
         '' else
           ""}"
-        "waybar"
-        "nm-applet --indicator"
+        "uwsm app waybar"
+        "uwsm app nm-applet --indicator"
+        "uwsm app clipse -listen"
       ];
 
       env = [
