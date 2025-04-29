@@ -36,6 +36,8 @@
     jmtpfs
     p7zip
     fzf
+    clipse
+    redisinsight
 
     # lua
     lua
