@@ -1,10 +1,9 @@
 { config, pkgs, ... }:
-let
-  Custom = import ./style.nix { inherit config; };
-in
-{
+let Custom = import ./style.nix { inherit config; };
+in {
   programs.waybar = {
     enable = true;
+    systemd.enable = true;
     package = pkgs.waybar;
     settings = [
       {
@@ -36,13 +35,8 @@ in
           "custom/padd"
         ];
 
-        modules-center = [
-          "custom/padd"
-          "custom/l_end"
-          "clock"
-          "custom/r_end"
-          "custom/padd"
-        ];
+        modules-center =
+          [ "custom/padd" "custom/l_end" "clock" "custom/r_end" "custom/padd" ];
 
         modules-right = [
           "custom/padd"
@@ -76,12 +70,10 @@ in
           separate-outputs = true;
         };
 
-
         "custom/nix" = {
           format = "<span font='15'> </span>";
           tooltip = false;
         };
-
 
         cpu = {
           interval = 10;
@@ -98,9 +90,7 @@ in
           tooltip-format = " {used:0.1f}GB/{total:0.1f}GB";
         };
 
-        temperature = {
-          format = "{temperatureC}°C ";
-        };
+        temperature = { format = "{temperatureC}°C "; };
 
         clock = {
           format = " {:%I:%M %p 󰃭 %a %d}";
@@ -156,9 +146,11 @@ in
             none = "";
             dnd-notification = "<span foreground='red'><sup></sup></span>";
             dnd-none = "";
-            inhibited-notification = "<span foreground='red'><sup></sup></span>";
+            inhibited-notification =
+              "<span foreground='red'><sup></sup></span>";
             inhibited-none = "";
-            dnd-inhibited-notification = "<span foreground='red'><sup></sup></span>";
+            dnd-inhibited-notification =
+              "<span foreground='red'><sup></sup></span>";
             dnd-inhibited-none = "";
           };
           return-type = "json";
@@ -167,7 +159,6 @@ in
           on-click = "swaync-client -t -sw";
           escape = true;
         };
-
 
         # PADDING
         "custom/l_end" = {

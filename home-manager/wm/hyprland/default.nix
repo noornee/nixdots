@@ -14,7 +14,6 @@ in {
   xdg.dataFile."icons".source = ./assets;
 
   home.packages = with pkgs; [
-    waybar
     swaybg
     wl-clipboard
     wf-recorder
@@ -56,7 +55,6 @@ in {
           "$XDG_CONFIG_HOME/swaybg/swaybg"
         '' else
           ""}"
-        "uwsm app waybar"
         "uwsm app nm-applet --indicator"
         "uwsm app clipse -listen"
       ];
