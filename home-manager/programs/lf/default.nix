@@ -15,7 +15,7 @@
 
   programs.zsh = {
     shellAliases = { lf = "lfcd"; };
-    initExtra = "source lfcd.sh"; # check ./scripts.nix for more deets
+    initContent = "source lfcd.sh"; # check ./scripts.nix for more deets
   };
 
   programs.lf = {
