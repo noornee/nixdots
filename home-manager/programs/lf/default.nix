@@ -7,6 +7,7 @@
 
   home.packages = with pkgs; [
     poppler_utils # for pdftoppm
+    ghostscript
     pistol
     bat
     ffmpegthumbnailer
@@ -173,9 +174,7 @@
         		image "$CACHE";;
         */pdf)
         	[ ! -f "$CACHE.jpg" ] && pdftoppm -jpeg -f 1 -singlefile "$1" "$CACHE"
-        		kitty +kitten icat --silent --stdin no --transfer-mode file --place "''${w}x''${h}@''${x}x''${y}" "$CACHE.jpg" < /dev/null > /dev/tty
-        		exit 1
-        	# 	image "$CACHE.jpg"
+        		image "$CACHE.jpg"
         	;;
         */epub+zip|*/mobi*)
         	[ ! -f "$CACHE.jpg" ] && ${pkgs.gnome-epub-thumbnailer}/bin/gnome-epub-thumbnailer "$1" "$CACHE.jpg"
