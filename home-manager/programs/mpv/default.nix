@@ -1,7 +1,6 @@
 { pkgs, ... }:
 let mpv-cut = pkgs.mpvScripts.callPackage ./scripts/mpv-cut { };
-in
-{
+in {
   programs.mpv = {
     enable = true;
     bindings = {
@@ -12,11 +11,12 @@ in
     };
     config = {
       save-position-on-quit = true;
+      save-watch-history = true;
+      write-filename-in-watch-later-config = true;
+      ignore-path-in-watch-later-config = true;
       screenshot-directory = "~/media/pictures/mpv/";
       screenshot-template = "%F_%03n";
     };
-    scripts = [
-      mpv-cut
-    ];
+    scripts = [ mpv-cut ];
   };
 }
