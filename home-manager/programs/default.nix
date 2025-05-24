@@ -43,6 +43,7 @@
     lua
     lua-language-server
     stylua
+    luarocks
 
     #go
     go
