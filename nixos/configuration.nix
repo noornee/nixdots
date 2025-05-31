@@ -48,6 +48,11 @@
   services.openssh.enable = true;
   services.vnstat.enable = true;
 
+  services.tlp = {
+    enable = true;
+    settings = { DEVICES_TO_DISABLE_ON_STARTUP = "bluetooth"; };
+  };
+
   programs.zsh.enable = true;
   users.users.${userSettings.username} = {
     isNormalUser = true;
