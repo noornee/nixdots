@@ -14,7 +14,7 @@ in {
       save-watch-history = true;
       write-filename-in-watch-later-config = true;
       ignore-path-in-watch-later-config = true;
-      screenshot-directory = "~/media/pictures/mpv/";
+      screenshot-directory = "/media/pictures/mpv";
       screenshot-template = "%F_%03n";
     };
     scripts = [ mpv-cut ];

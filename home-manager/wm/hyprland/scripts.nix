@@ -61,7 +61,7 @@ let
   grimshot = pkgs.writeShellScriptBin "grimshot" ''
     #!/usr/bin/env bash
 
-    SCREENSHOT_DIR="$HOME/media/pictures/screenshots"
+    SCREENSHOT_DIR="/media/pictures/screenshots"
     TMP_DIR="/tmp"
     SCREENSHOT_FILENAME=$(date '+%Y%m%d_%Hh-%Mm-%Ss')_grim.png
 
