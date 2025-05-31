@@ -33,6 +33,12 @@
     options = [ "fmask=0022" "dmask=0022" ];
   };
 
+  fileSystems."/media" = {
+    device = "/dev/disk/by-label/MEDIA";
+    fsType = "ext4";
+    options = [ "nofail" ];
+  };
+
   swapDevices = [{
     device = "/var/lib/swapfile";
     size = 5 * 1024;
