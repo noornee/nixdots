@@ -10,7 +10,7 @@
     ./xdg.nix
     ./photos.nix
     ./ncmpcpp.nix
-    ./neofetch.nix
+    ./fastfetch.nix
     ./tmux.nix
   ];
 
