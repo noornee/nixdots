@@ -1,15 +1,33 @@
-{ userSettings, ... }: {
-  programs.git = {
-    enable = true;
-    userName = userSettings.username;
-    userEmail = userSettings.email;
-    extraConfig = {
-      init.defaultBranch = "main";
-      pull = { rebase = true; };
+{ pkgs, userSettings, ... }: {
+  programs = {
+    git = {
+      enable = true;
+      userName = userSettings.username;
+      userEmail = userSettings.email;
+      extraConfig = {
+        init.defaultBranch = "main";
+        pull = { rebase = true; };
+        merge = { conflictstyle = "diff3"; };
+
+        # reuse record resolution: git automatically resolves conflicts using the recorded resolution
+        # https://git-scm.com/book/en/v2/Git-Tools-Rerere
+        rerere = {
+          enabled = true;
+          # autoUpdate = true;
+        };
+      };
+
+      aliases = {
+        lg =
+          "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'";
+        ddiff = "-c diff.external=difft diff";
+        dshow = "-c diff.external=difft show --ext-diff";
+      };
+
     };
-    aliases = {
-      lg =
-        "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'";
-    };
+    lazygit.enable = true;
   };
+
+  home.packages = with pkgs; [ difftastic ];
+
 }
