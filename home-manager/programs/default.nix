@@ -1,4 +1,4 @@
-{ pkgs, userSettings, ... }: {
+{ pkgs, ... }: {
   imports = [
     ./lf
     ./mpv
@@ -9,7 +9,7 @@
     # ./i18n.nix
     ./xdg.nix
     ./photos.nix
-    ./ncmpcpp.nix
+    # ./ncmpcpp.nix
     ./fastfetch.nix
     ./tmux.nix
   ];
