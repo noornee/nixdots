@@ -69,7 +69,23 @@
         	read ans
         	[[ "$ans" == "$OTP" ]] && rm -rf -- $fx
         }}'';
-      mkdir = ''%mkdir -p "$@"'';
+      mk = ''
+        ''${{
+        	input="$1"
+
+        	# make fullpath relative to current directory
+        	fullpath="$PWD/$input"
+
+        	case "$input" in
+        		*/)
+        			# if it ends with a slash. create directory
+        			mkdir -p "$fullpath" ;;
+        		*)
+        			mkdir -p "$(dirname "$fullpath")"
+        			touch "$fullpath" ;;
+        	esac
+        }}
+      '';
       touch = ''$touch "$(echo $* | tr ' ' '\ '| tr ' ' '_')"'';
       trash = ''
         %trash-put $fx && notify-send "Trash-Put" "File(s) moved to trash \n$fx\n"'';
@@ -118,7 +134,7 @@
 
     keybindings = {
       D = "delete";
-      "<c-n>" = "push :mkdir<space>";
+      "<c-n>" = "push :mk<space>";
       "<f-2>" = "spawn_terminal";
       "<a-x>" = "add_exec";
       "<a-X>" = "remove_exec";
