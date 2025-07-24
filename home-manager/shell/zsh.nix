@@ -20,9 +20,9 @@ in {
       cls = "clear";
       sdn = "shutdown now";
       hist = "history 0";
-      dl = "cd $HOME/downloads";
-      pix = "cd $HOME/media/pictures/";
-      vid = "cd $HOME/media/video/";
+      dl = "cd /media/downloads";
+      pix = "cd /media/pictures/";
+      vid = "cd /media/video/";
       dots = "cd $HOME/.config/dotfiles/ && nvim flake.nix";
       goenv = "cd $HOME/workspace/codenv/go";
       zshrc = "$EDITOR $ZDOTDIR/.zshrc";
