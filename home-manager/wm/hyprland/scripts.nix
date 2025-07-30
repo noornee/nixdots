@@ -110,11 +110,81 @@ let
     	send_notification "$DESTINATION_PATH"
     fi
   '';
+
+  neorg-note = pkgs.writeShellScriptBin "neorg-note" ''
+    #!/usr/bin/env bash
+
+    WIN_TITLE="neorg-note"
+    NEORG_PATH="/media/documents/neorg/notes"
+    DEBUG=1
+    LOG_FILE="/tmp/neorg-note.log"
+
+    log_separator() {
+        if [ "$DEBUG" -eq 1 ]; then
+            echo -e "\n\n==================== $(date '+%Y-%m-%d %H:%M:%S') SCRIPT RUN START ====================\n" >> "$LOG_FILE"
+        fi
+    }
+
+    log_debug() {
+        if [ "$DEBUG" -eq 1 ]; then
+            echo "[$(date '+%Y-%m-%d %H:%M:%S')] [DEBUG] $*" >> "$LOG_FILE"
+        fi
+    }
+
+    function get_window_address() {
+        local window_title=$1
+        hyprctl clients -j | jq -r --arg title "$window_title" '.[] | select(.title == $title) | .address'
+    }
+
+    function get_window_workspace() {
+        local window_address=$1
+        hyprctl clients -j | jq -r --arg addr "$window_address" '.[] | select(.address == $addr) | .workspace.id'
+    }
+
+    function get_current_workspace() {
+        hyprctl activeworkspace -j | jq -r '.id'
+    }
+
+    function launch_kitty() {
+        kitty --title "$WIN_TITLE" --directory "$NEORG_PATH" sh -c "nvim index.norg"
+    }
+
+    log_separator
+
+    log_debug "Starting toggle window script"
+    log_debug "Getting window address for title: $WIN_TITLE"
+    WIN_ADDR=$(get_window_address "$WIN_TITLE")
+    log_debug "Window address found: '$WIN_ADDR'"
+
+    CUR_WS=$(get_current_workspace)
+    log_debug "Current workspace ID: $CUR_WS"
+
+    if [ -n "$WIN_ADDR" ]; then
+        WIN_WS=$(get_window_workspace "$WIN_ADDR")
+        log_debug "Window workspace ID: $WIN_WS"
+
+        if [ "$WIN_WS" == "$CUR_WS" ]; then
+            log_debug "Window is on current workspace, hiding it by moving to workspace 100"
+            hyprctl dispatch movetoworkspacesilent 100
+        else
+            log_debug "Window is on different workspace, showing window on current workspace and focusing"
+            hyprctl dispatch focuswindow address:"$WIN_ADDR"
+            hyprctl dispatch movetoworkspace "$CUR_WS"
+        fi
+    else
+        log_debug "Window not found, launching kitty terminal"
+        launch_kitty
+    fi
+
+    log_debug "Toggle window script finished"
+  '';
+
 in {
   home.packages = [
     volume
     brightness
     grimshot
+    neorg-note
     pkgs.brightnessctl
     pkgs.pulseaudio # for pactl...
   ];

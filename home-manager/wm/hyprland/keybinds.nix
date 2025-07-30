@@ -92,6 +92,8 @@ in {
         "${mainMod} Control_L, j, moveintogroup, d"
         "${mainMod} Control_L, r, moveoutofgroup"
 
+        "${mainMod},A, exec, neorg-note"
+
       ];
 
       bindm = [

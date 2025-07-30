@@ -16,6 +16,7 @@
         "float,class:^(pavucontrol)$"
         "float,center,title:^(Open Files)$"
         "float,center,title:^(web.whatsapp.com wants to open)$"
+        "float,center,title:^(neorg-note)$"
       ];
     };
   };
