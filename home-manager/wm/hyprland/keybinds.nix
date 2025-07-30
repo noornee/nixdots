@@ -14,7 +14,7 @@ in {
       };
 
       bind = [
-        "${mainMod},W, killactive"
+        "${mainMod},BackSpace, killactive"
         "${mainMod}_ALT, Q, exit,"
         "${mainMod},V, togglefloating"
         "${mainMod},V, centerwindow, 1"
