@@ -15,8 +15,13 @@
         # float rules
         "float,class:^(pavucontrol)$"
         "float,center,title:^(Open Files)$"
-        "float,center,title:^(web.whatsapp.com wants to open)$"
+
+        # "float,center,title:^(web.whatsapp.com wants to open)$"
+        "float,center,title:(.*wants to open)$"
+        "size 50% 50%, title:(.*wants to open)$"
+
         "float,center,title:^(neorg-note)$"
+        "size 60% 60%,title:^(neorg-note)$"
       ];
     };
   };
