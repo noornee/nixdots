@@ -3,7 +3,8 @@ let cfg = config.custom.shell;
 in {
   programs.zsh = {
     enable = true;
-    dotDir = ".config/zsh";
+    # dotDir = ".config/zsh";
+    dotDir = "${config.xdg.configHome}/zsh";
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     shellAliases = {
