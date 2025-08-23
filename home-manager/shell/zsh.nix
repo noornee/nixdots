@@ -5,6 +5,7 @@ in {
     enable = true;
     # dotDir = ".config/zsh";
     dotDir = "${config.xdg.configHome}/zsh";
+    history.path = "${config.xdg.configHome}/zsh/zsh_history";
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     shellAliases = {

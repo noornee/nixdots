@@ -114,11 +114,15 @@ in {
 
       group = {
         groupbar = {
-          font_size = 8;
+          font_size = 11;
           height = 20;
+          gradients = true;
           font_family = "JetBrainsMonoNL NF ExtraBold";
-          "col.active" = "rgba(1d2021ff)";
-          "col.locked_active" = "rgba(1d2111ff)";
+          "col.active" = "rgba(98971aff)";
+          "col.inactive" = "rgba(1a1d1aff)";
+
+          "col.locked_active" = "rgba(8c3d3dff)";
+          "col.locked_inactive" = "rgba(141516ff)";
         };
       };
 
