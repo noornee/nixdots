@@ -110,8 +110,6 @@ in {
         preserve_split = true;
       };
 
-      gestures = { workspace_swipe = false; };
-
       group = {
         groupbar = {
           font_size = 11;
