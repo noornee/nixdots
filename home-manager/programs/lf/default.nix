@@ -15,7 +15,9 @@
   ];
 
   programs.zsh = {
-    shellAliases = { lf = "lfcd"; };
+    shellAliases = {
+      lf = "lfcd";
+    };
     initContent = "source lfcd.sh"; # check ./scripts.nix for more deets
   };
 
@@ -87,8 +89,7 @@
         }}
       '';
       touch = ''$touch "$(echo $* | tr ' ' '\ '| tr ' ' '_')"'';
-      trash = ''
-        %trash-put $fx && notify-send "Trash-Put" "File(s) moved to trash \n$fx\n"'';
+      trash = ''%trash-put $fx && notify-send "Trash-Put" "File(s) moved to trash \n$fx\n"'';
       bulkrename = ''
         ''${{
         	${pkgs.vimv}/bin/vimv -- $(basename -a -- $fx)
@@ -154,64 +155,68 @@
       "<down>" = "cmd-history-next";
     };
 
-    extraConfig = let
-      previewer = pkgs.writeShellScript "previewer.sh" ''
-        file=$1
-        w=$2
-        h=$3
-        x=$4
-        y=$5
-        filetype="$(file -Lb --mime-type "$file")"
+    extraConfig =
+      let
+        previewer = pkgs.writeShellScript "previewer.sh" ''
+          file=$1
+          w=$2
+          h=$3
+          x=$4
+          y=$5
+          filetype="$(file -Lb --mime-type "$file")"
 
-        image() {
-        	if [[ "$filetype" =~ ^video ]]; then
-        	    # vidthumb is from here:
-        	    # https://raw.githubusercontent.com/duganchen/kitty-pistol-previewer/main/vidthumb
-        		kitty +kitten icat --silent --stdin no --transfer-mode file --place "''${w}x''${h}@''${x}x''${y}" "$(vidthumb "$file")" < /dev/null > /dev/tty
-        	    exit 1
-        	else
-        		kitty +kitten icat --silent --stdin no --transfer-mode file --place "''${w}x''${h}@''${x}x''${y}" "$file" < /dev/null > /dev/tty
-        		exit 1
-        	fi
-        }
+          image() {
+          	if [[ "$filetype" =~ ^video ]]; then
+          	    # vidthumb is from here:
+          	    # https://raw.githubusercontent.com/duganchen/kitty-pistol-previewer/main/vidthumb
+          		# kitty +kitten icat --silent --stdin no --transfer-mode file --place "''${w}x''${h}@''${x}x''${y}" "$(vidthumb "$file")" < /dev/null > /dev/tty
+          		kitten icat --stdin no --transfer-mode memory --place "''${w}x''${h}@''${x}x''${y}" "$(vidthumb "$file")" < /dev/null > /dev/tty
+          	    exit 1
+          	else
+          		# kitty +kitten icat --silent --stdin no --transfer-mode file --place "''${w}x''${h}@''${x}x''${y}" "$file" < /dev/null > /dev/tty
+          		kitten icat --stdin no --transfer-mode memory --place "''${w}x''${h}@''${x}x''${y}" "$file" < /dev/null > /dev/tty
+          		exit 1
+          	fi
+          }
 
-        get_cache_path() {
-        	echo "''${XDG_CACHE_HOME:-$HOME/.cache}/lf/thumb.$(stat --printf '%n\0%i\0%F\0%s\0%W\0%Y' -- "$(readlink -f "$1")" | sha256sum | cut -d' ' -f1)"
-        }
+          get_cache_path() {
+          	echo "''${XDG_CACHE_HOME:-$HOME/.cache}/lf/thumb.$(stat --printf '%n\0%i\0%F\0%s\0%W\0%Y' -- "$(readlink -f "$1")" | sha256sum | cut -d' ' -f1)"
+          }
 
-        CACHE=$(get_cache_path "$1")
+          CACHE=$(get_cache_path "$1")
 
-        case "$(file --dereference --brief --mime-type -- "$1")" in
-        image/*) 
-        	image "$1"
-        	;;
-        video/* )
-        	[ ! -f "$CACHE" ] && ffmpegthumbnailer -i "$1" -o "$CACHE" -s 0
-        		image "$CACHE";;
-        */pdf)
-        	[ ! -f "$CACHE.jpg" ] && pdftoppm -jpeg -f 1 -singlefile "$1" "$CACHE"
-        		image "$CACHE.jpg"
-        	;;
-        */epub+zip|*/mobi*)
-        	[ ! -f "$CACHE.jpg" ] && ${pkgs.gnome-epub-thumbnailer}/bin/gnome-epub-thumbnailer "$1" "$CACHE.jpg"
-        		image "$CACHE.jpg" 
-        	;;
-        application/javascript|application/json)
-        	bat --color=always "$1"
-        	;;
-        *)
-        	pistol "$1"
-        esac'';
-      cleaner = pkgs.writeShellScript "cleaner.sh"
-        "kitty +kitten icat --clear --stdin no --silent --transfer-mode file < /dev/null > /dev/tty";
-    in ''
-      set previewer ${previewer}
-      set cleaner ${cleaner}
+          case "$(file --dereference --brief --mime-type -- "$1")" in
+          image/*) 
+          	image "$1"
+          	;;
+          video/* )
+          	[ ! -f "$CACHE" ] && ffmpegthumbnailer -i "$1" -o "$CACHE" -s 0
+          		image "$CACHE";;
+          */pdf)
+          	[ ! -f "$CACHE.jpg" ] && pdftoppm -jpeg -f 1 -singlefile "$1" "$CACHE"
+          		image "$CACHE.jpg"
+          	;;
+          */epub+zip|*/mobi*)
+          	[ ! -f "$CACHE.jpg" ] && ${pkgs.gnome-epub-thumbnailer}/bin/gnome-epub-thumbnailer "$1" "$CACHE.jpg"
+          		image "$CACHE.jpg" 
+          	;;
+          application/javascript|application/json)
+          	bat --color=always "$1"
+          	;;
+          *)
+          	pistol "$1"
+          esac'';
+        # cleaner = pkgs.writeShellScript "cleaner.sh" "kitty +kitten icat --clear --stdin no --silent --transfer-mode file < /dev/null > /dev/tty";
+        cleaner = pkgs.writeShellScript "cleaner.sh" "exec kitten icat --clear --stdin no --silent --transfer-mode memory < /dev/null > /dev/tty";
+      in
+      ''
+        set previewer ${previewer}
+        set cleaner ${cleaner}
 
-      setlocal ~ hidden false # hide hidden files in the home directory
-      setlocal /media/pictures/screenshots reverse
-      map zh setlocal ~ hidden!
-    '';
+        setlocal ~ hidden false # hide hidden files in the home directory
+        setlocal /media/pictures/screenshots reverse
+        map zh setlocal ~ hidden!
+      '';
   };
 
   # pistol -> https://github.com/doronbehar/pistol

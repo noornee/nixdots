@@ -20,7 +20,7 @@
 
     #doc viewer
     zathura
-    # libreoffice
+    libreoffice
 
     #utils
     jq
@@ -29,7 +29,8 @@
     bat
     tmux
     yt-dlp
-    lazygit
+    mergiraf
+    gh
     htop
     ripgrep
     ffmpeg
@@ -40,10 +41,10 @@
     redisinsight
 
     # lua
-    lua
+    lua5_1
+    lua5_1.pkgs.luarocks
     lua-language-server
     stylua
-    luarocks
 
     #go
     go
@@ -73,6 +74,7 @@
     slack
     gnumake
     zrok
+    terraform
 
     # unfree
     mongodb-compass
