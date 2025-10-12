@@ -55,8 +55,8 @@ in {
           "$XDG_CONFIG_HOME/swaybg/swaybg"
         '' else
           ""}"
-        "uwsm app nm-applet --indicator"
-        "uwsm app clipse -listen"
+        "uwsm app -- nm-applet --indicator"
+        "uwsm app -- clipse -listen"
       ];
 
       env = [
