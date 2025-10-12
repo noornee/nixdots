@@ -140,7 +140,7 @@ in {
 
         "custom/notification" = {
           tooltip = false;
-          format = "{icon} {}";
+          format = "{icon} {0}";
           format-icons = {
             notification = "<span foreground='red'><sup></sup></span>";
             none = "";
