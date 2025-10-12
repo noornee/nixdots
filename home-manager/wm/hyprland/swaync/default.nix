@@ -1,14 +1,10 @@
 { pkgs, config, ... }:
-let
-  Custom = import ./style.nix { inherit config; };
-in
-{
-  home.packages = with pkgs; [
-    swaynotificationcenter
-  ];
+let Custom = import ./style.nix { inherit config; };
+in {
+  home.packages = with pkgs; [ swaynotificationcenter ];
 
   xdg.configFile."swaync/style.css".text = ''
-    	${Custom.styles}
+    ${Custom.styles}
   '';
 
   xdg.configFile."swaync/config.json".text = ''
@@ -34,19 +30,19 @@ in
         "keyboard-shortcuts": true,
         "image-visibility": "when-available",
         "transition-time": 200,
-        "hide-on-clear": true,
-        "hide-on-action": true,
+        "hide-on-clear": false,
+        "hide-on-action": false,
         "script-fail-notify": true,
         "widgets": [
-            "title",
             "dnd",
-            "notifications",
             "mpris",
+            "title",
+            "notifications",
             "volume"
         ],
         "widget-config": {
             "title": {
-                "text": "Notification Center",
+                "text": "Notifications",
                 "clear-all-button": true,
                 "button-text": "󰆴 Clear All"
             },

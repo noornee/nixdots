@@ -25,7 +25,8 @@ in {
         "${mainMod}, P, pin"
         "${mainMod},grave, togglesplit"
         "${mainMod},Space, exec, bemenu-run"
-        "${mainMod},N, exec, swaync-client -t -sw"
+        "${mainMod},N, exec, swaync-client -t -sw" # toggle notification panel
+        "${mainMod}_ALT, N, exec, swaync-client -d -sw" # toggle dnd
         "${mainMod},Return, exec, kitty"
 
         #https://www.reddit.com/r/hyprland/comments/zyrrtp/how_do_i_switch_back_and_forth_between_two/
