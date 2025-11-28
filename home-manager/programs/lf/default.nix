@@ -6,7 +6,7 @@
   xdg.configFile."lf/colors".source = ./colors;
 
   home.packages = with pkgs; [
-    poppler_utils # for pdftoppm
+    poppler-utils # for pdftoppm
     ghostscript
     pistol
     bat
