@@ -2,9 +2,11 @@
   programs = {
     git = {
       enable = true;
-      userName = userSettings.username;
-      userEmail = userSettings.email;
-      extraConfig = {
+      settings = {
+        user = {
+          name = userSettings.username;
+          email = userSettings.email;
+        };
         init.defaultBranch = "main";
         pull = { rebase = true; };
         merge = { conflictstyle = "diff3"; };
@@ -15,13 +17,13 @@
           enabled = true;
           # autoUpdate = true;
         };
-      };
 
-      aliases = {
-        lg =
-          "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'";
-        ddiff = "-c diff.external=difft diff";
-        dshow = "-c diff.external=difft show --ext-diff";
+        alias = {
+          lg =
+            "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'";
+          ddiff = "-c diff.external=difft diff";
+          dshow = "-c diff.external=difft show --ext-diff";
+        };
       };
 
     };
