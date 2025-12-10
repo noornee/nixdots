@@ -32,6 +32,7 @@
     mergiraf
     gh
     htop
+    btop
     ripgrep
     ffmpeg
     jmtpfs
@@ -61,7 +62,7 @@
     nh
 
     #python
-    # python3
+    python3
     # python3.pkgs.pip
 
     nodejs
