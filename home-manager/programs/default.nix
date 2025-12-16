@@ -76,6 +76,7 @@
     gnumake
     zrok
     terraform
+    lsof
 
     # unfree
     mongodb-compass
