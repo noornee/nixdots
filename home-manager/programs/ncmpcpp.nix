@@ -33,13 +33,40 @@ in
       follow_now_playing_lyrics = "yes";
     };
     bindings = [
-      { key = "j"; command = "scroll_down"; }
-      { key = "k"; command = "scroll_up"; }
-      { key = "h"; command = "previous_column"; }
-      { key = "l"; command = "next_column"; }
-      { key = "J"; command = [ "select_item" "scroll_down" ]; }
-      { key = "K"; command = [ "select_item" "scroll_up" ]; }
-      { key = "ctrl-l"; command = "show_lyrics"; }
+      {
+        key = "j";
+        command = "scroll_down";
+      }
+      {
+        key = "k";
+        command = "scroll_up";
+      }
+      {
+        key = "h";
+        command = "previous_column";
+      }
+      {
+        key = "l";
+        command = "next_column";
+      }
+      {
+        key = "J";
+        command = [
+          "select_item"
+          "scroll_down"
+        ];
+      }
+      {
+        key = "K";
+        command = [
+          "select_item"
+          "scroll_up"
+        ];
+      }
+      {
+        key = "ctrl-l";
+        command = "show_lyrics";
+      }
     ];
   };
 

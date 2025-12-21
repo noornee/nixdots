@@ -61,7 +61,7 @@ let
   grimshot = pkgs.writeShellScriptBin "grimshot" ''
     #!/usr/bin/env bash
 
-    SCREENSHOT_DIR="/media/pictures/screenshots"
+    SCREENSHOT_DIR="$HOME/media/pictures/screenshots"
     TMP_DIR="/tmp"
     SCREENSHOT_FILENAME=$(date '+%Y%m%d_%Hh-%Mm-%Ss')_grim.png
 
@@ -115,7 +115,7 @@ let
     #!/usr/bin/env bash
 
     WIN_TITLE="neorg-note"
-    NEORG_PATH="/media/documents/neorg/notes"
+    NEORG_PATH="$HOME/media/documents/neorg/notes"
     DEBUG=1
     LOG_FILE="/tmp/neorg-note.log"
 
@@ -179,7 +179,8 @@ let
     log_debug "Toggle window script finished"
   '';
 
-in {
+in
+{
   home.packages = [
     volume
     brightness

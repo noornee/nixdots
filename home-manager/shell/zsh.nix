@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
-let cfg = config.custom.shell;
-in {
+let
+  cfg = config.custom.shell;
+in
+{
   programs.zsh = {
     enable = true;
     # dotDir = ".config/zsh";
@@ -17,14 +19,13 @@ in {
       lsdl = "ls -ld .*"; # long list dots
       grep = "grep --color=auto --exclude-dir=.git";
       diff = "diff --color -u";
-      clh =
-        "cat /dev/null > $HISTFILE && history -p && echo 'history file cleared'";
+      clh = "cat /dev/null > $HISTFILE && history -p && echo 'history file cleared'";
       cls = "clear";
       sdn = "shutdown now";
       hist = "history 0";
-      dl = "cd /media/downloads";
-      pix = "cd /media/pictures/";
-      vid = "cd /media/video/";
+      dl = "cd ~/media/downloads";
+      pix = "cd ~/media/pictures/";
+      vid = "cd ~/media/video/";
       dots = "cd $HOME/.config/dotfiles/ && nvim flake.nix";
       goenv = "cd $HOME/workspace/codenv/go";
       zshrc = "$EDITOR $ZDOTDIR/.zshrc";
@@ -34,11 +35,13 @@ in {
       hmso = "home-manager switch --flake ~/.config/dotfiles --no-substitute";
       le = "eza --long --group --group-directories-first --icons";
     };
-    plugins = [{
-      name = "powerlevel10k";
-      src = pkgs.zsh-powerlevel10k;
-      file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-    }];
+    plugins = [
+      {
+        name = "powerlevel10k";
+        src = pkgs.zsh-powerlevel10k;
+        file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+      }
+    ];
     inherit (cfg) profileExtra;
     envExtra = # sh
       ''

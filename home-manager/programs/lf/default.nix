@@ -214,7 +214,7 @@
         set cleaner ${cleaner}
 
         setlocal ~ hidden false # hide hidden files in the home directory
-        setlocal /media/pictures/screenshots reverse
+        setlocal ~/media/pictures/screenshots reverse
         map zh setlocal ~ hidden!
       '';
   };
