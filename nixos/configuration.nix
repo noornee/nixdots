@@ -1,4 +1,4 @@
-{ config, lib, pkgs, userSettings, inputs, ... }:
+{ pkgs, userSettings, inputs, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ./virt.nix ];
@@ -17,13 +17,15 @@
 
   boot.supportedFilesystems = [ "ntfs" ];
   boot.tmp.cleanOnBoot = true;
-  boot.loader.grub = {
-    enable = true;
-    devices = [ "nodev" ];
-    efiSupport = true;
-    configurationLimit = 20;
-    useOSProber = true;
-  };
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  # boot.loader.grub = {
+  #   enable = true;
+  #   devices = [ "nodev" ];
+  #   efiSupport = true;
+  #   configurationLimit = 20;
+  #   useOSProber = true;
+  # };
 
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
@@ -71,7 +73,7 @@
     zip
     file
     home-manager
-    inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
+    inputs.rose-pine-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
   environment.variables = { EDITOR = "nvim"; };
@@ -94,5 +96,5 @@
   programs.nix-ld.enable = true;
 
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.11";
 }

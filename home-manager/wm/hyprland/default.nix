@@ -48,7 +48,7 @@ in {
     systemd.enable = false;
     settings = {
 
-      monitor = [ "LVDS-1,1920x1080@60,0x0,1" ];
+      monitor = [ "eDP-1,1920x1200@60,0x0,1" ];
 
       exec-once = [
         "${if cfg.wallpaper.swaybg.enable then ''
