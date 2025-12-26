@@ -27,34 +27,38 @@ let
   '';
 
   brightness = pkgs.writeShellScriptBin "brightness" ''
-    #!/usr/bin/env bash
+        #!/usr/bin/env bash
 
-    # Get brightness
-    get_backlight()
-    {
-    	echo $(brightnessctl -m | cut -d, -f4 | sed 's/%//')
-    }
+        # Get brightness
+        get_backlight()
+        {
+        	echo $(brightnessctl -m | cut -d, -f4 | sed 's/%//')
+        }
 
-    # send notification
-    function send_notification()
-    {
-    	dunstify --icon /home/noornee/.local/share/icons/brightness.png \
-    		--urgency=low \
-    		--replace=1 \
-    		--timeout=1000 \
-    		--hints int:value:$(get_backlight) \
-    		"Brightness: $(get_backlight)%" 
+        # send notification
+        function send_notification()
+        {
+        	dunstify --icon /home/noornee/.local/share/icons/brightness.png \
+        		--urgency=low \
+        		--replace=1 \
+        		--timeout=1000 \
+        		--hints int:value:$(get_backlight) \
+        		"Brightness: $(get_backlight)%" 
 
-    }
+        }
 
-    case $1 in
-    	"up")
-    		brightnessctl --quiet set 1%+
-    		send_notification $1;;
-    	"down")
-    		brightnessctl --quiet set 1%-
-    		send_notification $1;;
-    esac
+        case $1 in
+    		"up")
+    			brightnessctl --quiet set 1%+
+    			send_notification $1;;
+    		"down")
+    			current=$(get_backlight)
+    			if [[ "$current" -gt 1 ]]; then
+    			    brightnessctl --quiet set 1%-
+    				send_notification $1
+    			fi
+    			;;
+        esac
 
   '';
 
@@ -179,8 +183,7 @@ let
     log_debug "Toggle window script finished"
   '';
 
-in
-{
+in {
   home.packages = [
     volume
     brightness
