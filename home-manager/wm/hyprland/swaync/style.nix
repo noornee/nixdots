@@ -52,7 +52,7 @@ in {
     	box-shadow: none;
     	background: #${palette.base08};
     	transition: all .15s ease-in-out;
-    	border: none
+    	border: none;
     }
 
     .notification-action {
@@ -92,15 +92,15 @@ in {
     }
 
     .control-center-list {
-    	background: transparent
+    	background: transparent;
     }
 
     .control-center-list-placeholder {
-    	opacity: .5
+    	opacity: .5;
     }
 
     .floating-notifications {
-    	background: transparent
+    	background: transparent;
     }
 
     .widget-title {
@@ -146,7 +146,7 @@ in {
 
     .widget-dnd>switch slider {
     	background: #${palette.base08} ;
-    	border-radius: 5px
+    	border-radius: 5px;
     }
 
     .widget-dnd>switch:checked slider {
@@ -183,16 +183,16 @@ in {
     .widget-mpris-player {
     	background-color: rgba(30, 30, 30, 0.8);
     	padding: 5px 10px;
-    	margin: 10px
+    	margin: 10px;
     }
 
     .widget-mpris-title {
     	font-weight: 700;
-    	font-size: 1.25rem
+    	font-size: 1.25rem;
     }
 
     .widget-mpris-subtitle {
-    	font-size: 1.1rem
+    	font-size: 1.1rem;
     }
 
     .widget-buttons-grid {
@@ -217,12 +217,12 @@ in {
 
     .widget-menubar>box>.menu-button-bar>button {
     	border: none;
-    	background: transparent
+    	background: transparent;
     }
 
     .topbar-buttons>button {
     	border: none;
-    	background: transparent
+    	background: transparent;
     }
 
   '';

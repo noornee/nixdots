@@ -60,6 +60,7 @@
     nixd
     nil
     nh
+    direnv
 
     #python
     python3
@@ -77,6 +78,9 @@
     zrok
     terraform
     lsof
+    wev
+
+    obs-studio
 
     # unfree
     mongodb-compass

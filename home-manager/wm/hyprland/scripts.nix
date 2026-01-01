@@ -71,6 +71,7 @@ let
 
     if [[ ! -d "$SCREENSHOT_DIR" ]]; then mkdir -p "$SCREENSHOT_DIR"; fi
     if [[ ! -d "$SCREENSHOT_DIR/annotated" ]]; then mkdir -p "$SCREENSHOT_DIR/annotated"; fi
+    if [[ ! -d "$SCREENSHOT_DIR/named" ]]; then mkdir -p "$SCREENSHOT_DIR/named"; fi
 
     grim -g "$(slurp)" "$TMP_DIR/$SCREENSHOT_FILENAME"
 
@@ -109,7 +110,7 @@ let
     	send_notification "$SCREENSHOT_DIR/$SCREENSHOT_FILENAME"
     else
     	NEW_SCREENSHOT_FILENAME="$NEW_SCREENSHOT_FILENAME.png"
-    	DESTINATION_PATH="$SCREENSHOT_DIR/$NEW_SCREENSHOT_FILENAME"
+    	DESTINATION_PATH="$SCREENSHOT_DIR/named/$NEW_SCREENSHOT_FILENAME"
     	mv "$TMP_DIR/$SCREENSHOT_FILENAME" "$DESTINATION_PATH"
     	send_notification "$DESTINATION_PATH"
     fi
