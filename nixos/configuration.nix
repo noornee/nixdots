@@ -42,7 +42,7 @@
 
   programs.thunar = {
     enable = true;
-    plugins = with pkgs.xfce; [ thunar-volman ];
+    plugins = with pkgs; [ thunar-volman ];
   };
 
   services.tumbler.enable = true; # Thumbnail support for images
