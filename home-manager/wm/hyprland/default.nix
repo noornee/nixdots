@@ -64,6 +64,7 @@ in {
         "HYPRCURSOR_SIZE,24"
         "XCURSOR_THEME,BreezeX-Black"
         "XCURSOR_SIZE,24"
+        "XDG_CURRENT_DESKTOP,Hyprland"
       ];
 
       input = {
