@@ -11,7 +11,7 @@ in {
 
   xdg.dataFile."wallpaper" = {
     enable = cfg.wallpaper.swaybg.enable;
-    source = ./assets/wallpaper.jpg;
+    source = ./assets/wallpaper-2.png;
   };
 
   programs.zsh.envExtra =
