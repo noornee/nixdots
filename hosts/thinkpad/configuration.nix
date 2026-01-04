@@ -27,7 +27,7 @@
   #   useOSProber = true;
   # };
 
-  networking.hostName = "nixos";
+  networking.hostName = "thinkpad";
   networking.networkmanager.enable = true;
 
   # Set your time zone.
@@ -52,7 +52,16 @@
 
   services.tlp = {
     enable = true;
-    settings = { DEVICES_TO_DISABLE_ON_STARTUP = "bluetooth"; };
+    settings = {
+
+      # sudo tlp setcharge 0 100
+      # to temporarily override
+
+      START_CHARGE_THRESH_BAT0 = 0;
+      STOP_CHARGE_THRESH_BAT0 = 90;
+
+      DEVICES_TO_DISABLE_ON_STARTUP = "bluetooth";
+    };
   };
 
   programs.zsh.enable = true;
@@ -61,13 +70,18 @@
     extraGroups = [ "wheel" "networkmanager" "video" ];
     shell = pkgs.zsh;
   };
+  networking.wireguard.enable = true;
 
   environment.systemPackages = with pkgs; [
+    wireguard-tools
+    wg-netmanager
+
     git
     neovim
     wget
     gcc
     networkmanagerapplet
+    networkmanager-openvpn
     unzip
     unrar
     zip
@@ -87,6 +101,8 @@
     portalPackage = pkgs.xdg-desktop-portal-hyprland;
     withUWSM = true;
   };
+
+  programs.hyprlock.enable = true;
 
   xdg.portal = {
     enable = true;

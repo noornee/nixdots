@@ -64,6 +64,7 @@
 
     #python
     python3
+    basedpyright
     # python3.pkgs.pip
 
     nodejs

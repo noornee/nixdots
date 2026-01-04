@@ -28,9 +28,9 @@
       };
     in {
       nixosConfigurations = {
-        nixos = nixpkgs.lib.nixosSystem {
+        thinkpad = nixpkgs.lib.nixosSystem {
           inherit system;
-          modules = [ ./nixos/configuration.nix ];
+          modules = [ ./hosts/thinkpad/configuration.nix ];
           specialArgs = {
             # pass config variables from above
             inherit userSettings;
