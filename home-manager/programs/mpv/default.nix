@@ -1,8 +1,6 @@
 { pkgs, ... }:
-let
-  mpv-cut = pkgs.mpvScripts.callPackage ./scripts/mpv-cut { };
-in
-{
+let mpv-cut = pkgs.mpvScripts.callPackage ./scripts/mpv-cut { };
+in {
   programs.mpv = {
     enable = true;
     bindings = {
@@ -18,6 +16,7 @@ in
       ignore-path-in-watch-later-config = true;
       screenshot-directory = "$HOME/media/pictures/mpv";
       screenshot-template = "%F_%03n";
+      vo = "opengl"; # fixes dullness of video when in fullcreen
     };
     scripts = [ mpv-cut ];
   };
