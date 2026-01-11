@@ -40,6 +40,7 @@
     fzf
     clipse
     redisinsight
+    tree-sitter
 
     # lua
     lua5_1

@@ -27,6 +27,19 @@
   #   useOSProber = true;
   # };
 
+  boot.initrd.luks.devices."crypt-home" = {
+    device = "/dev/disk/by-label/crypt-home";
+    keyFile = "/etc/keys/home.key";
+  };
+
+  boot.initrd.secrets = { "/etc/keys/home.key" = "/etc/keys/home.key"; };
+
+  fileSystems."/home" = {
+    device = "/dev/disk/by-label/HOME";
+    fsType = "ext4";
+    options = [ "discard" ];
+  };
+
   networking.hostName = "thinkpad";
   networking.networkmanager.enable = true;
 
@@ -68,6 +81,7 @@
   users.users.${userSettings.username} = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "video" ];
+    createHome = true;
     shell = pkgs.zsh;
   };
   networking.wireguard.enable = true;
