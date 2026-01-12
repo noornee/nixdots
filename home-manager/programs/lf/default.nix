@@ -145,7 +145,7 @@
       a = "push :touch<space>";
       T = "trash";
       Y = "$printf %s $fx | wl-copy"; # copies absolute path to clipboard
-
+      B = "$base64 -w 0 $f | wl-copy"; # copies base64 of a file to clipboard
     };
 
     cmdKeybindings = {
