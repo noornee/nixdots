@@ -12,6 +12,7 @@
         "video/mp4" = [ "mpv.desktop" ];
         "video/webm" = [ "mpv.desktop" ];
         "video/mkv" = [ "mpv.desktop" ];
+        "text/plain" = [ "nvim.desktop" ];
       };
     };
   };

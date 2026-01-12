@@ -12,15 +12,12 @@
     # ./ncmpcpp.nix
     ./fastfetch.nix
     ./tmux.nix
+    ./zathura.nix
   ];
 
   home.packages = with pkgs; [
     pulseaudio
     pavucontrol
-
-    #doc viewer
-    zathura
-    libreoffice
 
     #utils
     jq
@@ -39,8 +36,9 @@
     p7zip
     fzf
     clipse
-    redisinsight
     tree-sitter
+    lsof
+    wev
 
     # lua
     lua5_1
@@ -73,16 +71,15 @@
 
     #other
     # bruno
+    libreoffice
     postman
     redis
     slack
     gnumake
     zrok
     terraform
-    lsof
-    wev
-
     obs-studio
+    redisinsight
 
     # unfree
     mongodb-compass
