@@ -15,24 +15,24 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  boot.supportedFilesystems = [ "ntfs" ];
-  boot.tmp.cleanOnBoot = true;
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  # boot.loader.grub = {
-  #   enable = true;
-  #   devices = [ "nodev" ];
-  #   efiSupport = true;
-  #   configurationLimit = 20;
-  #   useOSProber = true;
-  # };
+  boot = {
+    supportedFilesystems = [ "ntfs" ];
+    tmp.cleanOnBoot = true;
 
-  boot.initrd.luks.devices."crypt-home" = {
-    device = "/dev/disk/by-label/crypt-home";
-    keyFile = "/etc/keys/home.key";
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+
+    initrd = {
+      luks.devices."crypt-home" = {
+        device = "/dev/disk/by-label/crypt-home";
+        keyFile = "/etc/keys/home.key";
+      };
+
+      secrets = { "/etc/keys/home.key" = "/etc/keys/home.key"; };
+    };
   };
-
-  boot.initrd.secrets = { "/etc/keys/home.key" = "/etc/keys/home.key"; };
 
   fileSystems."/home" = {
     device = "/dev/disk/by-label/HOME";
@@ -40,8 +40,11 @@
     options = [ "discard" ];
   };
 
-  networking.hostName = "thinkpad";
-  networking.networkmanager.enable = true;
+  networking = {
+    hostName = "thinkpad";
+    networkmanager.enable = true;
+    wireguard.enable = true;
+  };
 
   # Set your time zone.
   time.timeZone = "Africa/Lagos";
@@ -84,7 +87,6 @@
     createHome = true;
     shell = pkgs.zsh;
   };
-  networking.wireguard.enable = true;
 
   environment.systemPackages = with pkgs; [
     wireguard-tools
