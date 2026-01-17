@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   imports = [
     ./lf
     ./mpv
@@ -53,8 +54,7 @@
     golangci-lint
 
     #nix
-    nixpkgs-fmt # repo is archived
-    nixfmt-classic # official nix formatter
+    nixfmt # official nix formatter
     # nix-init
     nixd
     nil
