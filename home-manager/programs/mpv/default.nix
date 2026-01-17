@@ -18,6 +18,10 @@ in {
       screenshot-template = "%F_%03n";
       vo = "opengl"; # fixes dullness of video when in fullcreen
     };
-    scripts = [ mpv-cut ];
+    scripts = [
+      mpv-cut # custom
+      pkgs.mpvScripts.mpris
+      pkgs.mpvScripts.mpv-notify-send
+    ];
   };
 }

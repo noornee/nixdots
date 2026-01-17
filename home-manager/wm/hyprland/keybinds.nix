@@ -36,6 +36,13 @@ in {
         "${mainMod}_ALT, S, movetoworkspace, special"
         "${mainMod}, S, togglespecialworkspace,"
 
+        # zoom
+        ''
+          ${mainMod},equal, exec, hyprctl keyword cursor:zoom_factor "$(hyprctl getoption cursor:zoom_factor | grep float | awk '{print $2 + 0.5}')"''
+
+        ''
+          ${mainMod},minus, exec, hyprctl keyword cursor:zoom_factor "$(hyprctl getoption cursor:zoom_factor | grep float | awk '{print $2 - 0.5}')"''
+
         # Move focus with mainMod + direction
         "${mainMod}, h, movefocus, l"
         "${mainMod}, l, movefocus, r"
