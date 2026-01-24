@@ -80,6 +80,7 @@
     terraform
     obs-studio
     redisinsight
+    witr
 
     # unfree
     mongodb-compass
