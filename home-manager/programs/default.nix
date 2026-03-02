@@ -81,6 +81,8 @@
     obs-studio
     redisinsight
     witr
+    aria2
+    ollama
 
     # unfree
     mongodb-compass
