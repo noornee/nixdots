@@ -1,6 +1,8 @@
 { ... }:
-let mainMod = "SUPER";
-in {
+let
+  mainMod = "SUPER";
+in
+{
   imports = [
     ./scripts.nix # shell scripts for the keybinds
   ];
@@ -23,7 +25,7 @@ in {
         # "${mainMod},P, pseudo"
         # "${mainMod}_SHIFT, P, pin"
         "${mainMod}, P, pin"
-        "${mainMod},grave, togglesplit"
+        "${mainMod},grave, layoutmsg, togglesplit"
         "${mainMod},Space, exec, bemenu-run"
         "${mainMod},N, exec, swaync-client -t -sw" # toggle notification panel
         "${mainMod}_ALT, N, exec, swaync-client -d -sw" # toggle dnd
@@ -37,11 +39,9 @@ in {
         "${mainMod}, S, togglespecialworkspace,"
 
         # zoom
-        ''
-          ${mainMod},equal, exec, hyprctl keyword cursor:zoom_factor "$(hyprctl getoption cursor:zoom_factor | grep float | awk '{print $2 + 0.5}')"''
+        ''${mainMod},equal, exec, hyprctl keyword cursor:zoom_factor "$(hyprctl getoption cursor:zoom_factor | grep float | awk '{print $2 + 0.5}')"''
 
-        ''
-          ${mainMod},minus, exec, hyprctl keyword cursor:zoom_factor "$(hyprctl getoption cursor:zoom_factor | grep float | awk '{print $2 - 0.5}')"''
+        ''${mainMod},minus, exec, hyprctl keyword cursor:zoom_factor "$(hyprctl getoption cursor:zoom_factor | grep float | awk '{print $2 - 0.5}')"''
 
         # Move focus with mainMod + direction
         "${mainMod}, h, movefocus, l"
