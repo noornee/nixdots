@@ -26,6 +26,15 @@ let
     esac
   '';
 
+  minimize_window = pkgs.writeShellScriptBin "minimize_window" ''
+    #!/usr/bin/env bash
+    if [[ -z $(hyprctl workspaces | grep special:magic) ]]; then
+        hyprctl dispatch movetoworkspacesilent special:magic
+    else
+        hyprctl --batch 'dispatch togglespecialworkspace magic;dispatch movetoworkspace +0'
+    fi
+  '';
+
   brightness = pkgs.writeShellScriptBin "brightness" ''
         #!/usr/bin/env bash
 
@@ -184,12 +193,14 @@ let
     log_debug "Toggle window script finished"
   '';
 
-in {
+in
+{
   home.packages = [
     volume
     brightness
     grimshot
     neorg-note
+    minimize_window
     pkgs.brightnessctl
     pkgs.pulseaudio # for pactl...
   ];

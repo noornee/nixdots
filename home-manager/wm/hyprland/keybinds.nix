@@ -31,6 +31,9 @@ in
         "${mainMod}_ALT, N, exec, swaync-client -d -sw" # toggle dnd
         "${mainMod},Return, exec, kitty"
 
+        #https://wiki.hypr.land/Configuring/Uncommon-tips--tricks/#minimize-windows-using-special-workspaces
+        "${mainMod},D,exec, minimize_window"
+
         #https://www.reddit.com/r/hyprland/comments/zyrrtp/how_do_i_switch_back_and_forth_between_two/
         "${mainMod},TAB,workspace,previous"
 
