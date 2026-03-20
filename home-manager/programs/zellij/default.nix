@@ -2,7 +2,8 @@
 let
   keybinds = import ./keybinds.nix { };
   layouts = import ./layouts.nix { inherit pkgs; };
-in {
+in
+{
 
   xdg.configFile."zellij/layouts/zjstatus.kdl".text = ''
     ${layouts.zjstatus}
@@ -34,11 +35,13 @@ in {
 
       theme "gruvbox"
       default_layout "zjstatus"
-      mouse_mode false
+      mouse_mode true
       simplified_ui true
       pane_frames false
       show_startup_tips false
     '';
 
-  programs.zellij = { enable = true; };
+  programs.zellij = {
+    enable = true;
+  };
 }
