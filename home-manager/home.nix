@@ -1,4 +1,10 @@
-{ config, pkgs, userSettings, inputs, ... }:
+{
+  config,
+  pkgs,
+  userSettings,
+  inputs,
+  ...
+}:
 
 {
   # Import the modules
@@ -29,6 +35,6 @@
   home.username = userSettings.username;
   home.homeDirectory = "/home/" + userSettings.username;
 
-  home.stateVersion = "23.11";
+  home.stateVersion = "26.05";
   programs.home-manager.enable = true;
 }
