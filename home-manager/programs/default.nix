@@ -67,7 +67,11 @@
     # python3.pkgs.pip
 
     nodejs
+    pnpm
+
     rustup
+
+    typescript-go
 
     #other
     # bruno
