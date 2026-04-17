@@ -75,6 +75,8 @@
 
     #other
     # bruno
+    wkhtmltopdf
+    chromium
     libreoffice
     postman
     redis
