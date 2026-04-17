@@ -52,7 +52,7 @@
       homeConfigurations = {
         "noornee@thinkpad" = home-manager.lib.homeManagerConfiguration {
           pkgs = mkPkgs "x86_64-linux";
-          modules = [ ./home-manager/home.nix ];
+          modules = [ ./home-manager/linux ];
           extraSpecialArgs = {
             hostname = "thinkpad";
             inherit userSettings inputs;
@@ -61,7 +61,7 @@
 
         "noornee@macbook" = home-manager.lib.homeManagerConfiguration {
           pkgs = mkPkgs "aarch64-darwin";
-          modules = [ ./home-manager/home.nix ];
+          modules = [ ./home-manager/darwin ];
           extraSpecialArgs = {
             hostname = "macbook";
             inherit userSettings inputs;
