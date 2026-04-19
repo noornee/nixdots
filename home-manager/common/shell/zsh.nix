@@ -1,9 +1,15 @@
-{ config, pkgs, ... }:
-let cfg = config.custom.shell;
-in {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+let
+  cfg = config.custom.shell;
+in
+{
   programs.zsh = {
     enable = true;
-    # dotDir = ".config/zsh";
     dotDir = "${config.xdg.configHome}/zsh";
     history.path = "${config.xdg.configHome}/zsh/zsh_history";
     autosuggestion.enable = true;
@@ -17,8 +23,7 @@ in {
       lsdl = "ls -ld .*"; # long list dots
       grep = "grep --color=auto --exclude-dir=.git";
       diff = "diff --color -u";
-      clh =
-        "cat /dev/null > $HISTFILE && history -p && echo 'history file cleared'";
+      clh = "cat /dev/null > $HISTFILE && history -p && echo 'history file cleared'";
       cls = "clear";
       sdn = "shutdown now";
       hist = "history 0";
@@ -35,11 +40,13 @@ in {
       le = "eza --long --group --group-directories-first --icons";
       nsh = "nix-shell  --command zsh";
     };
-    plugins = [{
-      name = "powerlevel10k";
-      src = pkgs.zsh-powerlevel10k;
-      file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-    }];
+    plugins = [
+      {
+        name = "powerlevel10k";
+        src = pkgs.zsh-powerlevel10k;
+        file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+      }
+    ];
     inherit (cfg) profileExtra;
     envExtra = # sh
       ''
@@ -73,15 +80,28 @@ in {
         fi
 
                     	'';
-    initContent = # sh
-      ''
-        # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
-        [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
+    initContent = ''
+      # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
+      [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
 
-        bindkey -s '^t' 'tmux\n'
-        eval "$(direnv hook zsh)"
+      # enable vim keybinding
+      bindkey -v
 
-      '';
+      # tmux shortcut
+      bindkey -s '^t' 'tmux\n'
+
+      # direnv
+      eval "$(direnv hook zsh)"
+
+      # Homebrew (macOS only)
+      ${lib.optionalString pkgs.stdenv.isDarwin ''
+        if [ -x /opt/homebrew/bin/brew ]; then
+          eval "$(/opt/homebrew/bin/brew shellenv)"
+        elif [ -x /usr/local/bin/brew ]; then
+          eval "$(/usr/local/bin/brew shellenv)"
+        fi
+      ''}
+    '';
   };
 
 }

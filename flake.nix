@@ -1,52 +1,71 @@
 {
-  description = "noornee's NixOS configuration";
+  description = "noornee's cross-platform nix config";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nix-colors.url = "github:misterio77/nix-colors";
+    rose-pine-hyprcursor.url = "github:ndom91/rose-pine-hyprcursor";
+    zjstatus.url = "github:dj95/zjstatus";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-colors.url = "github:misterio77/nix-colors";
-    rose-pine-hyprcursor.url = "github:ndom91/rose-pine-hyprcursor";
-    zjstatus.url = "github:dj95/zjstatus";
+    nix-darwin = {
+      url = "github:nix-darwin/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs:
+  outputs =
+    inputs@{
+      nixpkgs,
+      home-manager,
+      nix-darwin,
+      ...
+    }:
     let
-      # ---- system settings ---- #
-      system = "x86_64-linux";
-      pkgs = import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-      };
-
-      # ---- user settings ---- #
       userSettings = {
         username = "noornee";
         email = "noornee.011@gmail.com";
       };
-    in {
-      nixosConfigurations = {
-        thinkpad = nixpkgs.lib.nixosSystem {
+
+      mkPkgs =
+        system:
+        import nixpkgs {
           inherit system;
-          modules = [ ./hosts/thinkpad/configuration.nix ];
-          specialArgs = {
-            # pass config variables from above
-            inherit userSettings;
-            inherit inputs;
-          };
+          config.allowUnfree = true;
         };
+    in
+    {
+      nixosConfigurations.thinkpad = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [ ./hosts/thinkpad/configuration.nix ];
+        specialArgs = { inherit userSettings inputs; };
+      };
+
+      # `darwin-rebuild switch --flake .` ||  `nix run nix-darwin -- switch --flake .` (incase darwin-rebuild is missing)
+      darwinConfigurations.macbook = nix-darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        modules = [ ./hosts/macbook/configuration.nix ];
+        specialArgs = { inherit userSettings inputs; };
       };
 
       homeConfigurations = {
-        noornee = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          modules = [ ./home-manager/home.nix ];
+        "noornee@thinkpad" = home-manager.lib.homeManagerConfiguration {
+          pkgs = mkPkgs "x86_64-linux";
+          modules = [ ./home-manager/linux ];
           extraSpecialArgs = {
-            # pass config variables from above
-            inherit inputs;
-            inherit userSettings;
+            hostname = "thinkpad";
+            inherit userSettings inputs;
+          };
+        };
+
+        "noornee@macbook" = home-manager.lib.homeManagerConfiguration {
+          pkgs = mkPkgs "aarch64-darwin";
+          modules = [ ./home-manager/darwin ];
+          extraSpecialArgs = {
+            hostname = "macbook";
+            inherit userSettings inputs;
           };
         };
       };

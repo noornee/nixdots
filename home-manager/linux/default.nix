@@ -1,8 +1,7 @@
 {
-  config,
-  pkgs,
   userSettings,
   inputs,
+  pkgs,
   ...
 }:
 
@@ -10,14 +9,31 @@
   # Import the modules
   imports = [
     inputs.nix-colors.homeManagerModule
+    # ../common/programs/lf
+    ../common/programs/mpv
+    ../common/programs/zathura.nix
+    ../common/programs/xdg.nix
+    ../common/programs/gtk.nix
+    ../common/programs/mpv
+    ../common/programs/photos.nix
+    ../common/options.nix
+    ../linux/wm/hyprland
+    ../common/terminal/kitty
+    ../common/shell/zsh.nix
+    ../common/browser/brave.nix
+    ../common/programs
+    ../../overlays
+  ];
 
-    ./options.nix
-    ./wm/hyprland
-    ./terminal/kitty
-    ./shell/zsh.nix
-    ./browser/brave.nix
-    ./programs
-    ../overlays
+  home.packages = with pkgs; [
+    pulseaudio
+    pavucontrol
+    wkhtmltopdf
+    libreoffice
+    chromium
+    obs-studio
+    wev
+    redisinsight
   ];
 
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-hard;

@@ -2,23 +2,15 @@
 {
   imports = [
     ./lf
-    ./mpv
     ./zellij
     ./font.nix
-    ./gtk.nix
     ./git.nix
-    # ./i18n.nix
-    ./xdg.nix
-    ./photos.nix
-    # ./ncmpcpp.nix
     ./fastfetch.nix
     ./tmux.nix
-    ./zathura.nix
   ];
 
   home.packages = with pkgs; [
-    pulseaudio
-    pavucontrol
+    neovim
 
     #utils
     jq
@@ -39,7 +31,6 @@
     clipse
     tree-sitter
     lsof
-    wev
 
     # lua
     lua5_1
@@ -75,17 +66,12 @@
 
     #other
     # bruno
-    wkhtmltopdf
-    chromium
-    libreoffice
     postman
     redis
     slack
     gnumake
     zrok
     terraform
-    obs-studio
-    redisinsight
     witr
     aria2
     ollama
@@ -94,5 +80,4 @@
     mongodb-compass
     ngrok
   ];
-
 }

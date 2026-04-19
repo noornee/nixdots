@@ -1,5 +1,7 @@
 { pkgs, ... }:
-
+let
+  isDarwin = pkgs.stdenv.isDarwin;
+in
 {
   imports = [ ./scripts.nix ];
   xdg.configFile."lf/icons".source = ./icons;
@@ -36,13 +38,25 @@
         	case $(file --mime-type "$(readlink -f $f)" -b) in
         		text/*|application/json|inode/x-empty) $EDITOR $fx ;;
         		image/svg+xml) display -- $f ;;
-        		image/*) rotdir $f | grep -i "\.\(png\|jpg\|jpeg\|gif\|webp\|tif\|ico\)\(_large\)*$" |
-        			setsid -f ${pkgs.imv}/bin/imv 2>/dev/null | while read -r file; do
-        				[ -z "$file" ] && continue
-        				lf -remote "send select \"$file\""
-        				lf -remote "send toggle"
-        			done &
-        			;;
+        		image/*)
+              ${
+                if isDarwin then
+                  ''
+                    open "$f"
+                  ''
+                else
+                  ''
+                    rotdir $f | grep -i "\.\(png\|jpg\|jpeg\|gif\|webp\|tif\|ico\)\(_large\)*$" |
+                      setsid -f ${pkgs.imv}/bin/imv 2>/dev/null |
+                      while read -r file; do
+                        [ -z "$file" ] && continue
+                        lf -remote "send select \"$file\""
+                        lf -remote "send toggle"
+                      done &
+                  ''
+              }
+              ;;
+
         		audio/* | application/octet-stream) mpv --audio-display=no $fx ;;
         		video/*) setsid -f mpv $fx -quiet >/dev/null 2>&1 ;;
         		application/pdf|application/epub*) setsid -f zathura $fx >/dev/null 2>&1 ;;
@@ -144,8 +158,12 @@
       R = "bulkrename";
       a = "push :touch<space>";
       T = "trash";
-      Y = "$printf %s $fx | wl-copy"; # copies absolute path to clipboard
-      B = "$base64 -w 0 $f | wl-copy"; # copies base64 of a file to clipboard
+      # Y = "$printf %s $fx | wl-copy"; # copies absolute path to clipboard
+      # B = "$base64 -w 0 $f | wl-copy"; # copies base64 of a file to clipboard
+
+      Y = "$sh -c 'printf \"%s\" \"$1\" | ${if isDarwin then "pbcopy" else "wl-copy"}' sh $fx";
+      B = "$sh -c 'openssl base64 -A -in \"$1\" | ${if isDarwin then "pbcopy" else "wl-copy"}' sh $f";
+
     };
 
     cmdKeybindings = {
@@ -197,9 +215,19 @@
           		image "$CACHE.jpg"
           	;;
           */epub+zip|*/mobi*)
-          	[ ! -f "$CACHE.jpg" ] && ${pkgs.gnome-epub-thumbnailer}/bin/gnome-epub-thumbnailer "$1" "$CACHE.jpg"
-          		image "$CACHE.jpg" 
-          	;;
+              ${
+                if isDarwin then
+                  ''
+                    open "$1"
+                  ''
+                else
+                  ''
+                    [ ! -f "$CACHE.jpg" ] &&
+                      ${pkgs.gnome-epub-thumbnailer}/bin/gnome-epub-thumbnailer "$1" "$CACHE.jpg"
+                    image "$CACHE.jpg"
+                  ''
+              }
+              ;;
           application/javascript|application/json)
           	bat --color=always "$1"
           	;;
