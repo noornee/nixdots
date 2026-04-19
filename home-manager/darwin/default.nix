@@ -37,7 +37,7 @@
       ];
 
       EnvironmentVariables = {
-        PATH = "${pkgs.docker}/bin:${pkgs.coreutils}/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+        PATH = "${pkgs.docker}/bin:${pkgs.colima}/bin:${pkgs.coreutils}/bin:/usr/bin:/bin:/usr/sbin:/sbin";
       };
 
       RunAtLoad = true;

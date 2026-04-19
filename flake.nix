@@ -43,6 +43,7 @@
         specialArgs = { inherit userSettings inputs; };
       };
 
+      # `darwin-rebuild switch --flake .` ||  `nix run nix-darwin -- switch --flake .` (incase darwin-rebuild is missing)
       darwinConfigurations.macbook = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         modules = [ ./hosts/macbook/configuration.nix ];
