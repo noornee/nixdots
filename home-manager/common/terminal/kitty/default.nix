@@ -19,7 +19,10 @@ in
       enable_audio_bell = "no";
       selection_foreground = "#E7EBF1";
       selection_background = "#333A4C";
+
       macos_option_as_alt = if isDarwin then "both" else "";
+      macos_hide_from_tasks = if isDarwin then "yes" else "";
+      background_opacity = if isDarwin then 0.95 else "";
     };
 
     extraConfig = ''
