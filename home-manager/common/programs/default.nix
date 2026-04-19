@@ -10,6 +10,8 @@
   ];
 
   home.packages = with pkgs; [
+    neovim
+
     #utils
     jq
     eza
