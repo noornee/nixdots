@@ -34,6 +34,7 @@
     obs-studio
     wev
     redisinsight
+    openssl
   ];
 
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-hard;

@@ -13,6 +13,7 @@ in
     pistol
     bat
     ffmpegthumbnailer
+    openssl
     trash-cli
   ];
 
