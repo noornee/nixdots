@@ -158,8 +158,12 @@ in
       R = "bulkrename";
       a = "push :touch<space>";
       T = "trash";
-      Y = "$printf %s $fx | wl-copy"; # copies absolute path to clipboard
-      B = "$base64 -w 0 $f | wl-copy"; # copies base64 of a file to clipboard
+      # Y = "$printf %s $fx | wl-copy"; # copies absolute path to clipboard
+      # B = "$base64 -w 0 $f | wl-copy"; # copies base64 of a file to clipboard
+
+      Y = "$sh -c 'printf \"%s\" \"$1\" | ${if isDarwin then "pbcopy" else "wl-copy"}' sh $fx";
+      B = "$sh -c 'openssl base64 -A -in \"$1\" | ${if isDarwin then "pbcopy" else "wl-copy"}' sh $f";
+
     };
 
     cmdKeybindings = {
