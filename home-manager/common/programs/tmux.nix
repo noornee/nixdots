@@ -69,9 +69,9 @@
       bind -n M-h select-pane -R
 
       # Window navigation
-      # switch between windows <Alt-H> || <Alt-L>
-      bind -n M-H select-window -p
-      bind -n M-L select-window -n
+      # switch between windows <Alt-h> || <Alt-l>
+      bind -n M-h select-window -p
+      bind -n M-l select-window -n
 
       # Split panes in current path
       bind v split-window -v -c "#{pane_current_path}"
