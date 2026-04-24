@@ -11,8 +11,8 @@
     inputs.nix-colors.homeManagerModule
     ../common/options.nix
     ../common/terminal/kitty
+    ../common/programs/zathura.nix
     ../common/shell/zsh.nix
-    ../common/browser/brave.nix
     ../common/programs
     ../../overlays
     ./wm/aerospace
@@ -24,6 +24,7 @@
     fontconfig
     docker
     colima
+    util-linux
   ];
 
   launchd.agents.colima = {

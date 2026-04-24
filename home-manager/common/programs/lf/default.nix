@@ -232,6 +232,9 @@ in
           application/javascript|application/json)
           	bat --color=always "$1"
           	;;
+          text/*)
+          	bat --color=always "$1"
+          	;;
           *)
           	pistol "$1"
           esac'';

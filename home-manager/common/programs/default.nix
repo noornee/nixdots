@@ -59,6 +59,7 @@
 
     nodejs
     pnpm
+    yarn
 
     rustup
 
