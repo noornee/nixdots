@@ -13,6 +13,7 @@
     neovim
 
     #utils
+    zoxide
     jq
     eza
     tree

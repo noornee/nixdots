@@ -93,6 +93,8 @@ in
       # direnv
       eval "$(direnv hook zsh)"
 
+      eval "$(zoxide init zsh)"
+
       # Homebrew (macOS only)
       ${lib.optionalString pkgs.stdenv.isDarwin ''
         if [ -x /opt/homebrew/bin/brew ]; then
