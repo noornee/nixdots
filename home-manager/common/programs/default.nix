@@ -14,6 +14,7 @@
 
     #utils
     zoxide
+    inetutils
     jq
     eza
     tree
