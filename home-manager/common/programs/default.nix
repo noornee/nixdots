@@ -78,6 +78,7 @@
     witr
     aria2
     ollama
+    gopass
 
     # unfree
     mongodb-compass
