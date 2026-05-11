@@ -1,10 +1,21 @@
-{ pkgs, userSettings, inputs, ... }:
+{
+  pkgs,
+  userSettings,
+  inputs,
+  ...
+}:
 
 {
-  imports = [ ./hardware-configuration.nix ./virt.nix ];
+  imports = [
+    ./hardware-configuration.nix
+    ./virt.nix
+  ];
 
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
     substituters = [ "https://nix-community.cachix.org" ];
     trusted-users = [ userSettings.username ];
     trusted-public-keys = [
@@ -30,7 +41,9 @@
         keyFile = "/etc/keys/home.key";
       };
 
-      secrets = { "/etc/keys/home.key" = "/etc/keys/home.key"; };
+      secrets = {
+        "/etc/keys/home.key" = "/etc/keys/home.key";
+      };
     };
   };
 
@@ -65,6 +78,7 @@
   services.gvfs.enable = true;
   services.openssh.enable = true;
   services.vnstat.enable = true;
+  services.tailscale.enable = true;
 
   services.tlp = {
     enable = true;
@@ -83,7 +97,11 @@
   programs.zsh.enable = true;
   users.users.${userSettings.username} = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "video" ];
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "video"
+    ];
     createHome = true;
     shell = pkgs.zsh;
   };
@@ -106,7 +124,9 @@
     inputs.rose-pine-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
-  environment.variables = { EDITOR = "nvim"; };
+  environment.variables = {
+    EDITOR = "nvim";
+  };
 
   #hint electron apps to use wayland:
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
