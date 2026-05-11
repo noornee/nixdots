@@ -35,7 +35,12 @@
     wev
     redisinsight
     openssl
+    pinentry-curses
+    wtype # xdotool for wayland
   ];
+
+  # export GPG_TTY=$(tty)
+  # gpgconf --kill gpg-agent
 
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-hard;
 
