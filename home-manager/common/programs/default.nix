@@ -33,6 +33,7 @@
     clipse
     tree-sitter
     lsof
+    gnupg
 
     # lua
     lua5_1

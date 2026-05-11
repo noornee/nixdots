@@ -13,6 +13,8 @@
   programs.zsh.enable = true;
   services.openssh.enable = true;
 
+  services.tailscale.enable = true;
+
   # https://mynixos.com/nix-darwin/options/system
   system.defaults = {
     dock = {
