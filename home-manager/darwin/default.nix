@@ -25,6 +25,7 @@
     docker
     colima
     util-linux
+    wget
   ];
 
   launchd.agents.colima = {

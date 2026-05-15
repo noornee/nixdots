@@ -80,6 +80,7 @@
     aria2
     ollama
     gopass
+    vector
 
     # unfree
     mongodb-compass
