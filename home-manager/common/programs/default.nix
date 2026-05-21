@@ -81,6 +81,7 @@
     ollama
     gopass
     vector
+    k6
 
     # unfree
     mongodb-compass
