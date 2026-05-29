@@ -34,6 +34,7 @@
     tree-sitter
     lsof
     gnupg
+    apacheHttpd
 
     # lua
     lua5_1
