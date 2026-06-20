@@ -60,7 +60,9 @@ in
 
         		audio/* | application/octet-stream) mpv --audio-display=no $fx ;;
         		video/*) setsid -f mpv $fx -quiet >/dev/null 2>&1 ;;
-        		application/pdf|application/epub*) setsid -f zathura $fx >/dev/null 2>&1 ;;
+        		application/pdf|application/epub*) setsid -f ${
+            if isDarwin then "sioyek --new-instance" else "zathura"
+          } $fx >/dev/null 2>&1 ;;
         		application/vnd*) setsid -f libreoffice $fx >/dev/null 2>&1 ;;
         		application/javascript) $EDITOR $fx ;;
         		*) for f in $fx; do setsid $OPENER $f > /dev/null 2> /dev/null & done ;;
