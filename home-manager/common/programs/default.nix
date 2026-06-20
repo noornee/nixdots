@@ -79,6 +79,8 @@
     terraform
     witr
     aria2
+    tailscale
+    sioyek
     ollama
     gopass
     vector
