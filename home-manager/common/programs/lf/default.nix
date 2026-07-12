@@ -59,7 +59,7 @@ in
               ;;
 
         		audio/* | application/octet-stream) mpv --audio-display=no $fx ;;
-        		video/*) setsid -f mpv $fx -quiet >/dev/null 2>&1 ;;
+        		video/*) setsid -f ${if isDarwin then "iina" else "mpv"} $fx -quiet >/dev/null 2>&1 ;;
         		application/pdf|application/epub*) setsid -f ${
             if isDarwin then "sioyek --new-instance" else "zathura"
           } $fx >/dev/null 2>&1 ;;
