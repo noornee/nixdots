@@ -1,6 +1,6 @@
 { pkgs, ... }:
 let
-  isDarwin = pkgs.stdenv.isDarwin;
+  isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
 in
 {
   xdg.configFile."kitty/colors/gruvbox.conf".source = ./colors/gruvbox.conf;

@@ -27,7 +27,6 @@
     btop
     ripgrep
     ffmpeg
-    jmtpfs
     p7zip
     fzf
     clipse
@@ -81,7 +80,7 @@
     aria2
     tailscale
     sioyek
-    ollama
+    #ollama
     gopass
     vector
     k6

@@ -96,7 +96,7 @@ in
       eval "$(zoxide init zsh)"
 
       # Homebrew (macOS only)
-      ${lib.optionalString pkgs.stdenv.isDarwin ''
+      ${lib.optionalString pkgs.stdenv.hostPlatform.isDarwin ''
         if [ -x /opt/homebrew/bin/brew ]; then
           eval "$(/opt/homebrew/bin/brew shellenv)"
         elif [ -x /usr/local/bin/brew ]; then
