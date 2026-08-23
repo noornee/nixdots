@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-go.url = "github:nixos/nixpkgs/master"; # tracks latest go until nixos-unstable catches up
     nix-colors.url = "github:misterio77/nix-colors";
     rose-pine-hyprcursor.url = "github:ndom91/rose-pine-hyprcursor";
     zjstatus.url = "github:dj95/zjstatus";
