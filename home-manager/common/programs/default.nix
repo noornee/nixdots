@@ -66,7 +66,7 @@
 
     rustup
 
-    typescript-go
+    typescript
 
     #other
     # bruno
