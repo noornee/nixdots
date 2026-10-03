@@ -75,13 +75,12 @@
     slack
     gnumake
     zrok
-    terraform
+    # terraform
     witr
     aria2
     tailscale
-    sioyek
+
     #ollama
-    gopass
     vector
     k6
 
