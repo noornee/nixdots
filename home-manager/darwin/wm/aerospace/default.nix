@@ -8,7 +8,7 @@
 let
   borders = "${pkgs.jankyborders}/bin/borders";
   sketchybar = "${pkgs.sketchybar}/bin/sketchybar";
-  kitty = "${config.programs.kitty.package}/bin/kitty";
+  kittyApp = "${config.programs.kitty.package}/Applications/kitty.app";
 
   # 1..10 -> { "cmd-1" = "workspace 1"; ... "cmd-0" = "workspace 10"; }
   workspaces = lib.range 1 10;
@@ -80,9 +80,9 @@ in
 
           cmd-backspace = "close";
 
-          # --single-instance: new windows open inside the already-running Kitty, so the
-          # Dock shows one Kitty icon instead of one per window.
-          cmd-enter = "exec-and-forget ${kitty} --single-instance --directory ~";
+          # Launched via `open` (not the kitty binary) so macOS treats Kitty as its own
+          # app: permission prompts say "kitty", not "AeroSpace".
+          cmd-enter = "exec-and-forget open -na ${kittyApp}";
 
           cmd-h = [
             "focus left"
