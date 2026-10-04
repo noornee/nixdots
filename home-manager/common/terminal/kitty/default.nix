@@ -1,9 +1,20 @@
-{ pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
 in
 {
   xdg.configFile."kitty/colors/gruvbox.conf".source = ./colors/gruvbox.conf;
+
+  # --single-instance: reuse the running kitty, so only one dock icon shows. replaces
+  #   macos_hide_from_tasks, which made aerospace open kitty on the wrong workspace sometimes
+  xdg.configFile."kitty/macos-launch-services-cmdline" = lib.mkIf isDarwin {
+    text = "--single-instance --directory ${config.home.homeDirectory}";
+  };
   programs.kitty = {
     enable = true;
     font.name = if isDarwin then "Iosevka Nerd Font Mono" else "Iosevka Nerd Font";
@@ -21,7 +32,7 @@ in
       selection_background = "#333A4C";
 
       macos_option_as_alt = if isDarwin then "both" else "";
-      macos_hide_from_tasks = if isDarwin then "yes" else "";
+      # macos_hide_from_tasks = if isDarwin then "yes" else "";
       background_opacity = if isDarwin then 0.95 else "";
     };
 

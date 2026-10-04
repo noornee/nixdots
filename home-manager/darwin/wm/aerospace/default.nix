@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   lib,
   ...
@@ -7,6 +8,7 @@
 let
   borders = "${pkgs.jankyborders}/bin/borders";
   sketchybar = "${pkgs.sketchybar}/bin/sketchybar";
+  kitty = "${config.programs.kitty.package}/bin/kitty";
 
   # 1..10 -> { "cmd-1" = "workspace 1"; ... "cmd-0" = "workspace 10"; }
   workspaces = lib.range 1 10;
@@ -29,10 +31,10 @@ in
       config-version = 2;
       persistent-workspaces = map toString workspaces ++ [ "11" ];
 
+      workspace-to-monitor-force-assignment."11" = "secondary";
+
       after-startup-command = [
         "exec-and-forget ${borders}"
-        # "exec-and-forget ${sketchybar}"
-        # "exec-and-forget ${borders} active_color=0xffd79921 inactive_color=0xff282828 width=3.0"
       ];
 
       # Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
@@ -73,12 +75,14 @@ in
         // moveToWorkspaceBinds
         // {
           # See: https://nikitabobko.github.io/AeroSpace/commands#layout
-          cmd-slash = "layout tiles horizontal vertical";
-          cmd-comma = "layout accordion horizontal vertical";
+          cmd-backtick = "layout tiles horizontal vertical"; # togglesplit; press again to flip direction
+          cmd-g = "layout accordion horizontal vertical"; # togglegroup; press again to flip direction
 
           cmd-backspace = "close";
 
-          cmd-enter = "exec-and-forget open -na Kitty";
+          # --single-instance: new windows open inside the already-running Kitty, so the
+          # Dock shows one Kitty icon instead of one per window.
+          cmd-enter = "exec-and-forget ${kitty} --single-instance --directory ~";
 
           cmd-h = [
             "focus left"
@@ -105,17 +109,23 @@ in
           cmd-shift-minus = "resize smart -50";
           cmd-shift-equal = "resize smart +50";
 
-          alt-y = "move-node-to-workspace 11";
+          # Float / tile the focused window (Hyprland super+v; cmd+v is Paste)
+          # cmd-shift-v = "layout floating tiling";
+
+          # Workspace 11 = second screen / TV
+          alt-y = "workspace 11";
+          alt-shift-y = "move-node-to-workspace 11";
+
+          # Scratchpad
+          alt-s = "workspace --auto-back-and-forth S"; # press again to go back
+          cmd-alt-s = "move-node-to-workspace S";
 
           alt-tab = "workspace-back-and-forth";
           alt-shift-tab = "move-workspace-to-monitor --wrap-around next";
 
-          # tiling
+          # fullscreen & size
           cmd-m = "fullscreen";
           cmd-shift-f = "macos-native-fullscreen";
-          cmd-shift-s = "layout v_accordion"; # 'layout stacking' in i3
-          cmd-shift-t = "layout h_accordion"; # 'layout tabbed' in i3
-          cmd-shift-e = "layout tiles horizontal vertical"; # 'layout toggle split' in i3
           cmd-shift-d = "resize width 1280";
 
           # modes
@@ -160,13 +170,21 @@ in
         esc = "mode main";
       };
 
-      mode.resize.binding = {
-        enter = "mode main";
-        esc = "mode main";
-      };
-
       # Window rules
       on-window-detected = [
+        # Small utility apps float instead of tiling
+        {
+          "if".app-id = "com.apple.systempreferences";
+          run = "layout floating";
+        }
+        {
+          "if".app-id = "com.apple.calculator";
+          run = "layout floating";
+        }
+        {
+          "if".app-id = "com.apple.archiveutility";
+          run = "layout floating";
+        }
         {
           "if".app-id = "com.brave.Browser";
           run = "move-node-to-workspace 3";
