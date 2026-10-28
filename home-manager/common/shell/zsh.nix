@@ -11,7 +11,19 @@ in
   programs.zsh = {
     enable = true;
     dotDir = "${config.xdg.configHome}/zsh";
-    history.path = "${config.xdg.configHome}/zsh/zsh_history";
+    history = {
+      path = "${config.xdg.configHome}/zsh/zsh_history";
+      size = 50000;
+      ignoreAllDups = true; # keep only the latest copy of a repeated command
+      extended = true; # save timestamps
+      # share (across terminals) and ignoreSpace (" cmd" isn't saved) are on by default
+    };
+    # type the start of a command, then up/down steps through matching history
+    historySubstringSearch = {
+      enable = true;
+      searchUpKey = [ "^[[A" "^[OA" ];
+      searchDownKey = [ "^[[B" "^[OB" ];
+    };
     autosuggestion.enable = true;
     syntaxHighlighting = {
       enable = true;
@@ -94,13 +106,15 @@ in
       # enable vim keybinding
       bindkey -v
 
+      # normal mode: v edits the command in $EDITOR, k/j search history like up/down
+      autoload -Uz edit-command-line
+      zle -N edit-command-line
+      bindkey -M vicmd 'v' edit-command-line
+      bindkey -M vicmd 'k' history-substring-search-up
+      bindkey -M vicmd 'j' history-substring-search-down
+
       # tmux shortcut
       bindkey -s '^t' 'tmux\n'
-
-      # direnv
-      eval "$(direnv hook zsh)"
-
-      eval "$(zoxide init zsh)"
 
       # Homebrew (macOS only)
       ${lib.optionalString pkgs.stdenv.hostPlatform.isDarwin ''
@@ -115,6 +129,18 @@ in
 
   # ctrl+r: fuzzy history search, alt+c: cd into a folder (ctrl+t stays the tmux shortcut above)
   programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
+  # nix-direnv caches `use flake` / `use nix`, so entering a project is instant
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+    nix-direnv.enable = true;
+  };
+
+  programs.zoxide = {
     enable = true;
     enableZshIntegration = true;
   };

@@ -13,7 +13,6 @@
     neovim
 
     #utils
-    zoxide
     inetutils
     jq
     eza
@@ -56,7 +55,6 @@
     nixd
     nil
     nh
-    direnv
 
     #python
     python3
