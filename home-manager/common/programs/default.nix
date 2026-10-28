@@ -46,6 +46,9 @@
     gopls
     gofumpt
     golangci-lint
+    govulncheck
+    gotools # includes goimports
+    gomodifytags
 
     #nix
     nixfmt # official nix formatter
