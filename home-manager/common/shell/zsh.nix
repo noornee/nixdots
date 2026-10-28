@@ -13,7 +13,11 @@ in
     dotDir = "${config.xdg.configHome}/zsh";
     history.path = "${config.xdg.configHome}/zsh/zsh_history";
     autosuggestion.enable = true;
-    syntaxHighlighting.enable = true;
+    syntaxHighlighting = {
+      enable = true;
+      # default comment style (fg=black,bold) is nearly invisible on dark themes
+      styles.comment = "fg=245";
+    };
     shellAliases = {
       ls = "ls --color=auto";
       l = "ls -lFh"; # size,show type,human readable
@@ -83,6 +87,9 @@ in
     initContent = ''
       # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
       [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
+
+      # allow comments (#) in interactive shell
+      setopt interactive_comments
 
       # enable vim keybinding
       bindkey -v
