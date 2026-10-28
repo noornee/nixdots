@@ -113,4 +113,9 @@ in
     '';
   };
 
+  # ctrl+r: fuzzy history search, alt+c: cd into a folder (ctrl+t stays the tmux shortcut above)
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+  };
 }
