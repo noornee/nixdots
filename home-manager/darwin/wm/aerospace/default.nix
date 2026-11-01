@@ -193,6 +193,18 @@ in
           "if".app-id = "net.whatsapp.WhatsApp";
           run = "move-node-to-workspace 4";
         }
+        {
+          "if".app-id = "com.postmanlabs.mac";
+          run = "move-node-to-workspace 2";
+        }
+        {
+          "if".app-id = "com.anthropic.claudefordesktop";
+          run = "move-node-to-workspace 5";
+        }
+        {
+          "if".app-id = "com.tinyspeck.slackmacgap";
+          run = "move-node-to-workspace 6";
+        }
       ];
     };
   };
