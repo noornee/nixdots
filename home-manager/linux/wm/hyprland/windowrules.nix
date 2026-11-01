@@ -1,21 +1,34 @@
-{ ... }: {
-  wayland.windowManager.hyprland = {
-    settings = {
-      windowrule = [
-        # opacity rules
-        "opacity 1.0 override 1.0 override, match:class ^(mpv)$"
-        "opacity 0.95 override 0.9 override, match:class ^(org.pwmt.zathura)$"
-        "opacity 0.95 override 0.9 override, workspace 3, match:class ^(brave-browser)$"
-        "opacity 0.95 override 0.9 override, workspace 4, match:class ^(Slack)$"
+{ ... }:
+{
+  wayland.windowManager.hyprland.extraConfig = /* lua */ ''
+    ---------------------
+    ---- WINDOW RULES ----
+    ---------------------
+    -- opacity rules
+    hl.window_rule({ match = { class = "^(mpv)$" },             opacity = "1.0 override 1.0 override" })
+    hl.window_rule({ match = { class = "^(org.pwmt.zathura)$" }, opacity = "0.95 override 0.9 override" })
+    hl.window_rule({ match = { class = "^(brave-browser)$" },   opacity = "0.95 override 0.9 override", workspace = 3 })
+    hl.window_rule({ match = { class = "^(Slack)$" },           opacity = "0.95 override 0.9 override", workspace = 4 })
 
-        # float rules
-        "float on, match:class ^(pavucontrol)$"
-        "float on, center on, match:title ^(Open Files)$"
-        "float on, center on, size (monitor_w*0.5) (monitor_h*0.5), match:title (.*wants to open)$"
-        "float on, center on, size (monitor_w*0.6) (monitor_h*0.6), match:title ^(neorg-note)$"
-
-        "match:class xdg-desktop-portal-gtk float on, size <50% <50%"
-      ];
-    };
-  };
+    -- float rules
+    hl.window_rule({ match = { class = "^(org.pulseaudio.pavucontrol|pavucontrol)$" }, float = true })
+    hl.window_rule({ match = { title = "^(Open Files)$" }, float = true, center = true })
+    hl.window_rule({
+      match  = { title = "(.*wants to open)$" },
+      float  = true,
+      center = true,
+      size   = { "monitor_w * 0.5", "monitor_h * 0.5" },
+    })
+    hl.window_rule({
+      match  = { title = "^(neorg-note)$" },
+      float  = true,
+      center = true,
+      size   = { "monitor_w * 0.6", "monitor_h * 0.6" },
+    })
+    hl.window_rule({ 
+    	match = { class = "xdg-desktop-portal-gtk" }, 
+    	float = true, 
+    	max_size = { "monitor_w * 0.5", "monitor_h * 0.5" },
+    })
+  '';
 }

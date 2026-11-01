@@ -1,133 +1,104 @@
 { ... }:
-let
-  mainMod = "SUPER";
-in
 {
   imports = [
     ./scripts.nix # shell scripts for the keybinds
   ];
 
-  wayland.windowManager.hyprland = {
-    settings = {
-      # https://wiki.hyprland.org/Configuring/Variables/#binds
+  wayland.windowManager.hyprland.extraConfig = /* lua */ ''
+    ---------------------
+    ---- KEYBINDINGS ----
+    ---------------------
+    local mainMod = "SUPER"
+    local function bind(keys, dsp, opts) hl.bind(mainMod .. " + " .. keys, dsp, opts) end
+
+    -- https://wiki.hypr.land/Configuring/Variables/#binds
+    hl.config({
       binds = {
-        workspace_back_and_forth = true;
-        allow_workspace_cycles = true;
-      };
+        workspace_back_and_forth = true,
+        allow_workspace_cycles   = true,
+      },
+    })
 
-      bind = [
-        "${mainMod},BackSpace, killactive"
-        "${mainMod}_ALT, Q, exit,"
-        "${mainMod},V, togglefloating"
-        "${mainMod},V, centerwindow, 1"
-        "${mainMod},F, fullscreen, 0" # fullscreen
-        "${mainMod},M, fullscreen, 1" # monocle
-        # "${mainMod},P, pseudo"
-        # "${mainMod}_SHIFT, P, pin"
-        "${mainMod}, P, pin"
-        "${mainMod},grave, layoutmsg, togglesplit"
-        "${mainMod},Space, exec, bemenu-run"
-        "${mainMod},N, exec, swaync-client -t -sw" # toggle notification panel
-        "${mainMod}_ALT, N, exec, swaync-client -d -sw" # toggle dnd
-        "${mainMod},Return, exec, kitty"
+    bind("BackSpace", hl.dsp.window.close())
+    bind("ALT + Q",   hl.dsp.exit())
 
-        #https://wiki.hypr.land/Configuring/Uncommon-tips--tricks/#minimize-windows-using-special-workspaces
-        "${mainMod},D,exec, minimize_window"
+    -- toggle floating and center the window in one press
+    bind("V", function()
+      hl.dispatch(hl.dsp.window.float({ action = "toggle" }))
+      hl.dispatch(hl.dsp.window.center())
+    end)
 
-        #https://www.reddit.com/r/hyprland/comments/zyrrtp/how_do_i_switch_back_and_forth_between_two/
-        "${mainMod},TAB,workspace,previous"
+    bind("F", hl.dsp.window.fullscreen())                       -- fullscreen
+    bind("M", hl.dsp.window.fullscreen({ mode = "maximized" })) -- monocle
+    bind("P", hl.dsp.window.pin())
+    bind("grave", hl.dsp.layout("togglesplit"))
 
-        # special workspace (scratchpad)
-        "${mainMod}_ALT, S, movetoworkspace, special"
-        "${mainMod}, S, togglespecialworkspace,"
+    bind("Space",   hl.dsp.exec_cmd("bemenu-run"))
+    bind("N",       hl.dsp.exec_cmd("swaync-client -t -sw")) -- toggle notification panel
+    bind("ALT + N", hl.dsp.exec_cmd("swaync-client -d -sw")) -- toggle dnd
+    bind("Return",  hl.dsp.exec_cmd("kitty"))
+    bind("W",       hl.dsp.exec_cmd("neorg-note"))
 
-        # zoom
-        ''${mainMod},equal, exec, hyprctl keyword cursor:zoom_factor "$(hyprctl getoption cursor:zoom_factor | grep float | awk '{print $2 + 0.5}')"''
+    -- https://wiki.hypr.land/Configuring/Uncommon-tips--tricks/#minimize-windows-using-special-workspaces
+    bind("D", hl.dsp.exec_cmd("minimize_window"))
 
-        ''${mainMod},minus, exec, hyprctl keyword cursor:zoom_factor "$(hyprctl getoption cursor:zoom_factor | grep float | awk '{print $2 - 0.5}')"''
+    bind("TAB", hl.dsp.focus({ workspace = "previous" }))
 
-        # Move focus with mainMod + direction
-        "${mainMod}, h, movefocus, l"
-        "${mainMod}, l, movefocus, r"
-        "${mainMod}, k, movefocus, u"
-        "${mainMod}, j, movefocus, d"
+    -- special workspace (scratchpad)
+    bind("ALT + S", hl.dsp.window.move({ workspace = "special" }))
+    bind("S",       hl.dsp.workspace.toggle_special())
 
-        # swap position
-        "${mainMod} SHIFT, h, swapwindow, l"
-        "${mainMod} SHIFT, l, swapwindow, r"
-        "${mainMod} SHIFT, k, swapwindow, u"
-        "${mainMod} SHIFT, j, swapwindow, d"
+    -- zoom
+    bind("equal", hl.dsp.exec_cmd([[hyprctl keyword cursor:zoom_factor "$(hyprctl getoption cursor:zoom_factor | grep float | awk '{print $2 + 0.5}')"]]))
+    bind("minus", hl.dsp.exec_cmd([[hyprctl keyword cursor:zoom_factor "$(hyprctl getoption cursor:zoom_factor | grep float | awk '{print $2 - 0.5}')"]]))
 
-        # resizeactive window
-        "${mainMod}_ALT SHIFT, l, resizeactive, 10 -10"
-        "${mainMod}_ALT SHIFT, h, resizeactive, -10 10"
-        "${mainMod}_ALT SHIFT, k, resizeactive, 10 -10"
-        "${mainMod}_ALT SHIFT, j, resizeactive, -10 10"
+    -- focus / swap / resize with vim keys
+    local dirs = { h = "left", l = "right", k = "up", j = "down" }
+    local resize = { h = { -10, 0 }, l = { 10, 0 }, k = { 0, -10 }, j = { 0, 10 } }
+    for key, dir in pairs(dirs) do
+      bind(key,              hl.dsp.focus({ direction = dir }))
+      bind("SHIFT + " .. key, hl.dsp.window.swap({ direction = dir }))
+      bind("ALT + SHIFT + " .. key,
+        hl.dsp.window.resize({ x = resize[key][1], y = resize[key][2], relative = true }),
+        { repeating = true })
+    end
 
-        # Switch workspaces with mainMod + [0-9]
-        "${mainMod}, 1, workspace, 1"
-        "${mainMod}, 2, workspace, 2"
-        "${mainMod}, 3, workspace, 3"
-        "${mainMod}, 4, workspace, 4"
-        "${mainMod}, 5, workspace, 5"
-        "${mainMod}, 6, workspace, 6"
-        "${mainMod}, 7, workspace, 7"
-        "${mainMod}, 8, workspace, 8"
-        "${mainMod}, 9, workspace, 9"
-        "${mainMod}, 0, workspace, 10"
+    -- workspaces 1-10 (key 0 = workspace 10)
+    for i = 1, 10 do
+      local key = i % 10
+      bind(key,              hl.dsp.focus({ workspace = i }))
+      bind("SHIFT + " .. key, hl.dsp.window.move({ workspace = i, follow = false }))
+    end
 
-        # Move active window to a workspace with mainMod + SHIFT + [0-9]
-        "${mainMod} SHIFT, 1, movetoworkspacesilent, 1"
-        "${mainMod} SHIFT, 2, movetoworkspacesilent, 2"
-        "${mainMod} SHIFT, 3, movetoworkspacesilent, 3"
-        "${mainMod} SHIFT, 4, movetoworkspacesilent, 4"
-        "${mainMod} SHIFT, 5, movetoworkspacesilent, 5"
-        "${mainMod} SHIFT, 6, movetoworkspacesilent, 6"
-        "${mainMod} SHIFT, 7, movetoworkspacesilent, 7"
-        "${mainMod} SHIFT, 8, movetoworkspacesilent, 8"
-        "${mainMod} SHIFT, 9, movetoworkspacesilent, 9"
-        "${mainMod} SHIFT, 0, movetoworkspacesilent, 10"
+    -- scroll through existing workspaces
+    bind("mouse_down", hl.dsp.focus({ workspace = "e+1" }))
+    bind("mouse_up",   hl.dsp.focus({ workspace = "e-1" }))
 
-        # Scroll through existing workspaces with mainMod + scroll
-        "${mainMod}, mouse_down, workspace, e+1"
-        "${mainMod}, mouse_up, workspace, e-1"
+    -- tab groups
+    bind("g",         hl.dsp.group.toggle())
+    bind("SHIFT + G", hl.dsp.group.lock())
+    bind("CTRL + n",  hl.dsp.group.next())
+    bind("CTRL + p",  hl.dsp.group.prev())
+    for key, dir in pairs(dirs) do
+      bind("CTRL + " .. key, hl.dsp.window.move({ into_group = dir }))
+    end
+    bind("CTRL + r", hl.dsp.window.move({ out_of_group = true }))
 
-        # tab groups
-        "${mainMod}, g, togglegroup"
-        "${mainMod} SHIFT, G, lockactivegroup, toggle"
-        "${mainMod} Control_L, n, changegroupactive, f"
-        "${mainMod} Control_L, p, changegroupactive, b"
-        "${mainMod} Control_L, h, moveintogroup, l"
-        "${mainMod} Control_L, l, moveintogroup, r"
-        "${mainMod} Control_L, k, moveintogroup, u"
-        "${mainMod} Control_L, j, moveintogroup, d"
-        "${mainMod} Control_L, r, moveoutofgroup"
+    -- mouse move / resize
+    bind("mouse:272", hl.dsp.window.drag(),   { mouse = true })
+    bind("mouse:273", hl.dsp.window.resize(), { mouse = true })
+    bind("ALT_L",     hl.dsp.window.resize(), { mouse = true })
+    bind("Escape",    hl.dsp.window.drag(),   { mouse = true })
 
-        "${mainMod},W, exec, neorg-note"
+    -- media / brightness (repeat when held, work on lock screen)
+    local media = { repeating = true, locked = true }
+    hl.bind("XF86AudioMute",         hl.dsp.exec_cmd("pactl set-sink-mute 0 toggle"), { locked = true })
+    hl.bind("XF86AudioRaiseVolume",  hl.dsp.exec_cmd("volume up"),       media)
+    hl.bind("XF86AudioLowerVolume",  hl.dsp.exec_cmd("volume down"),     media)
+    hl.bind("XF86MonBrightnessUp",   hl.dsp.exec_cmd("brightness up"),   media)
+    hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightness down"), media)
 
-      ];
-
-      bindm = [
-        "${mainMod}, mouse:272, movewindow"
-        "${mainMod}, mouse:273, resizewindow"
-        "${mainMod}, ALT_L, resizewindow"
-        "${mainMod}, Escape, movewindow"
-      ];
-
-      binde = [
-        # media controls
-        ", XF86AudioMute, exec, pactl set-sink-mute 0 toggle"
-        ", XF86AudioRaiseVolume, exec, volume up"
-        ", XF86AudioLowerVolume, exec, volume down"
-
-        # brightness controls
-        ", XF86MonBrightnessUp, exec, brightness up"
-        ", XF86MonBrightnessDown, exec, brightness down"
-
-        # screenshot
-        ", Print, exec, grimshot"
-      ];
-
-    };
-  };
+    -- screenshot
+    hl.bind("Print", hl.dsp.exec_cmd("grimshot"))
+  '';
 }

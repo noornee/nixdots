@@ -46,92 +46,109 @@ in {
     # https://wiki.hyprland.org/Useful-Utilities/Systemd-start/#installation
     # conflicts with programs.hyprland.withUWSM in nixos
     systemd.enable = false;
-    settings = {
+    configType = "lua";
 
-      monitor = [ "eDP-1,1920x1200@60,0x0,1" ];
+    extraConfig = /* lua */ ''
+      ---@module 'hl'
 
-      exec-once = [
-        "${if cfg.wallpaper.swaybg.enable then ''
-          "$XDG_CONFIG_HOME/swaybg/swaybg"
-        '' else
-          ""}"
-        "uwsm app -- nm-applet --indicator"
-        "uwsm app -- clipse -listen"
-      ];
+      ------------------
+      ---- MONITORS ----
+      ------------------
+      hl.monitor({ output = "eDP-1", mode = "1920x1200@60", position = "0x0", scale = 1 })
 
-      env = [
-        "HYPRCURSOR_THEME,rose-pine-hyprcursor"
-        "HYPRCURSOR_SIZE,24"
-        "XCURSOR_THEME,BreezeX-Black"
-        "XCURSOR_SIZE,24"
-        "XDG_CURRENT_DESKTOP,Hyprland"
-      ];
+      -------------------
+      ---- AUTOSTART ----
+      -------------------
+      hl.on("hyprland.start", function()
+        ${lib.optionalString cfg.wallpaper.swaybg.enable "hl.exec_cmd(\"${config.xdg.configHome}/swaybg/swaybg\")"}
+        hl.exec_cmd("uwsm app -- nm-applet --indicator")
+        hl.exec_cmd("uwsm app -- clipse -listen")
+      end)
 
-      input = {
-        kb_layout = "us";
-        kb_options = "caps:swapescape"; # remaps capslock to esc
-        follow_mouse = 1;
-        sensitivity = 0;
-        touchpad = { natural_scroll = false; };
-      };
+      -------------------------------
+      ---- ENVIRONMENT VARIABLES ----
+      -------------------------------
+      hl.env("HYPRCURSOR_THEME", "rose-pine-hyprcursor")
+      hl.env("HYPRCURSOR_SIZE", "24")
+      hl.env("XCURSOR_THEME", "BreezeX-Black")
+      hl.env("XCURSOR_SIZE", "24")
+      hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
+      hl.env("TERMINAL", "kitty")
 
-      general = {
-        gaps_in = 5;
-        gaps_out = 10;
-        border_size = 1;
-        "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
-        "col.inactive_border" = "rgba(595959aa)";
-        layout = "dwindle";
-      };
+      -----------------------
+      ---- LOOK AND FEEL ----
+      -----------------------
+      hl.config({
+        general = {
+          gaps_in     = 5,
+          gaps_out    = 10,
+          border_size = 1,
+          layout      = "dwindle",
+          col = {
+            active_border   = { colors = { "rgba(33ccffee)", "rgba(00ff99ee)" }, angle = 45 },
+            inactive_border = "rgba(595959aa)",
+          },
+        },
 
-      decoration = {
-        rounding = 0;
-        inactive_opacity = 0.8;
-        active_opacity = 0.9;
+        decoration = {
+          rounding         = 0,
+          active_opacity   = 0.9,
+          inactive_opacity = 0.8,
+          shadow = {
+            enabled      = true,
+            range        = 4,
+            render_power = 3,
+            color        = "rgba(1a1a1aee)",
+          },
+          blur = {
+            enabled           = true,
+            size              = 3,
+            passes            = 1,
+            new_optimizations = true,
+            ignore_opacity    = true,
+          },
+        },
 
-        shadow = {
-          enabled = true;
-          range = 4;
-          render_power = 3;
-          color = "rgba(1a1a1aee)";
-        };
+        animations = { enabled = true },
 
-        blur = {
-          enabled = true;
-          size = 3;
-          passes = 1;
-          new_optimizations = true;
-          ignore_opacity = true;
-        };
+        dwindle = { preserve_split = true },
 
-      };
+        group = {
+          groupbar = {
+            font_size   = 11,
+            height      = 20,
+            gradients   = true,
+            font_family = "JetBrainsMonoNL NF ExtraBold",
+            col = {
+              active          = "rgba(98971aff)",
+              inactive        = "rgba(1a1d1aff)",
+              locked_active   = "rgba(8c3d3dff)",
+              locked_inactive = "rgba(141516ff)",
+            },
+          },
+        },
 
-      dwindle = {
-        pseudotile = true;
-        preserve_split = true;
-      };
+        input = {
+          kb_layout    = "us",
+          kb_options   = "caps:swapescape", -- remaps capslock to esc
+          follow_mouse = 1,
+          sensitivity  = 0,
+          touchpad     = { natural_scroll = false },
+        },
 
-      group = {
-        groupbar = {
-          font_size = 11;
-          height = 20;
-          gradients = true;
-          font_family = "JetBrainsMonoNL NF ExtraBold";
-          "col.active" = "rgba(98971aff)";
-          "col.inactive" = "rgba(1a1d1aff)";
+        misc = {
+          focus_on_activate     = true,
+          -- if swaybg is enabled, disable hyprland logo
+          disable_hyprland_logo = ${lib.boolToString cfg.wallpaper.swaybg.enable},
+        },
 
-          "col.locked_active" = "rgba(8c3d3dff)";
-          "col.locked_inactive" = "rgba(141516ff)";
-        };
-      };
+        ecosystem = {
+          no_donation_nag = true,
+          no_update_news  = true,
+        },
 
-      misc = {
-        focus_on_activate = true;
-        # if swaybg is enabled, disable hyprland logo
-        disable_hyprland_logo = lib.mkIf (cfg.wallpaper.swaybg.enable) true;
-      };
-
-      debug = { disable_logs = false; };
-    };
+        debug = { disable_logs = false },
+      })
+    '';
   };
 }
