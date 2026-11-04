@@ -46,6 +46,8 @@
     gofumpt
     golangci-lint
     govulncheck
+    gosec
+    gitleaks
     gotools # includes goimports
     gomodifytags
 
