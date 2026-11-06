@@ -39,10 +39,6 @@
     profiles.default = {
       isActive = true;
       isService = true;
-
-      # docker context create colima \
-      #   --docker "host=unix://$HOME/.config/colima/default/docker.sock"
-      # docker context use colima
       setDockerHost = true;
       mutableSettings = true;
 
@@ -55,28 +51,6 @@
       };
     };
   };
-
-  # launchd.agents.colima = {
-  #   enable = true;
-  #
-  #   config = {
-  #     ProgramArguments = [
-  #       "${pkgs.colima}/bin/colima"
-  #       "start"
-  #       "--foreground"
-  #     ];
-  #
-  #     EnvironmentVariables = {
-  #       PATH = "${pkgs.docker}/bin:${pkgs.colima}/bin:${pkgs.coreutils}/bin:/usr/bin:/bin:/usr/sbin:/sbin";
-  #     };
-  #
-  #     RunAtLoad = true;
-  #     KeepAlive = true;
-  #
-  #     StandardOutPath = "/tmp/colima.out.log";
-  #     StandardErrorPath = "/tmp/colima.err.log";
-  #   };
-  # };
 
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-hard;
 
