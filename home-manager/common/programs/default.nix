@@ -74,7 +74,6 @@
     #other
     # bruno
     postman
-    redis
     slack
     gnumake
     zrok
@@ -84,7 +83,6 @@
     tailscale
 
     #ollama
-    vector
     k6
 
     # unfree

@@ -29,11 +29,11 @@
     pulseaudio
     pavucontrol
     wkhtmltopdf
-    libreoffice
+    # libreoffice
     chromium
     obs-studio
     wev
-    redisinsight
+    # redisinsight
     openssl
     pinentry-curses
     wtype # xdotool for wayland
