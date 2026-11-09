@@ -7,6 +7,7 @@
     nix-colors.url = "github:misterio77/nix-colors";
     rose-pine-hyprcursor.url = "github:ndom91/rose-pine-hyprcursor";
     zjstatus.url = "github:dj95/zjstatus";
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";

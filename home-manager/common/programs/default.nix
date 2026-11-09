@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
   imports = [
     ./lf
@@ -10,7 +10,8 @@
   ];
 
   home.packages = with pkgs; [
-    neovim
+    # neovim nightly (0.13-dev); stable `neovim` stays in hosts/*/configuration.nix as a fallback
+    inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     #utils
     inetutils
