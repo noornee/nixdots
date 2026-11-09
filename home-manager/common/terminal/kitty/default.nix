@@ -26,7 +26,9 @@ in
       cursor_shape = "block";
       shell_integration = "no-cursor";
       copy_on_select = "clipboard";
-      scrollback_lines = 10000;
+      scrollback_lines = 100000;
+      # ctrl+shift+h opens the scrollback in a pager; keep up to 100MB of history for it
+      scrollback_pager_history_size = 100;
       enable_audio_bell = "no";
       selection_foreground = "#E7EBF1";
       selection_background = "#333A4C";

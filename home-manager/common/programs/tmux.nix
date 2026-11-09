@@ -10,7 +10,7 @@
     mouse = true;
     terminal = lib.mkIf (config.programs.kitty.enable) "xterm-kitty";
     keyMode = "vi";
-    historyLimit = 5000;
+    historyLimit = 100000;
     escapeTime = 0;
     baseIndex = 1; # index panes and windows starts from 1
     extraConfig = ''
@@ -52,7 +52,7 @@
       setw -g aggressive-resize off
       setw -g clock-mode-style 12
       set -s escape-time 0
-      set -g history-limit 5000
+      set -g history-limit 100000
       set -g status-keys vi
       set -g mode-keys vi
 
