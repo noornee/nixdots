@@ -1,4 +1,10 @@
-{ pkgs, userSettings, ... }: {
+{
+  config,
+  pkgs,
+  userSettings,
+  ...
+}:
+{
   programs = {
     git = {
       enable = true;
@@ -6,7 +12,14 @@
         user = {
           name = userSettings.username;
           email = userSettings.email;
+          signingkey = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
         };
+
+        # sign commits and tags with the SSH key
+        gpg.format = "ssh";
+        commit.gpgsign = true;
+        tag.gpgsign = true;
+
         init.defaultBranch = "main";
         pull = {
           rebase = true;
