@@ -17,6 +17,7 @@
 
         # sign commits and tags with the SSH key
         gpg.format = "ssh";
+        gpg.ssh.allowedSignersFile = "${config.home.homeDirectory}/.ssh/allowed_signers"; # lets `git log --show-signature` verify locally
         commit.gpgsign = true;
         tag.gpgsign = true;
 
