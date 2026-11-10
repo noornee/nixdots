@@ -55,6 +55,8 @@
     lazygit = {
       enable = true;
       settings = {
+        promptToReturnFromSubprocess = false; # skip "Press enter to return to lazygit"
+        git.overrideGpg = true; # sign commits inside lazygit (key must already be unlocked in ssh-agent)
         git.diffRenderers = [
           {
             type = "extDiff";
