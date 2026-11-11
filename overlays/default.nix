@@ -13,6 +13,9 @@
       {
         zjstatus = inputs.zjstatus.packages.${prev.stdenv.hostPlatform.system}.default;
 
+        # TODO: drop once brave is back on nixos-unstable (it was removed, then re-added on master)
+        brave = master.brave;
+
         go = goPkgs.go_latest;
 
         gopls = goPkgs.gopls;

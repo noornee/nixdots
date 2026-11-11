@@ -98,6 +98,9 @@
     hl.bind("XF86MonBrightnessUp",   hl.dsp.exec_cmd("brightness up"),   media)
     hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightness down"), media)
 
+    -- touchpad: 3-finger horizontal swipe switches workspaces
+    hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
+
     -- screenshot
     hl.bind("Print", hl.dsp.exec_cmd("grimshot"))
   '';

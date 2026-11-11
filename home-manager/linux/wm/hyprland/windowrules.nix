@@ -4,6 +4,13 @@
     ---------------------
     ---- WINDOW RULES ----
     ---------------------
+    -- ignore maximize requests from apps (otherwise they open "monocle"-style as if SUPER+M was pressed)
+    hl.window_rule({
+      name           = "suppress-maximize-events",
+      match          = { class = ".*" },
+      suppress_event = "maximize",
+    })
+
     -- opacity rules
     hl.window_rule({ match = { class = "^(mpv)$" },             opacity = "1.0 override 1.0 override" })
     hl.window_rule({ match = { class = "^(org.pwmt.zathura)$" }, opacity = "0.95 override 0.9 override" })

@@ -39,6 +39,8 @@
     wtype # xdotool for wayland
   ];
 
+  services.ssh-agent.enable = true;
+
   # export GPG_TTY=$(tty)
   # gpgconf --kill gpg-agent
 
