@@ -209,9 +209,31 @@ let
     esac
   '';
 
+  # make the cursor 3x bigger for a second so it's easy to spot (poor man's shake-to-find)
+  find-cursor = pkgs.writeShellScriptBin "find-cursor" ''
+    # one at a time: a second press while it's running does nothing
+    exec 9>"''${XDG_RUNTIME_DIR:-/tmp}/find-cursor.lock"
+    ${pkgs.util-linux}/bin/flock -n 9 || exit 0
+
+    theme="''${HYPRCURSOR_THEME:-rose-pine-hyprcursor}"
+    size="''${HYPRCURSOR_SIZE:-24}"
+
+    # setcursor alone doesn't redraw the cursor until it moves, so nudge it 1px and back
+    redraw() {
+      pos=$(hyprctl cursorpos); x=''${pos%,*}; y=''${pos#*, }
+      hyprctl eval "hl.dispatch(hl.dsp.cursor.move({ x = $((x + 1)), y = $y }))" >/dev/null
+      hyprctl eval "hl.dispatch(hl.dsp.cursor.move({ x = $x, y = $y }))" >/dev/null
+    }
+
+    hyprctl setcursor "$theme" $(( size * 3 )) >/dev/null; redraw
+    sleep 1
+    hyprctl setcursor "$theme" "$size" >/dev/null; redraw
+  '';
+
 in
 {
   home.packages = [
+    find-cursor
     paste-from-history
     volume
     brightness

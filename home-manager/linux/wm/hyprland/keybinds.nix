@@ -65,8 +65,15 @@
     bind("S",       hl.dsp.workspace.toggle_special())
 
     -- zoom
-    bind("equal", hl.dsp.exec_cmd([[hyprctl keyword cursor:zoom_factor "$(hyprctl getoption cursor:zoom_factor | grep float | awk '{print $2 + 0.5}')"]]))
-    bind("minus", hl.dsp.exec_cmd([[hyprctl keyword cursor:zoom_factor "$(hyprctl getoption cursor:zoom_factor | grep float | awk '{print $2 - 0.5}')"]]))
+    -- (`hyprctl keyword` is gone with the lua config, so set the option from lua directly)
+    local zoom = 1.0
+    local function set_zoom(z)
+      zoom = math.max(1.0, z) -- 1.0 = no zoom
+      hl.config({ cursor = { zoom_factor = zoom } })
+    end
+    bind("equal", function() set_zoom(zoom + 0.5) end)
+    bind("minus", function() set_zoom(zoom - 0.5) end)
+    bind("slash", hl.dsp.exec_cmd("find-cursor"))                       -- briefly enlarge the cursor to find it
 
     -- focus / swap / resize with vim keys
     local dirs = { h = "left", l = "right", k = "up", j = "down" }
