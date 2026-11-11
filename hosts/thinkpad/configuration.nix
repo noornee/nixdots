@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   userSettings,
   inputs,
@@ -9,6 +10,7 @@
   imports = [
     ./hardware-configuration.nix
     ./virt.nix
+    inputs.lanzaboote.nixosModules.lanzaboote
   ];
 
   nix.settings = {
@@ -31,18 +33,24 @@
     tmp.cleanOnBoot = true;
 
     loader = {
-      systemd-boot.enable = true;
+      # lanzaboote replaces systemd-boot (it still uses systemd-boot, signed with our keys)
+      systemd-boot.enable = lib.mkForce false;
       efi.canTouchEfiVariables = true;
     };
 
+    # secure boot. keys live in /var/lib/sbctl (create once with `sudo sbctl create-keys`)
+    lanzaboote = {
+      enable = true;
+      pkiBundle = "/var/lib/sbctl";
+      settings.editor = false; # no editing the kernel cmdline at the boot menu (e.g. init=/bin/sh)
+    };
+
     initrd = {
+      # unlocked by the TPM (sealed to secure boot state, PCR 7); falls back to the
+      # passphrase / recovery key prompt if the TPM refuses
       luks.devices."crypt-home" = {
         device = "/dev/disk/by-label/crypt-home";
-        keyFile = "/etc/keys/home.key";
-      };
-
-      secrets = {
-        "/etc/keys/home.key" = "/etc/keys/home.key";
+        crypttabExtraOpts = [ "tpm2-device=auto" ];
       };
     };
   };
@@ -109,6 +117,7 @@
   environment.systemPackages = with pkgs; [
     wireguard-tools
     wg-netmanager
+    sbctl # manage/check secure boot keys (`sudo sbctl verify`)
 
     git
     neovim
