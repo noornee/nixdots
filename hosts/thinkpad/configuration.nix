@@ -82,6 +82,11 @@
     plugins = with pkgs; [ thunar-volman ];
   };
 
+  # keychain-style ssh keys: the gcr ssh agent stores key passphrases in the login
+  # keyring, which PAM unlocks with the login password, so signing never prompts
+  services.gnome.gnome-keyring.enable = true;
+  services.gnome.gcr-ssh-agent.enable = true;
+
   services.tumbler.enable = true; # Thumbnail support for images
   services.gvfs.enable = true;
   services.openssh.enable = true;

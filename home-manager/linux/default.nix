@@ -39,10 +39,8 @@
     wtype # xdotool for wayland
   ];
 
-  services.ssh-agent.enable = true;
-
-  # export GPG_TTY=$(tty)
-  # gpgconf --kill gpg-agent
+  # ssh agent = gcr-ssh-agent from gnome keyring (nixos config); point every shell at it
+  home.sessionVariables.SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/gcr/ssh";
 
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-hard;
 
