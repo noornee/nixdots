@@ -10,6 +10,15 @@ let
     song=$(${pkgs.playerctl}/bin/playerctl metadata --format '{{ artist }} - {{ title }}' 2>/dev/null)
     [ -n "$song" ] && echo "󰎈  $song"
   '';
+
+  # idle dim: save the current level, then halve it. A fixed "set 10%" would
+  # brighten the screen whenever it's already below 10%.
+  dimScreen = pkgs.writeShellScript "idle-dim" ''
+    cur=$(${brightnessctl} get)
+    half=$(( cur / 2 ))
+    [ "$half" -lt 1 ] && half=1
+    ${brightnessctl} -s set "$half"
+  '';
 in
 {
   # lock screen (PAM is set up by programs.hyprlock in the nixos config)
@@ -97,7 +106,7 @@ in
       listener = [
         {
           timeout = 300;
-          on-timeout = "${brightnessctl} -s set 10%";
+          on-timeout = "${dimScreen}";
           on-resume = "${brightnessctl} -r";
         }
         {
