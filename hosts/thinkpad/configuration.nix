@@ -11,7 +11,14 @@
     ./hardware-configuration.nix
     ./virt.nix
     inputs.lanzaboote.nixosModules.lanzaboote
+    # T14 Gen 4 (Raptor Lake) has no dedicated module: generic T14 + intel cpu/gpu
+    # = trackpoint, ssd trim, tlp, microcode, hardware video decoding
+    inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t14
+    inputs.nixos-hardware.nixosModules.common-cpu-intel
+    inputs.nixos-hardware.nixosModules.common-gpu-intel
   ];
+
+  hardware.intelgpu.vaapiDriver = "intel-media-driver"; # the right one for Gen12+ (Iris Xe)
 
   nix.settings = {
     experimental-features = [
@@ -23,8 +30,15 @@
     trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
-    eval-cache = false;
   };
+
+  # weekly cleanup of old system generations + unused store paths, and dedupe the store
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 14d";
+  };
+  nix.optimise.automatic = true;
 
   nixpkgs.config.allowUnfree = true;
 
@@ -43,6 +57,7 @@
       enable = true;
       pkiBundle = "/var/lib/sbctl";
       settings.editor = false; # no editing the kernel cmdline at the boot menu (e.g. init=/bin/sh)
+      configurationLimit = 10; # boot menu keeps the last 10 generations
     };
 
     initrd = {
@@ -91,6 +106,10 @@
   services.gvfs.enable = true;
   services.openssh.enable = true;
   services.vnstat.enable = true;
+  services.fwupd.enable = true; # bios/firmware updates: `fwupdmgr refresh && fwupdmgr update`
+
+  # compressed swap in RAM, used before the (slower) swapfile
+  zramSwap.enable = true;
   services.tailscale.enable = true;
 
   services.tlp = {

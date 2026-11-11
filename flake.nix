@@ -5,8 +5,15 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-go.url = "github:nixos/nixpkgs/master"; # gets new Go releases before nixos-unstable (see overlays)
     nix-colors.url = "github:misterio77/nix-colors";
-    rose-pine-hyprcursor.url = "github:ndom91/rose-pine-hyprcursor";
-    zjstatus.url = "github:dj95/zjstatus";
+    nixos-hardware.url = "github:NixOS/nixos-hardware"; # per-model hardware defaults
+    rose-pine-hyprcursor = {
+      url = "github:ndom91/rose-pine-hyprcursor";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    zjstatus = {
+      url = "github:dj95/zjstatus";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     home-manager = {
       url = "github:nix-community/home-manager";

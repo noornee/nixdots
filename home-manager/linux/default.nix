@@ -14,7 +14,6 @@
     ../common/programs/zathura.nix
     ../common/programs/xdg.nix
     ../common/programs/gtk.nix
-    ../common/programs/mpv
     ../common/programs/photos.nix
     ../common/options.nix
     ../linux/wm/hyprland
