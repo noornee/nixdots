@@ -106,6 +106,7 @@
   services.gvfs.enable = true;
   services.openssh.enable = true;
   services.vnstat.enable = true;
+  services.thermald.enable = true; # intel thermal management, avoids hard throttling (works alongside tlp)
   services.fwupd.enable = true; # bios/firmware updates: `fwupdmgr refresh && fwupdmgr update`
 
   # compressed swap in RAM, used before the (slower) swapfile

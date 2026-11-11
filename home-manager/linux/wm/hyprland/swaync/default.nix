@@ -59,7 +59,7 @@ in {
             },
             "volume": {
                 "label": "󰕾",
-                "show-per-app": true
+                "show-per-app": false
             }
         }
     }

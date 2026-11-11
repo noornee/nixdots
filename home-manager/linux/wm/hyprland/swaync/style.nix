@@ -38,6 +38,15 @@ in {
     	margin: 0;
     }
 
+    /* critical notifications (e.g. battery at 10%) get a red border and title */
+    .notification.critical .notification-content {
+    	border-color: #${palette.base08};
+    }
+
+    .notification.critical .summary {
+    	color: #${palette.base08};
+    }
+
     .close-button {
     	background: #${palette.base0A};
     	color: @cc-bg;
@@ -78,7 +87,7 @@ in {
     .time {
     	font-size: 11px;
     	color: #${palette.base09}; 
-    	margin-right: 24px
+    	margin-right: 24px;
     }
 
     .body {
@@ -151,7 +160,7 @@ in {
 
     .widget-dnd>switch:checked slider {
     	background: #${palette.base0B} ;
-    	border-radius: 5px
+    	border-radius: 5px;
     }
 
     .widget-label {

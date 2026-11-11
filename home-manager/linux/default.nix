@@ -2,6 +2,7 @@
   userSettings,
   inputs,
   pkgs,
+  lib,
   ...
 }:
 
@@ -40,6 +41,11 @@
 
   # ssh agent = gcr-ssh-agent from gnome keyring (nixos config); point every shell at it
   home.sessionVariables.SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/gcr/ssh";
+
+  # low battery notifications: warning at 30%, critical at 10%, suspend at 2%
+  services.batsignal.enable = true;
+  systemd.user.services.batsignal.Service.ExecStart =
+    lib.mkForce "${pkgs.batsignal}/bin/batsignal -w 30 -c 10 -d 2 -D 'systemctl suspend' -I battery-caution-symbolic";
 
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-hard;
 
