@@ -26,15 +26,6 @@ let
     esac
   '';
 
-  minimize_window = pkgs.writeShellScriptBin "minimize_window" ''
-    #!/usr/bin/env bash
-    if [[ -z $(hyprctl workspaces | grep special:magic) ]]; then
-        hyprctl dispatch movetoworkspacesilent special:magic
-    else
-        hyprctl --batch 'dispatch togglespecialworkspace magic;dispatch movetoworkspace +0'
-    fi
-  '';
-
   brightness = pkgs.writeShellScriptBin "brightness" ''
         #!/usr/bin/env bash
 
@@ -179,11 +170,11 @@ let
 
         if [ "$WIN_WS" == "$CUR_WS" ]; then
             log_debug "Window is on current workspace, hiding it by moving to workspace 100"
-            hyprctl dispatch movetoworkspacesilent 100
+            hyprctl dispatch "hl.dsp.window.move({ workspace = 100, follow = false, window = \"address:$WIN_ADDR\" })"
         else
             log_debug "Window is on different workspace, showing window on current workspace and focusing"
-            hyprctl dispatch focuswindow address:"$WIN_ADDR"
-            hyprctl dispatch movetoworkspace "$CUR_WS"
+            hyprctl dispatch "hl.dsp.window.move({ workspace = $CUR_WS, window = \"address:$WIN_ADDR\" })"
+            hyprctl dispatch "hl.dsp.focus({ window = \"address:$WIN_ADDR\" })"
         fi
     else
         log_debug "Window not found, launching kitty terminal"
@@ -193,14 +184,39 @@ let
     log_debug "Toggle window script finished"
   '';
 
+  # open clipse and paste the chosen entry into the window focused before.
+  # the clipboard is emptied first: if it's still empty afterwards, clipse was
+  # cancelled and the old contents are restored. terminals need ctrl+shift+v
+  paste-from-history = pkgs.writeShellScriptBin "paste-from-history" ''
+    #!/usr/bin/env bash
+    saved=$(mktemp)
+    trap 'rm -f "$saved"' EXIT
+    type=$(wl-paste -l 2>/dev/null | head -1)
+    [ -n "$type" ] && wl-paste -n -t "$type" > "$saved"
+    wl-copy --clear
+
+    kitty --class clipse -e clipse
+
+    if ! wl-paste -l >/dev/null 2>&1; then # cancelled: put the old clipboard back
+      [ -n "$type" ] && wl-copy -t "$type" < "$saved"
+      exit 0
+    fi
+
+    sleep 0.15 # let focus return to the previous window
+    case "$(hyprctl activewindow -j | jq -r '.class')" in
+      kitty|foot|Alacritty|org.wezfurlong.wezterm) wtype -M ctrl -M shift v -m shift -m ctrl ;;
+      *) wtype -M ctrl v -m ctrl ;;
+    esac
+  '';
+
 in
 {
   home.packages = [
+    paste-from-history
     volume
     brightness
     grimshot
     neorg-note
-    minimize_window
     pkgs.brightnessctl
     pkgs.pulseaudio # for pactl...
   ];

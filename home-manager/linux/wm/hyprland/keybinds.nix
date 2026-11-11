@@ -39,8 +39,24 @@
     bind("Return",  hl.dsp.exec_cmd("kitty"))
     bind("W",       hl.dsp.exec_cmd("neorg-note"))
 
-    -- https://wiki.hypr.land/Configuring/Uncommon-tips--tricks/#minimize-windows-using-special-workspaces
-    bind("D", hl.dsp.exec_cmd("minimize_window"))
+    bind("C",       hl.dsp.exec_cmd("paste-from-history"))              -- clipboard history, pastes the pick
+    bind("ALT + L", hl.dsp.exec_cmd("loginctl lock-session"))           -- lock screen (via hypridle)
+
+    -- minimize: SUPER+D hides the focused window in special:minimized;
+    -- SUPER+SHIFT+D shows the minimized windows, SUPER+D on one restores it
+    bind("D", function()
+      local win = hl.get_active_window()
+      if not win then return end
+      if win.workspace and win.workspace.special then
+        hl.dispatch(hl.dsp.window.move({ workspace = hl.get_active_workspace().id }))
+        if hl.get_active_special_workspace() then
+          hl.dispatch(hl.dsp.workspace.toggle_special("minimized"))
+        end
+      else
+        hl.dispatch(hl.dsp.window.move({ workspace = "special:minimized", follow = false }))
+      end
+    end)
+    bind("SHIFT + D", hl.dsp.workspace.toggle_special("minimized"))
 
     bind("TAB", hl.dsp.focus({ workspace = "previous" }))
 

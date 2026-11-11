@@ -18,6 +18,12 @@
     hl.window_rule({ match = { class = "^(Slack)$" },           opacity = "0.95 override 0.9 override", workspace = 4 })
 
     -- float rules
+    hl.window_rule({
+      match  = { class = "^(clipse)$" },
+      float  = true,
+      center = true,
+      size   = { "monitor_w * 0.4", "monitor_h * 0.6" },
+    })
     hl.window_rule({ match = { class = "^(org.pulseaudio.pavucontrol|pavucontrol)$" }, float = true })
     hl.window_rule({ match = { title = "^(Open Files)$" }, float = true, center = true })
     hl.window_rule({

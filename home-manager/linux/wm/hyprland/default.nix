@@ -8,6 +8,7 @@ in {
     ./animations.nix
     ./windowrules.nix
     ./wallpaper.nix
+    ./lock.nix
   ];
 
   # xdg.dataFile is ~/.local/share/

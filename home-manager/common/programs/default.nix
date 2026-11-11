@@ -30,6 +30,7 @@
     p7zip
     fzf
     clipse
+    claude-code
     tree-sitter
     lsof
     gnupg
