@@ -26,6 +26,7 @@
     colima
     util-linux
     wget
+    terminal-notifier # cmd-notify (common/shell/cmd-notify-darwin.zsh)
   ];
 
   services.colima = {

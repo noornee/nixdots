@@ -21,8 +21,14 @@ in
     # type the start of a command, then up/down steps through matching history
     historySubstringSearch = {
       enable = true;
-      searchUpKey = [ "^[[A" "^[OA" ];
-      searchDownKey = [ "^[[B" "^[OB" ];
+      searchUpKey = [
+        "^[[A"
+        "^[OA"
+      ];
+      searchDownKey = [
+        "^[[B"
+        "^[OB"
+      ];
     };
     autosuggestion.enable = true;
     syntaxHighlighting = {
@@ -116,8 +122,11 @@ in
       # tmux shortcut
       bindkey -s '^t' 'tmux\n'
 
-      # notify when a long or failed command finishes while you're not looking (linux for now)
-      ${lib.optionalString pkgs.stdenv.hostPlatform.isLinux (builtins.readFile ./cmd-notify.zsh)}
+      # notify when a long or failed command finishes while you're not looking
+      ${builtins.readFile ./cmd-notify.zsh}
+      ${builtins.readFile (
+        if pkgs.stdenv.hostPlatform.isDarwin then ./cmd-notify-darwin.zsh else ./cmd-notify-linux.zsh
+      )}
 
       # Homebrew (macOS only)
       ${lib.optionalString pkgs.stdenv.hostPlatform.isDarwin ''

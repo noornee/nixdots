@@ -36,6 +36,13 @@ in
       macos_option_as_alt = if isDarwin then "both" else "";
       # macos_hide_from_tasks = if isDarwin then "yes" else "";
       background_opacity = if isDarwin then 0.95 else "";
+    }
+    // lib.optionalAttrs isDarwin {
+      # macOS: remote control over a socket only (not via escape codes from programs), so
+      # cmd-notify can ask which kitty window is focused (all kitty windows are one
+      # process there). kitty adds -<pid> to the path. linux doesn't need it
+      allow_remote_control = "socket-only";
+      listen_on = "unix:/tmp/kitty";
     };
 
     extraConfig = ''
