@@ -19,6 +19,13 @@ let
     [ "$half" -lt 1 ] && half=1
     ${brightnessctl} -s set "$half"
   '';
+
+  # soft shadow so text stays readable on any background
+  shadow = {
+    shadow_passes = 2;
+    shadow_size = 4;
+    shadow_color = "rgba(00000099)";
+  };
 in
 {
   # lock screen (PAM is set up by programs.hyprlock in the nixos config)
@@ -30,65 +37,118 @@ in
         fail_timeout = 4000; # keep the "wrong password" message up for 4s
       };
 
+      # fade in on lock, fade out on unlock
+      animations = {
+        enabled = true;
+        bezier = "ease, 0.25, 0.1, 0.25, 1";
+        animation = [
+          "fadeIn, 1, 4, ease"
+          "fadeOut, 1, 4, ease"
+        ];
+      };
+
       background = [
         {
           path = "screenshot";
           blur_passes = 2;
           blur_size = 4;
+          brightness = 0.6; # darker, so the text stands out
+          vibrancy = 0.2;
         }
       ];
 
       # profile picture: at ~/.face
       image = [
-        {
-          path = "${config.home.homeDirectory}/.face";
-          size = 130;
-          rounding = -1; # circle
-          border_size = 3;
-          border_color = "rgb(${palette.base0D})";
-          position = "0, 290";
-          halign = "center";
-          valign = "center";
-        }
+        (
+          {
+            path = "${config.home.homeDirectory}/.face";
+            size = 130;
+            rounding = -1; # circle
+            border_size = 3;
+            border_color = "rgb(${palette.base0D})";
+            position = "0, 130";
+            halign = "center";
+            valign = "center";
+          }
+          // shadow
+        )
       ];
 
       label = [
-        {
-          text = "$TIME";
-          font_size = 90;
-          font_family = "JetBrainsMonoNL NF ExtraBold";
-          color = "rgb(${palette.base05})";
-          position = "0, 120";
-          halign = "center";
-          valign = "center";
-        }
-        {
-          text = "cmd[update:2000] ${nowPlaying}";
-          font_size = 14;
-          font_family = "JetBrainsMonoNL NF";
-          color = "rgb(${palette.base04})";
-          position = "0, 40";
-          halign = "center";
-          valign = "bottom";
-        }
+        # clock + date in the top right corner
+        (
+          {
+            text = "$TIME";
+            font_size = 64;
+            font_family = "JetBrainsMonoNL NF ExtraBold";
+            color = "rgb(${palette.base05})";
+            position = "-50, -30";
+            halign = "right";
+            valign = "top";
+          }
+          // shadow
+        )
+        (
+          {
+            text = "cmd[update:60000] date '+%A, %d %B'";
+            font_size = 16;
+            font_family = "JetBrainsMonoNL NF";
+            color = "rgb(${palette.base04})";
+            position = "-50, -130";
+            halign = "right";
+            valign = "top";
+          }
+          // shadow
+        )
+        # centre: picture, greeting, password box
+        (
+          {
+            text = "Hi $USER :)";
+            font_size = 18;
+            font_family = "JetBrainsMonoNL NF";
+            color = "rgb(${palette.base0A})";
+            position = "0, 30";
+            halign = "center";
+            valign = "center";
+          }
+          // shadow
+        )
+        (
+          {
+            text = "cmd[update:2000] ${nowPlaying}";
+            font_size = 14;
+            font_family = "JetBrainsMonoNL NF";
+            color = "rgb(${palette.base04})";
+            position = "0, 40";
+            halign = "center";
+            valign = "bottom";
+          }
+          // shadow
+        )
       ];
 
       input-field = [
-        {
-          size = "300, 50";
-          outline_thickness = 2;
-          outer_color = "rgb(${palette.base0D})";
-          inner_color = "rgb(${palette.base00})";
-          font_color = "rgb(${palette.base05})";
-          check_color = "rgb(${palette.base0A})";
-          fail_color = "rgb(${palette.base08})";
-          placeholder_text = "password...";
-          fail_text = "<i>$FAIL</i> <b>($ATTEMPTS)</b>"; # e.g. "authentication failed (2)"
-          fade_on_empty = false;
-          position = "0, -40";
-          halign = "center";
-          valign = "center";
-        }
+        (
+          {
+            size = "300, 50";
+            outline_thickness = 2;
+            rounding = 12;
+            outer_color = "rgb(${palette.base0D})";
+            inner_color = "rgba(${palette.base00}cc)"; # slightly see-through
+            capslock_color = "rgb(${palette.base09})"; # orange border while caps lock is on
+            font_color = "rgb(${palette.base05})";
+            check_color = "rgb(${palette.base0A})";
+            fail_color = "rgb(${palette.base08})";
+            placeholder_text = "<i>󰌾  password...</i>";
+            dots_spacing = 0.3;
+            fail_text = "<i>$FAIL</i> <b>($ATTEMPTS)</b>"; # e.g. "authentication failed (2)"
+            fade_on_empty = false;
+            position = "0, -40";
+            halign = "center";
+            valign = "center";
+          }
+          // shadow
+        )
       ];
     };
   };
