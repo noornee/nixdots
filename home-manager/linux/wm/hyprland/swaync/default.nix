@@ -22,7 +22,7 @@ in {
         "control-center-margin-right": 10,
         "control-center-margin-left": 10,
         "notification-icon-size": 64,
-        "notification-window-width": 440,
+        "notification-window-width": 500,
         "timeout": 5,
         "timeout-low": 2,
         "timeout-critical": 0,

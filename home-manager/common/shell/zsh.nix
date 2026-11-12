@@ -116,6 +116,9 @@ in
       # tmux shortcut
       bindkey -s '^t' 'tmux\n'
 
+      # notify when a long or failed command finishes while you're not looking (linux for now)
+      ${lib.optionalString pkgs.stdenv.hostPlatform.isLinux (builtins.readFile ./cmd-notify.zsh)}
+
       # Homebrew (macOS only)
       ${lib.optionalString pkgs.stdenv.hostPlatform.isDarwin ''
         if [ -x /opt/homebrew/bin/brew ]; then
