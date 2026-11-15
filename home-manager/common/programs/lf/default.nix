@@ -186,16 +186,20 @@ in
           y=$5
           filetype="$(file -Lb --mime-type "$file")"
 
+          # zellij can't forward kitty's shared-memory images, so send the data directly there
+          mode=memory
+          [ -n "$ZELLIJ" ] && mode=stream
+
           image() {
           	if [[ "$filetype" =~ ^video ]]; then
           	    # vidthumb is from here:
           	    # https://raw.githubusercontent.com/duganchen/kitty-pistol-previewer/main/vidthumb
           		# kitty +kitten icat --silent --stdin no --transfer-mode file --place "''${w}x''${h}@''${x}x''${y}" "$(vidthumb "$file")" < /dev/null > /dev/tty
-          		kitten icat --stdin no --transfer-mode memory --place "''${w}x''${h}@''${x}x''${y}" "$(vidthumb "$file")" < /dev/null > /dev/tty
+          		kitten icat --stdin no --transfer-mode $mode --place "''${w}x''${h}@''${x}x''${y}" "$(vidthumb "$file")" < /dev/null > /dev/tty
           	    exit 1
           	else
           		# kitty +kitten icat --silent --stdin no --transfer-mode file --place "''${w}x''${h}@''${x}x''${y}" "$file" < /dev/null > /dev/tty
-          		kitten icat --stdin no --transfer-mode memory --place "''${w}x''${h}@''${x}x''${y}" "$file" < /dev/null > /dev/tty
+          		kitten icat --stdin no --transfer-mode $mode --place "''${w}x''${h}@''${x}x''${y}" "$file" < /dev/null > /dev/tty
           		exit 1
           	fi
           }
