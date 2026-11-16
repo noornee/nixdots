@@ -130,6 +130,10 @@ in
 
       # Homebrew (macOS only)
       ${lib.optionalString pkgs.stdenv.hostPlatform.isDarwin ''
+        # after a reboot the agent is empty: load keys whose passphrases are saved in the
+        # Keychain (ssh-add --apple-use-keychain) so commit signing never needs a prompt
+        ssh-add -l >/dev/null 2>&1 || /usr/bin/ssh-add --apple-load-keychain -q 2>/dev/null
+
         if [ -x /opt/homebrew/bin/brew ]; then
           eval "$(/opt/homebrew/bin/brew shellenv)"
         elif [ -x /usr/local/bin/brew ]; then

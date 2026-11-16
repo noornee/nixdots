@@ -4,6 +4,25 @@
   userSettings,
   ...
 }:
+let
+  signingKey = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
+
+  # fail fast when the signing key isn't in ssh-agent: otherwise ssh-keygen asks for the
+  # passphrase on a tty lazygit owns (overrideGpg) and the commit hangs with no prompt.
+  # git prints our stderr, so lazygit shows it in an error popup.
+  sshSign = pkgs.writeShellScript "git-ssh-sign" ''
+    if [ "$1" = "-Y" ] && [ "$2" = "sign" ]; then
+      key=$(cut -d' ' -f1,2 ${signingKey})
+      if ! ssh-add -L 2>/dev/null | grep -qF "$key"; then
+        echo "signing key not loaded in ssh-agent; run: ${
+          if pkgs.stdenv.hostPlatform.isDarwin then "ssh-add --apple-use-keychain ~/.ssh/id_ed25519" else "ssh-add"
+        }" >&2
+        exit 1
+      fi
+    fi
+    exec ssh-keygen "$@"
+  '';
+in
 {
   programs = {
     git = {
@@ -12,11 +31,12 @@
         user = {
           name = userSettings.username;
           email = userSettings.email;
-          signingkey = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
+          signingkey = signingKey;
         };
 
         # sign commits and tags with the SSH key
         gpg.format = "ssh";
+        gpg.ssh.program = "${sshSign}";
         gpg.ssh.allowedSignersFile = "${config.home.homeDirectory}/.ssh/allowed_signers"; # lets `git log --show-signature` verify locally
         commit.gpgsign = true;
         tag.gpgsign = true;
