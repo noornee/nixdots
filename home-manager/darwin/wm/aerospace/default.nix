@@ -7,8 +7,17 @@
 
 let
   borders = "${pkgs.jankyborders}/bin/borders";
-  sketchybar = "${pkgs.sketchybar}/bin/sketchybar";
   kittyApp = "${config.programs.kitty.package}/Applications/kitty.app";
+
+  # border colour shows the binding mode (re-running borders updates the running one)
+  modeBorder = pkgs.writeShellScript "aerospace-mode-border" ''
+    case "$(${config.programs.aerospace.package}/bin/aerospace list-modes --current)" in
+      service) color=0xfffabd2f ;; # gruvbox yellow
+      lock) color=0xfffb4934 ;; # gruvbox red
+      *) color=0xffe2e2e3 ;; # normal
+    esac
+    exec ${borders} active_color=$color
+  '';
 
   # 1..10 -> { "cmd-1" = "workspace 1"; ... "cmd-0" = "workspace 10"; }
   workspaces = lib.range 1 10;
@@ -18,6 +27,10 @@ let
   );
   moveToWorkspaceBinds = lib.listToAttrs (
     map (n: lib.nameValuePair "cmd-shift-${keyFor n}" "move-node-to-workspace ${toString n}") workspaces
+  );
+  # cmd-alt-N: bring workspace N to the monitor you're on (instead of jumping to it)
+  summonWorkspaceBinds = lib.listToAttrs (
+    map (n: lib.nameValuePair "cmd-alt-${keyFor n}" "summon-workspace ${toString n}") workspaces
   );
 in
 {
@@ -51,28 +64,22 @@ in
       # Mouse follows focus when focused monitor changes
       on-focused-monitor-changed = [ "move-mouse monitor-lazy-center" ];
 
-      # Notify Sketchybar about workspace change
-      exec-on-workspace-change = [
-        "/bin/bash"
-        "-c"
-        "${sketchybar} --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE PREV_WORKSPACE=$AEROSPACE_PREV_WORKSPACE"
-      ];
+      # service mode = yellow border, lock mode = red, back to normal in main
+      on-mode-changed = [ "exec-and-forget ${modeBorder}" ];
 
       gaps = {
         inner.horizontal = 15;
         inner.vertical = 15;
         outer.left = 13;
         outer.bottom = 13;
-        outer.top = [
-          { monitor."built-in" = 13; }
-          47
-        ];
+        outer.top = 13;
         outer.right = 13;
       };
 
       mode.main.binding =
         workspaceBinds
         // moveToWorkspaceBinds
+        // summonWorkspaceBinds
         // {
           # See: https://nikitabobko.github.io/AeroSpace/commands#layout
           cmd-backtick = "layout tiles horizontal vertical"; # togglesplit; press again to flip direction
@@ -84,27 +91,29 @@ in
           # app: permission prompts say "kitty", not "AeroSpace".
           cmd-enter = "exec-and-forget open -na ${kittyApp}";
 
+          # at a screen edge, focus carries on to the next monitor
           cmd-h = [
-            "focus left"
+            "focus --boundaries all-monitors-outer-frame left"
             "move-mouse window-lazy-center"
           ];
           cmd-j = [
-            "focus down"
+            "focus --boundaries all-monitors-outer-frame down"
             "move-mouse window-lazy-center"
           ];
           cmd-k = [
-            "focus up"
+            "focus --boundaries all-monitors-outer-frame up"
             "move-mouse window-lazy-center"
           ];
           cmd-l = [
-            "focus right"
+            "focus --boundaries all-monitors-outer-frame right"
             "move-mouse window-lazy-center"
           ];
 
-          cmd-shift-h = "move left";
-          cmd-shift-j = "move down";
-          cmd-shift-k = "move up";
-          cmd-shift-l = "move right";
+          # swap places with the neighbour (keeps the layout, unlike `move`)
+          cmd-shift-h = "swap left";
+          cmd-shift-j = "swap down";
+          cmd-shift-k = "swap up";
+          cmd-shift-l = "swap right";
 
           cmd-shift-minus = "resize smart -50";
           cmd-shift-equal = "resize smart +50";
@@ -187,22 +196,27 @@ in
         }
         {
           "if".app-id = "com.brave.Browser";
+          "if".during-aerospace-startup = false; # only new windows, not on restart/reload
           run = "move-node-to-workspace 3";
         }
         {
           "if".app-id = "net.whatsapp.WhatsApp";
+          "if".during-aerospace-startup = false; # only new windows, not on restart/reload
           run = "move-node-to-workspace 4";
         }
         {
           "if".app-id = "com.postmanlabs.mac";
+          "if".during-aerospace-startup = false; # only new windows, not on restart/reload
           run = "move-node-to-workspace 2";
         }
         {
           "if".app-id = "com.anthropic.claudefordesktop";
+          "if".during-aerospace-startup = false; # only new windows, not on restart/reload
           run = "move-node-to-workspace 5";
         }
         {
           "if".app-id = "com.tinyspeck.slackmacgap";
+          "if".during-aerospace-startup = false; # only new windows, not on restart/reload
           run = "move-node-to-workspace 6";
         }
       ];
