@@ -75,9 +75,10 @@
 
     #other
     # bruno
-    postman
+    # postman
     slack
     gnumake
+    just
     zrok
     # terraform
     witr

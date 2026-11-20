@@ -127,6 +127,12 @@
     };
   };
 
+  # tshark + dumpcap with capture capabilities; members of the wireshark group capture without sudo
+  programs.wireshark = {
+    enable = true;
+    package = pkgs.wireshark-cli;
+  };
+
   programs.zsh.enable = true;
   users.users.${userSettings.username} = {
     isNormalUser = true;
@@ -134,6 +140,7 @@
       "wheel"
       "networkmanager"
       "video"
+      "wireshark" # packet capture via dumpcap/tshark
     ];
     createHome = true;
     shell = pkgs.zsh;
@@ -154,6 +161,7 @@
     unrar
     zip
     file
+    tcpdump
     home-manager
     inputs.rose-pine-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
