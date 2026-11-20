@@ -48,6 +48,13 @@
         disk = 200;
         vmType = "vz";
         runtime = "docker";
+        # Without this the module writes `mounts: null` and the VM gets no $HOME mount
+        mounts = [
+          {
+            location = config.home.homeDirectory;
+            writable = true;
+          }
+        ];
       };
     };
   };
