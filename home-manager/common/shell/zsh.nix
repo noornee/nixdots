@@ -112,12 +112,19 @@ in
       # enable vim keybinding
       bindkey -v
 
-      # normal mode: v edits the command in $EDITOR, k/j search history like up/down
+      # normal mode: v/e edit the command in $EDITOR, k/j search history like up/down
       autoload -Uz edit-command-line
       zle -N edit-command-line
       bindkey -M vicmd 'v' edit-command-line
-      bindkey -M vicmd 'k' history-substring-search-up
-      bindkey -M vicmd 'j' history-substring-search-down
+      bindkey -M vicmd 'e' edit-command-line # replaces end-of-word (E still works)
+      # in a multi-line command k/j move between lines; history search only kicks in on the
+      # first/last line (otherwise k searches for the whole buffer and highlights it red)
+      _vi-up-line-or-substring-search() { zle up-line || zle history-substring-search-up }
+      _vi-down-line-or-substring-search() { zle down-line || zle history-substring-search-down }
+      zle -N _vi-up-line-or-substring-search
+      zle -N _vi-down-line-or-substring-search
+      bindkey -M vicmd 'k' _vi-up-line-or-substring-search
+      bindkey -M vicmd 'j' _vi-down-line-or-substring-search
 
       # tmux shortcut
       bindkey -s '^t' 'tmux\n'
