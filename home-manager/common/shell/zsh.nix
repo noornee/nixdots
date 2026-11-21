@@ -49,7 +49,7 @@ in
       cls = "clear";
       sdn = "shutdown now";
       hist = "history 0";
-      dl = "cd ~/media/downloads";
+      dl = if pkgs.stdenv.hostPlatform.isDarwin then "cd ~/Downloads" else "cd ~/media/downloads";
       pix = "cd ~/media/pictures/";
       vid = "cd ~/media/video/";
       dots = "cd $HOME/.config/dotfiles/ && nvim flake.nix";
