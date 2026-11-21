@@ -33,6 +33,9 @@ in
       selection_foreground = "#E7EBF1";
       selection_background = "#333A4C";
 
+      # no kitty tabs: tabs/windows live in tmux (side work) and zellij (main work)
+      tab_bar_style = "hidden";
+
       macos_option_as_alt = if isDarwin then "both" else "";
       # macos_hide_from_tasks = if isDarwin then "yes" else "";
       background_opacity = if isDarwin then 0.95 else "";
@@ -43,6 +46,15 @@ in
       # process there). kitty adds -<pid> to the path. linux doesn't need it
       allow_remote_control = "socket-only";
       listen_on = "unix:/tmp/kitty";
+    };
+
+    # the new-tab keys send F12 instead, and whatever has focus handles it: tmux opens a
+    # window, zellij opens a tab, a plain zsh joins the "side" tmux session (see zsh.nix)
+    keybindings = {
+      "kitty_mod+t" = "send_key f12";
+    }
+    // lib.optionalAttrs isDarwin {
+      "cmd+t" = "send_key f12";
     };
 
     extraConfig = ''

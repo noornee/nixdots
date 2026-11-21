@@ -129,6 +129,18 @@ in
       # tmux shortcut
       bindkey -s '^t' 'tmux\n'
 
+      # cmd+t (kitty sends F12) in a plain shell: attach to the "side" tmux session, or create it.
+      # inside tmux/zellij they handle F12 themselves; the guard covers zellij's locked mode
+      _cmd-t-side-tmux() {
+        [[ -n $TMUX || -n $ZELLIJ ]] && return
+        (( $+commands[tmux] )) || return # no tmux installed: do nothing
+        BUFFER=" tmux new -A -s side" # leading space: kept out of history
+        zle accept-line
+      }
+      zle -N _cmd-t-side-tmux
+      bindkey -M viins '^[[24~' _cmd-t-side-tmux
+      bindkey -M vicmd '^[[24~' _cmd-t-side-tmux
+
       # notify when a long or failed command finishes while you're not looking
       ${builtins.readFile ./cmd-notify.zsh}
       ${builtins.readFile (

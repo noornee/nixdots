@@ -116,6 +116,7 @@
               bind "Ctrl g" { SwitchToMode "Locked"; }
               bind "Ctrl q" { Quit; }
               bind "Alt n" { NewPane; }
+              bind "F12" { NewTab; } // kitty sends F12 for cmd+t
               bind "Alt H" { MoveTab "Left"; }
               bind "Alt L" { MoveTab "Right"; }
               bind "Alt =" "Alt +" { Resize "Increase"; }

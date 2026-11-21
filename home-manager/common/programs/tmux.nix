@@ -73,6 +73,9 @@
       bind -n M-h select-window -p
       bind -n M-l select-window -n
 
+      # F12 (kitty sends it for cmd+t): new window in the current folder
+      bind -n F12 new-window -c "#{pane_current_path}"
+
       # Split panes in current path
       bind v split-window -v -c "#{pane_current_path}"
       bind h split-window -h -c "#{pane_current_path}"
