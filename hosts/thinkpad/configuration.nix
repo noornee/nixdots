@@ -63,17 +63,10 @@
     initrd = {
       # unlocked by the TPM (sealed to secure boot state, PCR 7); falls back to the
       # passphrase / recovery key prompt if the TPM refuses
-      luks.devices."crypt-home" = {
-        device = "/dev/disk/by-label/crypt-home";
+      luks.devices."crypt-root" = {
         crypttabExtraOpts = [ "tpm2-device=auto" ];
       };
     };
-  };
-
-  fileSystems."/home" = {
-    device = "/dev/disk/by-label/HOME";
-    fsType = "ext4";
-    options = [ "discard" ];
   };
 
   networking = {
