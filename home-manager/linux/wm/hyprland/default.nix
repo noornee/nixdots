@@ -1,6 +1,13 @@
-{ config, pkgs, lib, ... }:
-let cfg = config.custom;
-in {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+let
+  cfg = config.custom;
+in
+{
   imports = [
     ./swaync
     ./waybar

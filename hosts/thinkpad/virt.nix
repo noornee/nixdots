@@ -1,9 +1,14 @@
 { pkgs, userSettings, ... }: {
 
-  environment.systemPackages = with pkgs; [ virt-manager virt-viewer ];
+  environment.systemPackages = with pkgs; [
+    virt-manager
+    virt-viewer
+  ];
 
   virtualisation = {
-    docker = { enable = true; };
+    docker = {
+      enable = true;
+    };
     libvirtd = {
       enable = true;
       qemu = {
@@ -14,6 +19,9 @@
     # spiceUSBRedirection.enable = true;
   };
 
-  users.users.${userSettings.username}.extraGroups = [ "docker" "libvirtd" ];
+  users.users.${userSettings.username}.extraGroups = [
+    "docker"
+    "libvirtd"
+  ];
   # users.users.${userSettings.username}.extraGroups = [ "docker" ];
 }

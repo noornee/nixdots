@@ -1,6 +1,8 @@
 { pkgs, ... }:
-let mpv-cut = pkgs.mpvScripts.callPackage ./scripts/mpv-cut { };
-in {
+let
+  mpv-cut = pkgs.mpvScripts.callPackage ./scripts/mpv-cut { };
+in
+{
   programs.mpv = {
     enable = true;
     bindings = {

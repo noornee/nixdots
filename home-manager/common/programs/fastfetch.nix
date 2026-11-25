@@ -1,7 +1,9 @@
 { pkgs, ... }: {
 
   home.packages = with pkgs; [ fastfetch ];
-  programs.zsh.shellAliases = { neofetch = "fastfetch"; };
+  programs.zsh.shellAliases = {
+    neofetch = "fastfetch";
+  };
 
   xdg.configFile."fastfetch/config.jsonc".text = # jsonc
     ''

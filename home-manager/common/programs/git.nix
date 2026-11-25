@@ -15,7 +15,10 @@ let
       key=$(cut -d' ' -f1,2 ${signingKey})
       if ! ssh-add -L 2>/dev/null | grep -qF "$key"; then
         echo "signing key not loaded in ssh-agent; run: ${
-          if pkgs.stdenv.hostPlatform.isDarwin then "ssh-add --apple-use-keychain ~/.ssh/id_ed25519" else "ssh-add"
+          if pkgs.stdenv.hostPlatform.isDarwin then
+            "ssh-add --apple-use-keychain ~/.ssh/id_ed25519"
+          else
+            "ssh-add"
         }" >&2
         exit 1
       fi

@@ -1,6 +1,8 @@
 { config, ... }:
-let palette = config.colorScheme.palette;
-in {
+let
+  palette = config.colorScheme.palette;
+in
+{
   styles = ''
 
     * {

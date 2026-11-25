@@ -1,6 +1,8 @@
 { pkgs, config, ... }:
-let Custom = import ./style.nix { inherit config; };
-in {
+let
+  Custom = import ./style.nix { inherit config; };
+in
+{
   home.packages = with pkgs; [ swaynotificationcenter ];
 
   xdg.configFile."swaync/style.css".text = ''
