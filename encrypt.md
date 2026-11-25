@@ -21,7 +21,8 @@ Layout used below:
 | p2        | `crypt-root`  | LUKS2, opens as `/dev/mapper/crypt-root` |
 | (inside)  | `NIXROOT`     | ext4, `/`, contains /home and the swapfile |
 
-Replace `<host>` with the machine's name throughout.
+Replace `<host>` with the machine's name throughout. Reinstalling a machine that
+already has a host (e.g. thinkpad)? Read [Reinstalling an existing host](#reinstalling-an-existing-host) first.
 
 ---
 
@@ -43,6 +44,9 @@ Boot the NixOS installer USB. Get online with `nmtui` if needed.
 ```bash
 lsblk                       # find the right disk, double-check it
 DISK=/dev/nvme0n1           # <-- the disk to wipe
+
+# discard every block first: repartitioning alone leaves old (unencrypted) data readable
+sudo blkdiscard -f "$DISK"
 
 sudo parted "$DISK" -- mklabel gpt
 sudo parted "$DISK" -- mkpart ESP fat32 1MiB 1GiB
@@ -211,6 +215,44 @@ sudo systemd-cryptenroll /dev/disk/by-label/crypt-root
 ```
 
 ---
+
+## Reinstalling an existing host
+
+Same steps as above, with these differences.
+
+**Before wiping**, have: the wifi password, the BIOS supervisor password, and a GitHub token or a USB
+copy of the repo if it's private (step 5 clones over https).
+
+**Step 5: reuse the host, don't create one.** Skip 5.3 (flake entries already exist).
+
+- Overwrite `hosts/<host>/hardware-configuration.nix` with the generated one, but keep
+  the `swapDevices` block from the old file.
+- In `hosts/<host>/configuration.nix`:
+  - delete the `fileSystems."/home"` block,
+  - rename the `luks.devices."crypt-home"` entry to `crypt-root` (drop its `device`
+    line; the generated hardware config sets it), keeping `crypttabExtraOpts = [ "tpm2-device=auto" ];`.
+
+Commit and push these after the first boot.
+
+**Steps 6, 10, 11:** a full wipe means new Secure Boot keys, so do them as written. (Only
+if you restored the old `/var/lib/sbctl` into `/mnt/var/lib/sbctl` instead of step 6 can
+you skip 10-11: the firmware already trusts those keys.)
+
+**After the first boot:**
+
+1. New SSH key, used for both GitHub login and commit signing (`git.nix` points at
+   `id_ed25519.pub`, so keep that name):
+   ```bash
+   ssh-keygen -t ed25519 -C "noornee@<host>"
+   ssh-add ~/.ssh/id_ed25519      # tick "save in keyring" so signing never prompts
+   echo "$(git config user.email) $(cat ~/.ssh/id_ed25519.pub)" > ~/.ssh/allowed_signers
+   ```
+   If `~/.ssh/config` has a GitHub entry pointing at an old key, change it to `id_ed25519`.
+2. GitHub → Settings → SSH and GPG keys: add `id_ed25519.pub` as an **Authentication**
+   key and again as a **Signing** key, delete the old keys. Test: `ssh -T git@github.com`.
+3. Replace the old public key in `~/.ssh/authorized_keys` on any server you log into.
+4. `sudo tailscale up` to log back in.
+5. Commit and push the step 5 changes.
 
 ## When things go wrong
 
